@@ -64,7 +64,7 @@ raw_ces2015_combined |>
   )
 cleaned_ces2015_combined
 
-# Case match
+# Case match (referencing: https://ces-eec.sites.olt.ubc.ca/files/2017/04/CES2015_Combined_Data_Codebook.pdf)
 cleaned_ces2015_combined =
   cleaned_ces2015_combined |>
   mutate("important_issues" = case_when(
@@ -136,6 +136,163 @@ cleaned_ces2015_combined =
   select(ID, important_issues)
   cleaned_ces2015_combined
   
+## 2019 survey
+# Other data: did you watch the debate question (EN/FR)
+cleaned_ces2019_web = 
+raw_ces2019_web |>
+  select(
+    cps19_ResponseId,
+    cps19_debate_en,
+    cps19_debate_fr,
+  ) |>
+  drop_na("cps19_debate_en") |>
+  drop_na("cps19_debate_fr") |>
+  rename(
+    ID = cps19_ResponseId,
+    watched_EN_debate = cps19_debate_en,
+    watched_FR_debate = cps19_debate_fr,
+  )
+cleaned_ces2019_web
+
+# Main issues
+cleaned_ces2019_issues =
+raw_ces2019_issues |>
+  filter(!number_of_cats == "0") |>
+  filter(!number_of_cats == "3") |>
+  filter(!number_of_cats == "4") |>
+  filter(!number_of_cats == "5") |>
+  filter(!number_of_cats == "6") |>
+  rename(
+    ID = cps19_ResponseId,
+    Economy = economydum,
+    Environment = envirodum,
+    Immigration = immigrationdum,
+    Healthcare = healthcaredum,
+    Housing = housingdum,
+    Seniors = seniorsdum,
+    Leaders = leadersdum,
+    Ethics = ethicsdum,
+    Education = educationdum,
+    Crime = crimedum,
+    Indigenous = indigenousdum,
+    Welfare = welfaredum,
+    Election = electiondum,
+    Women = womendum,
+    Security = securitydum,
+    Quebec = quebecdum,
+    Race = racedum,
+    Immigration_and_race = immindracedum,
+    Ethics_and_leaders = ethleadelecdum,
+    Other_welfare = otherwelfaredum,
+    Number_of_categories = number_of_cats,
+  ) |>
+  select(
+    ID,
+    Economy,
+    Environment,
+    Immigration,
+    Healthcare,
+    Housing,
+    Seniors,
+    Leaders,
+    Ethics,
+    Education,
+    Crime,
+    Indigenous,
+    Welfare,
+    Election,
+    Women,
+    Security,
+    Quebec,
+    Race,
+    Immigration_and_race,
+    Ethics_and_leaders,
+    Other_welfare,
+    Number_of_categories
+  )
+cleaned_ces2019_issues
+
+## 2021 survey
+# Other data: did you watch the debate question (EN/FR)
+cleaned_ces2021_web = 
+  raw_ces2021_web |>
+  select(
+    cps21_ResponseId,
+    cps21_debate_en,
+    cps21_debate_fr,
+    cps21_debate_fr2,
+  ) |>
+  drop_na("cps21_debate_en") |>
+  drop_na("cps21_debate_fr") |>
+  drop_na("cps21_debate_fr2") |>
+  rename(
+    ID = cps21_ResponseId,
+    watched_EN_debate = cps21_debate_en,
+    watched_FR_debate = cps21_debate_fr,
+    watched_FR_debate2 = cps21_debate_fr2,
+  )
+cleaned_ces2021_web
+
+# Main issues
+cleaned_ces2021_issues =
+  raw_ces2021_issues |>
+  filter(!number_of_cats == "0") |>
+  filter(!number_of_cats == "3") |>
+  filter(!number_of_cats == "4") |>
+  filter(!number_of_cats == "5") |>
+  filter(!number_of_cats == "6") |>
+  rename(
+    ID = cps21_ResponseId,
+    Economy = economydum,
+    Environment = envirodum,
+    Immigration = immigrationdum,
+    Healthcare = healthcaredum,
+    Housing = housingdum,
+    Seniors = seniorsdum,
+    Leaders = leadersdum,
+    Ethics = ethicsdum,
+    Education = educationdum,
+    Crime = crimedum,
+    Indigenous = indigenousdum,
+    Welfare = welfaredum,
+    Election = electiondum,
+    Women = womendum,
+    Security = securitydum,
+    Quebec = quebecdum,
+    Race = racedum,
+    Immigration_and_race = immindracedum,
+    Ethics_and_leaders = ethleadelecdum,
+    Other_welfare = otherwelfaredum,
+    Covid = coviddum,
+    Number_of_categories = number_of_cats,
+  ) |>
+  select(
+    ID,
+    Economy,
+    Environment,
+    Immigration,
+    Healthcare,
+    Housing,
+    Seniors,
+    Leaders,
+    Ethics,
+    Education,
+    Crime,
+    Indigenous,
+    Welfare,
+    Election,
+    Women,
+    Security,
+    Quebec,
+    Race,
+    Immigration_and_race,
+    Ethics_and_leaders,
+    Other_welfare,
+    Covid,
+    Number_of_categories
+  )
+cleaned_ces2021_issues
+
 #### Save cleaned datasets ####
 ## 2008 survey
 write_csv(x = cleaned_ces2008, file = "Outputs/Data/CES/cleaned_ces2008.csv")
@@ -145,3 +302,17 @@ write_csv(x = cleaned_ces2011, file = "Outputs/Data/CES/cleaned_ces2011.csv")
 
 ## 2015 survey
 write_csv(x = cleaned_ces2015_combined, file = "Outputs/Data/CES/cleaned_ces2015_combined.csv")
+
+## 2019 survey
+# Other data
+write_csv(x = cleaned_ces2019_web, file = "Outputs/Data/CES/cleaned_ces2019_web.csv")
+
+# Main issues
+write_csv(x = cleaned_ces2019_issues, file = "Outputs/Data/CES/cleaned_ces2019_issues.csv")
+
+## 2021 survey
+# Other data
+write_csv(x = cleaned_ces2021_web, file = "Outputs/Data/CES/cleaned_ces2021_web.csv")
+
+# Main issues
+write_csv(x = cleaned_ces2021_issues, file = "Outputs/Data/CES/cleaned_ces2021_issues.csv")

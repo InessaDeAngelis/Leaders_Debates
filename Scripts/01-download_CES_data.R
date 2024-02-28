@@ -197,6 +197,7 @@ raw_ces2021_issues
 raw_ces2021_web =
   raw_ces2021_web |>
   select(
+    cps21_ResponseId,
     cps21_debate_en,
     cps21_debate_fr,
     cps21_debate_fr2
