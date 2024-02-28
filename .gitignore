@@ -51,3 +51,6 @@ rsconnect/
 # Raw & cleaned data
 Inputs/Data
 Outputs/Data
+
+# DS Store
+.DS_Store
