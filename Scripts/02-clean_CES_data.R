@@ -4,7 +4,8 @@
 # Date: 28 February 2024
 # Contact: inessa.deangelis@mail.utoronto.ca 
 # License: MIT
-# Pre-requisites: None
+# Pre-requisites:
+  # 01-download_CES_data.R
 
 #### Workspace setup ####
 library(tidyverse)
@@ -59,6 +60,7 @@ cleaned_ces2011
 # Rename column 
 cleaned_ces2015_combined =
 raw_ces2015_combined |>
+  drop_na("main_issue") |>
   rename(
     important_issues = main_issue
   )
@@ -212,7 +214,503 @@ raw_ces2019_issues |>
   )
 cleaned_ces2019_issues
 
-## 2021 survey
+## Re-organize main issues ##
+# Economy #
+economy_ces2019_issues =
+  cleaned_ces2019_issues |>
+  filter(!Number_of_categories == "2") |>
+  select(ID,
+         Economy) |>
+  mutate("Economy" = case_when( 
+    Economy == 1 ~ "Economy"
+  )) |>
+  rename(important_issues = Economy) |>
+drop_na("important_issues") 
+economy_ces2019_issues
+
+# Environment #
+environment_ces2019_issues =
+  cleaned_ces2019_issues |>
+  filter(!Number_of_categories == "2") |>
+  select(ID,
+         Environment) |>
+  mutate("Environment" = case_when( 
+    Environment == 1 ~ "Environment"
+  )) |>
+  rename(important_issues = Environment) |>
+  drop_na("important_issues") 
+environment_ces2019_issues
+
+# Immigration #
+immigration_ces2019_issues =
+  cleaned_ces2019_issues |>
+  filter(!Number_of_categories == "2") |>
+  select(ID,
+         Immigration) |>
+  mutate("Immigration" = case_when( 
+    Immigration == 1 ~ "Immigration"
+  )) |>
+  rename(important_issues = Immigration) |>
+  drop_na("important_issues") 
+immigration_ces2019_issues
+
+# Healthcare #
+healthcare_ces2019_issues =
+  cleaned_ces2019_issues |>
+  filter(!Number_of_categories == "2") |>
+  select(ID,
+         Healthcare) |>
+  mutate("Healthcare" = case_when( 
+    Healthcare == 1 ~ "Healthcare"
+  )) |>
+  rename(important_issues = Healthcare) |>
+  drop_na("important_issues") 
+healthcare_ces2019_issues
+
+# Housing #
+housing_ces2019_issues =
+  cleaned_ces2019_issues |>
+  filter(!Number_of_categories == "2") |>
+  select(ID,
+         Housing) |>
+  mutate("Housing" = case_when( 
+    Housing == 1 ~ "Housing"
+  )) |>
+  rename(important_issues = Housing) |>
+  drop_na("important_issues") 
+housing_ces2019_issues
+
+# Seniors #
+seniors_ces2019_issues =
+  cleaned_ces2019_issues |>
+  filter(!Number_of_categories == "2") |>
+  select(ID,
+         Seniors) |>
+  mutate("Seniors" = case_when( 
+    Seniors == 1 ~ "Seniors"
+  )) |>
+  rename(important_issues = Seniors) |>
+  drop_na("important_issues") 
+seniors_ces2019_issues
+
+# Leaders #
+leaders_ces2019_issues =
+  cleaned_ces2019_issues |>
+  filter(!Number_of_categories == "2") |>
+  select(ID,
+         Leaders) |>
+  mutate("Leaders" = case_when( 
+    Leaders == 1 ~ "Leaders"
+  )) |>
+  rename(important_issues = Leaders) |>
+  drop_na("important_issues") 
+leaders_ces2019_issues
+
+# Ethics #
+ethics_ces2019_issues =
+  cleaned_ces2019_issues |>
+  filter(!Number_of_categories == "2") |>
+  select(ID,
+         Ethics) |>
+  mutate("Ethics" = case_when( 
+    Ethics == 1 ~ "Ethics"
+  )) |>
+  rename(important_issues = Ethics) |>
+  drop_na("important_issues") 
+ethics_ces2019_issues
+
+# Education #
+education_ces2019_issues =
+  cleaned_ces2019_issues |>
+  filter(!Number_of_categories == "2") |>
+  select(ID,
+         Education) |>
+  mutate("Education" = case_when( 
+    Education == 1 ~ "Education"
+  )) |>
+  rename(important_issues = Education) |>
+  drop_na("important_issues") 
+education_ces2019_issues
+
+# Crime #
+crime_ces2019_issues =
+  cleaned_ces2019_issues |>
+  filter(!Number_of_categories == "2") |>
+  select(ID,
+         Crime) |>
+  mutate("Crime" = case_when( 
+    Crime == 1 ~ "Crime"
+  )) |>
+  rename(important_issues = Crime) |>
+  drop_na("important_issues") 
+crime_ces2019_issues
+
+# Indigenous #
+indigenous_ces2019_issues =
+  cleaned_ces2019_issues |>
+  filter(!Number_of_categories == "2") |>
+  select(ID,
+         Indigenous) |>
+  mutate("Indigenous" = case_when( 
+    Indigenous == 1 ~ "Indigenous"
+  )) |>
+  rename(important_issues = Indigenous) |>
+  drop_na("important_issues") 
+indigenous_ces2019_issues
+
+# Welfare #
+welfare_ces2019_issues =
+  cleaned_ces2019_issues |>
+  filter(!Number_of_categories == "2") |>
+  select(ID,
+         Welfare) |>
+  mutate("Welfare" = case_when( 
+    Welfare == 1 ~ "Welfare"
+  )) |>
+  rename(important_issues = Welfare) |>
+  drop_na("important_issues") 
+welfare_ces2019_issues
+
+# Election #
+election_ces2019_issues =
+  cleaned_ces2019_issues |>
+  filter(!Number_of_categories == "2") |>
+  select(ID,
+         Election) |>
+  mutate("Election" = case_when( 
+    Election == 1 ~ "Election"
+  )) |>
+  rename(important_issues = Election) |>
+  drop_na("important_issues") 
+election_ces2019_issues
+
+# Women #
+women_ces2019_issues =
+  cleaned_ces2019_issues |>
+  filter(!Number_of_categories == "2") |>
+  select(ID,
+         Women) |>
+  mutate("Women" = case_when( 
+    Women == 1 ~ "Women"
+  )) |>
+  rename(important_issues = Women) |>
+  drop_na("important_issues") 
+women_ces2019_issues
+
+# Security #
+security_ces2019_issues =
+  cleaned_ces2019_issues |>
+  filter(!Number_of_categories == "2") |>
+  select(ID,
+         Security) |>
+  mutate("Security" = case_when( 
+    Security == 1 ~ "Security"
+  )) |>
+  rename(important_issues = Security) |>
+  drop_na("important_issues") 
+security_ces2019_issues
+
+# Quebec #
+quebec_ces2019_issues =
+  cleaned_ces2019_issues |>
+  filter(!Number_of_categories == "2") |>
+  select(ID,
+         Quebec) |>
+  mutate("Quebec" = case_when( 
+    Quebec == 1 ~ "Quebec"
+  )) |>
+  rename(important_issues = Quebec) |>
+  drop_na("important_issues") 
+quebec_ces2019_issues
+
+# Race #
+race_ces2019_issues =
+  cleaned_ces2019_issues |>
+  filter(!Number_of_categories == "2") |>
+  select(ID,
+         Race) |>
+  mutate("Race" = case_when( 
+    Race == 1 ~ "Race"
+  )) |>
+  rename(important_issues = Race) |>
+  drop_na("important_issues") 
+race_ces2019_issues
+
+# Combine all separate issues datasets #
+summarized_ces2019_issues <-
+  rbind(
+    economy_ces2019_issues,
+    environment_ces2019_issues,
+    immigration_ces2019_issues,
+    healthcare_ces2019_issues,
+    housing_ces2019_issues,
+    seniors_ces2019_issues,
+    leaders_ces2019_issues,
+    ethics_ces2019_issues,
+    education_ces2019_issues,
+    crime_ces2019_issues,
+    indigenous_ces2019_issues,
+    welfare_ces2019_issues,
+    election_ces2019_issues,
+    women_ces2019_issues,
+    security_ces2019_issues,
+    quebec_ces2019_issues,
+    race_ces2019_issues,
+    econ_enviro_ces2019_issues2
+  )
+summarized_ces2019_issues
+
+## Create dataset of combined most important issue categories ##
+# Economy & Environment
+econ_enviro_ces2019_issues =
+  cleaned_ces2019_issues |>
+  filter(!Number_of_categories == "1") |>
+  filter(Economy == "1") |>
+  filter(Environment == "1") |>
+  select(ID, Economy, Environment)
+econ_enviro_ces2019_issues
+
+# ifelse code referenced from: https://stackoverflow.com/questions/39405628/how-do-i-create-a-new-column-based-on-multiple-conditions-from-multiple-columns
+econ_enviro_ces2019_issues$important_issues <- ifelse(
+  ( 
+    (econ_enviro_ces2019_issues$Environment %in% c("1")) &
+      (econ_enviro_ces2019_issues$Economy == "1")
+  ),
+  "Economy & environment",  # if condition is met, put E&E 
+  0   # else put 0
+) 
+econ_enviro_ces2019_issues 
+
+econ_enviro_ces2019_issues2 =
+  econ_enviro_ces2019_issues |>
+  select(ID, important_issues)
+econ_enviro_ces2019_issues2
+
+# Economy & Healthcare
+econ_health_ces2019_issues =
+  cleaned_ces2019_issues |>
+  filter(!Number_of_categories == "1") |>
+  filter(Economy == "1") |>
+  filter(Healthcare == "1") |>
+  select(ID, Economy, Healthcare)
+econ_health_ces2019_issues
+
+econ_health_ces2019_issues$important_issues <- ifelse(
+  ( 
+    (econ_health_ces2019_issues$Economy %in% c("1")) &
+      (econ_health_ces2019_issues$Healthcare == "1")
+  ),
+  "Economy & healthcare",  # if condition is met, put E&H 
+  0   # else put 0
+) 
+econ_health_ces2019_issues 
+
+econ_health_ces2019_issues2 =
+  econ_health_ces2019_issues  |>
+  select(ID, important_issues)
+econ_health_ces2019_issues2
+
+# Economy & Housing
+econ_housing_ces2019_issues =
+  cleaned_ces2019_issues |>
+  filter(!Number_of_categories == "1") |>
+  filter(Economy == "1") |>
+  filter(Housing == "1") |>
+  select(ID, Economy, Housing)
+econ_housing_ces2019_issues
+
+econ_housing_ces2019_issues$important_issues <- ifelse(
+  ( 
+    (econ_housing_ces2019_issues$Economy %in% c("1")) &
+      (econ_housing_ces2019_issues$Housing == "1")
+  ),
+  "Economy & housing",  # if condition is met, put E&H 
+  0   # else put 0
+) 
+econ_housing_ces2019_issues
+
+econ_housing_ces2019_issues2 =
+  econ_housing_ces2019_issues  |>
+  select(ID, important_issues)
+econ_housing_ces2019_issues2
+
+# Economy & welfare
+econ_welfare_ces2019_issues =
+  cleaned_ces2019_issues |>
+  filter(!Number_of_categories == "1") |>
+  filter(Economy == "1") |>
+  filter(Welfare == "1") |>
+  select(ID, Economy, Welfare)
+econ_welfare_ces2019_issues
+
+econ_welfare_ces2019_issues$important_issues <- ifelse(
+  ( 
+    (econ_welfare_ces2019_issues$Economy %in% c("1")) &
+      (econ_welfare_ces2019_issues$Welfare == "1")
+  ),
+  "Economy & welfare",  # if condition is met, put E&W
+  0   # else put 0
+) 
+econ_welfare_ces2019_issues
+
+econ_welfare_ces2019_issues2 =
+  econ_welfare_ces2019_issues |>
+  select(ID, important_issues)
+econ_welfare_ces2019_issues2
+
+# Ethics & leaders
+ethics_leaders_ces2019_issues =
+  cleaned_ces2019_issues |>
+  filter(!Number_of_categories == "1") |>
+  filter(Ethics == "1") |>
+  filter(Leaders == "1") |>
+  select(ID, Ethics, Leaders)
+ethics_leaders_ces2019_issues
+
+ethics_leaders_ces2019_issues$important_issues <- ifelse(
+  ( 
+    (ethics_leaders_ces2019_issues$Ethics %in% c("1")) &
+      (ethics_leaders_ces2019_issues$Leaders == "1")
+  ),
+  "Ethics & leaders",  # if condition is met, put E&L
+  0   # else put 0
+) 
+ethics_leaders_ces2019_issues
+
+ethics_leaders_ces2019_issues2 =
+  ethics_leaders_ces2019_issues |>
+  select(ID, important_issues)
+ethics_leaders_ces2019_issues2
+
+# Healthcare & education
+health_edu_ces2019_issues =
+  cleaned_ces2019_issues |>
+  filter(!Number_of_categories == "1") |>
+  filter(Healthcare == "1") |>
+  filter(Education == "1") |>
+  select(ID, Healthcare, Education)
+health_edu_ces2019_issues
+
+health_edu_ces2019_issues$important_issues <- ifelse(
+  ( 
+    (health_edu_ces2019_issues$Healthcare %in% c("1")) &
+      (health_edu_ces2019_issues$Education == "1")
+  ),
+  "Healthcare & education",  # if condition is met, put H&E
+  0   # else put 0
+) 
+health_edu_ces2019_issues
+
+health_edu_ces2019_issues2 =
+  health_edu_ces2019_issues |>
+  select(ID, important_issues)
+health_edu_ces2019_issues2
+
+# Healthcare & seniors
+health_seniors_ces2019_issues =
+  cleaned_ces2019_issues |>
+  filter(!Number_of_categories == "1") |>
+  filter(Healthcare == "1") |>
+  filter(Seniors == "1") |>
+  select(ID, Healthcare, Seniors)
+health_seniors_ces2019_issues
+
+health_seniors_ces2019_issues$important_issues <- ifelse(
+  ( 
+    (health_seniors_ces2019_issues$Healthcare %in% c("1")) &
+      (health_seniors_ces2019_issues$Seniors == "1")
+  ),
+  "Healthcare & seniors",  # if condition is met, put H&S
+  0   # else put 0
+) 
+health_seniors_ces2019_issues
+
+health_seniors_ces2019_issues2 =
+  health_seniors_ces2019_issues |>
+  select(ID, important_issues)
+health_seniors_ces2019_issues2
+
+# Healthcare & environment
+health_enviro_ces2019_issues =
+  cleaned_ces2019_issues |>
+  filter(!Number_of_categories == "1") |>
+  filter(Healthcare == "1") |>
+  filter(Environment == "1") |>
+  select(ID, Healthcare, Environment)
+health_enviro_ces2019_issues
+
+health_enviro_ces2019_issues$important_issues <- ifelse(
+  ( 
+    (health_enviro_ces2019_issues$Healthcare %in% c("1")) &
+      (health_enviro_ces2019_issues$Environment == "1")
+  ),
+  "Healthcare & environment",  # if condition is met, put H&E
+  0   # else put 0
+) 
+health_enviro_ces2019_issues
+
+health_enviro_ces2019_issues2 =
+  health_enviro_ces2019_issues |>
+  select(ID, important_issues)
+health_enviro_ces2019_issues2
+
+# Welfare & seniors
+welfare_seniors_ces2019_issues =
+  cleaned_ces2019_issues |>
+  filter(!Number_of_categories == "1") |>
+  filter(Welfare == "1") |>
+  filter(Seniors == "1") |>
+  select(ID, Welfare, Seniors)
+welfare_seniors_ces2019_issues
+
+welfare_seniors_ces2019_issues$important_issues <- ifelse(
+  ( 
+    (welfare_seniors_ces2019_issues$Welfare %in% c("1")) &
+      (welfare_seniors_ces2019_issues$Seniors == "1")
+  ),
+  "Welfare & seniors",  # if condition is met, put W&S
+  0   # else put 0
+) 
+welfare_seniors_ces2019_issues
+
+welfare_seniors_ces2019_issues2 =
+  welfare_seniors_ces2019_issues |>
+  select(ID, important_issues)
+welfare_seniors_ces2019_issues2
+
+# Combine all separate issues datasets #
+summarized_ces2019_issues <-
+  rbind(
+    economy_ces2019_issues,
+    environment_ces2019_issues,
+    immigration_ces2019_issues,
+    healthcare_ces2019_issues,
+    housing_ces2019_issues,
+    seniors_ces2019_issues,
+    leaders_ces2019_issues,
+    ethics_ces2019_issues,
+    education_ces2019_issues,
+    crime_ces2019_issues,
+    indigenous_ces2019_issues,
+    welfare_ces2019_issues,
+    election_ces2019_issues,
+    women_ces2019_issues,
+    security_ces2019_issues,
+    quebec_ces2019_issues,
+    race_ces2019_issues,
+    econ_enviro_ces2019_issues2,
+    econ_health_ces2019_issues2,
+    econ_housing_ces2019_issues2,
+    econ_welfare_ces2019_issues2,
+    ethics_leaders_ces2019_issues2,
+    health_edu_ces2019_issues2,
+    health_seniors_ces2019_issues2,
+    health_enviro_ces2019_issues2,
+    welfare_seniors_ces2019_issues2
+  )
+summarized_ces2019_issues
+
+## 2021 survey ##
 # Other data: did you watch the debate question (EN/FR)
 cleaned_ces2021_web = 
   raw_ces2021_web |>
@@ -293,6 +791,492 @@ cleaned_ces2021_issues =
   )
 cleaned_ces2021_issues
 
+## Trying something ##
+# Economy #
+economy_ces2021_issues =
+  cleaned_ces2021_issues |>
+  filter(!Number_of_categories == "2") |>
+  select(ID,
+         Economy) |>
+  mutate("Economy" = case_when( 
+    Economy == 1 ~ "Economy"
+  )) |>
+  rename(important_issues = Economy) |>
+  drop_na("important_issues") 
+economy_ces2021_issues
+
+# Environment #
+environment_ces2021_issues =
+  cleaned_ces2021_issues |>
+  filter(!Number_of_categories == "2") |>
+  select(ID,
+         Environment) |>
+  mutate("Environment" = case_when( 
+    Environment == 1 ~ "Environment"
+  )) |>
+  rename(important_issues = Environment) |>
+  drop_na("important_issues") 
+environment_ces2021_issues
+
+# Immigration #
+immigration_ces2021_issues =
+  cleaned_ces2021_issues |>
+  filter(!Number_of_categories == "2") |>
+  select(ID,
+         Immigration) |>
+  mutate("Immigration" = case_when( 
+    Immigration == 1 ~ "Immigration"
+  )) |>
+  rename(important_issues = Immigration) |>
+  drop_na("important_issues") 
+immigration_ces2021_issues
+
+# Healthcare #
+healthcare_ces2021_issues =
+  cleaned_ces2021_issues |>
+  filter(!Number_of_categories == "2") |>
+  select(ID,
+         Healthcare) |>
+  mutate("Healthcare" = case_when( 
+    Healthcare == 1 ~ "Healthcare"
+  )) |>
+  rename(important_issues = Healthcare) |>
+  drop_na("important_issues") 
+healthcare_ces2021_issues
+
+# Housing #
+housing_ces2021_issues =
+  cleaned_ces2021_issues |>
+  filter(!Number_of_categories == "2") |>
+  select(ID,
+         Housing) |>
+  mutate("Housing" = case_when( 
+    Housing == 1 ~ "Housing"
+  )) |>
+  rename(important_issues = Housing) |>
+  drop_na("important_issues") 
+housing_ces2021_issues
+
+# Seniors #
+seniors_ces2021_issues =
+  cleaned_ces2021_issues |>
+  filter(!Number_of_categories == "2") |>
+  select(ID,
+         Seniors) |>
+  mutate("Seniors" = case_when( 
+    Seniors == 1 ~ "Seniors"
+  )) |>
+  rename(important_issues = Seniors) |>
+  drop_na("important_issues") 
+seniors_ces2021_issues
+
+# Leaders #
+leaders_ces2021_issues =
+  cleaned_ces2021_issues |>
+  filter(!Number_of_categories == "2") |>
+  select(ID,
+         Leaders) |>
+  mutate("Leaders" = case_when( 
+    Leaders == 1 ~ "Leaders"
+  )) |>
+  rename(important_issues = Leaders) |>
+  drop_na("important_issues") 
+leaders_ces2021_issues
+
+# Ethics #
+ethics_ces2021_issues =
+  cleaned_ces2021_issues |>
+  filter(!Number_of_categories == "2") |>
+  select(ID,
+         Ethics) |>
+  mutate("Ethics" = case_when( 
+    Ethics == 1 ~ "Ethics"
+  )) |>
+  rename(important_issues = Ethics) |>
+  drop_na("important_issues") 
+ethics_ces2021_issues
+
+# Education #
+education_ces2021_issues =
+  cleaned_ces2021_issues |>
+  filter(!Number_of_categories == "2") |>
+  select(ID,
+         Education) |>
+  mutate("Education" = case_when( 
+    Education == 1 ~ "Education"
+  )) |>
+  rename(important_issues = Education) |>
+  drop_na("important_issues") 
+education_ces2021_issues
+
+# Crime #
+crime_ces2021_issues =
+  cleaned_ces2021_issues |>
+  filter(!Number_of_categories == "2") |>
+  select(ID,
+         Crime) |>
+  mutate("Crime" = case_when( 
+    Crime == 1 ~ "Crime"
+  )) |>
+  rename(important_issues = Crime) |>
+  drop_na("important_issues") 
+crime_ces2021_issues
+
+# Indigenous #
+indigenous_ces2021_issues =
+  cleaned_ces2021_issues |>
+  filter(!Number_of_categories == "2") |>
+  select(ID,
+         Indigenous) |>
+  mutate("Indigenous" = case_when( 
+    Indigenous == 1 ~ "Indigenous"
+  )) |>
+  rename(important_issues = Indigenous) |>
+  drop_na("important_issues") 
+indigenous_ces2021_issues
+
+# Welfare #
+welfare_ces2021_issues =
+  cleaned_ces2021_issues |>
+  filter(!Number_of_categories == "2") |>
+  select(ID,
+         Welfare) |>
+  mutate("Welfare" = case_when( 
+    Welfare == 1 ~ "Welfare"
+  )) |>
+  rename(important_issues = Welfare) |>
+  drop_na("important_issues") 
+welfare_ces2021_issues
+
+# Election #
+election_ces2021_issues =
+  cleaned_ces2021_issues |>
+  filter(!Number_of_categories == "2") |>
+  select(ID,
+         Election) |>
+  mutate("Election" = case_when( 
+    Election == 1 ~ "Election"
+  )) |>
+  rename(important_issues = Election) |>
+  drop_na("important_issues") 
+election_ces2021_issues
+
+# Women #
+women_ces2021_issues =
+  cleaned_ces2021_issues |>
+  filter(!Number_of_categories == "2") |>
+  select(ID,
+         Women) |>
+  mutate("Women" = case_when( 
+    Women == 1 ~ "Women"
+  )) |>
+  rename(important_issues = Women) |>
+  drop_na("important_issues") 
+women_ces2021_issues
+
+# Security #
+security_ces2021_issues =
+  cleaned_ces2021_issues |>
+  filter(!Number_of_categories == "2") |>
+  select(ID,
+         Security) |>
+  mutate("Security" = case_when( 
+    Security == 1 ~ "Security"
+  )) |>
+  rename(important_issues = Security) |>
+  drop_na("important_issues") 
+security_ces2021_issues
+
+# Quebec #
+quebec_ces2021_issues =
+  cleaned_ces2021_issues |>
+  filter(!Number_of_categories == "2") |>
+  select(ID,
+         Quebec) |>
+  mutate("Quebec" = case_when( 
+    Quebec == 1 ~ "Quebec"
+  )) |>
+  rename(important_issues = Quebec) |>
+  drop_na("important_issues") 
+quebec_ces2021_issues
+
+# Race #
+race_ces2021_issues =
+  cleaned_ces2021_issues |>
+  filter(!Number_of_categories == "2") |>
+  select(ID,
+         Race) |>
+  mutate("Race" = case_when( 
+    Race == 1 ~ "Race"
+  )) |>
+  rename(important_issues = Race) |>
+  drop_na("important_issues") 
+race_ces2021_issues
+
+# Covid #
+covid_ces2021_issues =
+  cleaned_ces2021_issues |>
+  filter(!Number_of_categories == "2") |>
+  select(ID,
+         Covid) |>
+  mutate("Covid" = case_when( 
+    Covid == 1 ~ "Covid"
+  )) |>
+  rename(important_issues = Covid) |>
+  drop_na("important_issues") 
+covid_ces2021_issues
+
+## Create dataset of combined most important issue categories ##
+# Economy & Environment
+econ_enviro_ces2021_issues =
+  cleaned_ces2021_issues |>
+  filter(!Number_of_categories == "1") |>
+  filter(Economy == "1") |>
+  filter(Environment == "1") |>
+  select(ID, Economy, Environment)
+econ_enviro_ces2021_issues
+
+econ_enviro_ces2021_issues$important_issues <- ifelse(
+  ( 
+    (econ_enviro_ces2021_issues$Environment %in% c("1")) &
+      (econ_enviro_ces2021_issues$Economy == "1")
+  ),
+  "Economy & environment",  # if condition is met, put E&E 
+  0   # else put 0
+) 
+econ_enviro_ces2021_issues 
+
+econ_enviro_ces2021_issues2 =
+  econ_enviro_ces2021_issues |>
+  select(ID, important_issues)
+econ_enviro_ces2021_issues2
+
+# Economy & Healthcare
+econ_health_ces2021_issues =
+  cleaned_ces2021_issues |>
+  filter(!Number_of_categories == "1") |>
+  filter(Economy == "1") |>
+  filter(Healthcare == "1") |>
+  select(ID, Economy, Healthcare)
+econ_health_ces2021_issues
+
+econ_health_ces2021_issues$important_issues <- ifelse(
+  ( 
+    (econ_health_ces2021_issues$Economy %in% c("1")) &
+      (econ_health_ces2021_issues$Healthcare == "1")
+  ),
+  "Economy & healthcare",  # if condition is met, put E&H 
+  0   # else put 0
+) 
+econ_health_ces2021_issues 
+
+econ_health_ces2021_issues2 =
+  econ_health_ces2021_issues  |>
+  select(ID, important_issues)
+econ_health_ces2021_issues2
+
+# Economy & Housing
+econ_housing_ces2021_issues =
+  cleaned_ces2021_issues |>
+  filter(!Number_of_categories == "1") |>
+  filter(Economy == "1") |>
+  filter(Housing == "1") |>
+  select(ID, Economy, Housing)
+econ_housing_ces2021_issues
+
+econ_housing_ces2021_issues$important_issues <- ifelse(
+  ( 
+    (econ_housing_ces2021_issues$Economy %in% c("1")) &
+      (econ_housing_ces2021_issues$Housing == "1")
+  ),
+  "Economy & housing",  # if condition is met, put E&H 
+  0   # else put 0
+) 
+econ_housing_ces2021_issues
+
+econ_housing_ces2021_issues2 =
+  econ_housing_ces2021_issues  |>
+  select(ID, important_issues)
+econ_housing_ces2021_issues2
+
+# Economy & welfare
+econ_welfare_ces2021_issues =
+  cleaned_ces2021_issues |>
+  filter(!Number_of_categories == "1") |>
+  filter(Economy == "1") |>
+  filter(Welfare == "1") |>
+  select(ID, Economy, Welfare)
+econ_welfare_ces2021_issues
+
+econ_welfare_ces2021_issues$important_issues <- ifelse(
+  ( 
+    (econ_welfare_ces2021_issues$Economy %in% c("1")) &
+      (econ_welfare_ces2021_issues$Welfare == "1")
+  ),
+  "Economy & welfare",  # if condition is met, put E&W
+  0   # else put 0
+) 
+econ_welfare_ces2021_issues
+
+econ_welfare_ces2021_issues2 =
+  econ_welfare_ces2021_issues |>
+  select(ID, important_issues)
+econ_welfare_ces2021_issues2
+
+# Ethics & leaders
+ethics_leaders_ces2021_issues =
+  cleaned_ces2021_issues |>
+  filter(!Number_of_categories == "1") |>
+  filter(Ethics == "1") |>
+  filter(Leaders == "1") |>
+  select(ID, Ethics, Leaders)
+ethics_leaders_ces2021_issues
+
+# ifelse code referenced from: https://stackoverflow.com/questions/39405628/how-do-i-create-a-new-column-based-on-multiple-conditions-from-multiple-columns
+ethics_leaders_ces2021_issues$important_issues <- ifelse(
+  ( 
+    (ethics_leaders_ces2021_issues$Ethics %in% c("1")) &
+      (ethics_leaders_ces2021_issues$Leaders == "1")
+  ),
+  "Ethics & leaders",  # if condition is met, put E&L
+  0   # else put 0
+) 
+ethics_leaders_ces2021_issues
+
+ethics_leaders_ces2021_issues2 =
+  ethics_leaders_ces2021_issues |>
+  select(ID, important_issues)
+ethics_leaders_ces2021_issues2
+
+# Healthcare & education
+health_edu_ces2021_issues =
+  cleaned_ces2021_issues |>
+  filter(!Number_of_categories == "1") |>
+  filter(Healthcare == "1") |>
+  filter(Education == "1") |>
+  select(ID, Healthcare, Education)
+health_edu_ces2021_issues
+
+health_edu_ces2021_issues$important_issues <- ifelse(
+  ( 
+    (health_edu_ces2021_issues$Healthcare %in% c("1")) &
+      (health_edu_ces2021_issues$Education == "1")
+  ),
+  "Healthcare & education",  # if condition is met, put H&E
+  0   # else put 0
+) 
+health_edu_ces2021_issues
+
+health_edu_ces2021_issues2 =
+  health_edu_ces2021_issues |>
+  select(ID, important_issues)
+health_edu_ces2021_issues2
+
+# Healthcare & seniors
+health_seniors_ces2021_issues =
+  cleaned_ces2021_issues |>
+  filter(!Number_of_categories == "1") |>
+  filter(Healthcare == "1") |>
+  filter(Seniors == "1") |>
+  select(ID, Healthcare, Seniors)
+health_seniors_ces2021_issues
+
+health_seniors_ces2021_issues$important_issues <- ifelse(
+  ( 
+    (health_seniors_ces2021_issues$Healthcare %in% c("1")) &
+      (health_seniors_ces2021_issues$Seniors == "1")
+  ),
+  "Healthcare & seniors",  # if condition is met, put H&S
+  0   # else put 0
+) 
+health_seniors_ces2021_issues
+
+health_seniors_ces2021_issues2 =
+  health_seniors_ces2021_issues |>
+  select(ID, important_issues)
+health_seniors_ces2021_issues2
+
+# Healthcare & environment
+health_enviro_ces2021_issues =
+  cleaned_ces2021_issues |>
+  filter(!Number_of_categories == "1") |>
+  filter(Healthcare == "1") |>
+  filter(Environment == "1") |>
+  select(ID, Healthcare, Environment)
+health_enviro_ces2021_issues
+
+health_enviro_ces2021_issues$important_issues <- ifelse(
+  ( 
+    (health_enviro_ces2021_issues$Healthcare %in% c("1")) &
+      (health_enviro_ces2021_issues$Environment == "1")
+  ),
+  "Healthcare & environment",  # if condition is met, put H&E
+  0   # else put 0
+) 
+health_enviro_ces2021_issues
+
+health_enviro_ces2021_issues2 =
+  health_enviro_ces2021_issues |>
+  select(ID, important_issues)
+health_enviro_ces2021_issues2
+
+# Welfare & seniors
+welfare_seniors_ces2021_issues =
+  cleaned_ces2019_issues |>
+  filter(!Number_of_categories == "1") |>
+  filter(Welfare == "1") |>
+  filter(Seniors == "1") |>
+  select(ID, Welfare, Seniors)
+welfare_seniors_ces2021_issues
+
+welfare_seniors_ces2021_issues$important_issues <- ifelse(
+  ( 
+    (welfare_seniors_ces2021_issues$Welfare %in% c("1")) &
+      (welfare_seniors_ces2021_issues$Seniors == "1")
+  ),
+  "Welfare & seniors",  # if condition is met, put W&S
+  0   # else put 0
+) 
+welfare_seniors_ces2021_issues
+
+welfare_seniors_ces2021_issues2 =
+  welfare_seniors_ces2021_issues |>
+  select(ID, important_issues)
+welfare_seniors_ces2021_issues2
+
+# Combine all separate issues datasets #
+summarized_ces2021_issues <-
+  rbind(
+    economy_ces2021_issues,
+    environment_ces2021_issues,
+    immigration_ces2021_issues,
+    healthcare_ces2021_issues,
+    housing_ces2021_issues,
+    seniors_ces2021_issues,
+    leaders_ces2021_issues,
+    ethics_ces2021_issues,
+    education_ces2021_issues,
+    crime_ces2021_issues,
+    indigenous_ces2021_issues,
+    welfare_ces2021_issues,
+    election_ces2021_issues,
+    women_ces2021_issues,
+    security_ces2021_issues,
+    quebec_ces2021_issues,
+    race_ces2021_issues,
+    covid_ces2021_issues,
+    econ_enviro_ces2021_issues2,
+    econ_health_ces2021_issues2,
+    econ_housing_ces2021_issues2,
+    econ_welfare_ces2021_issues2,
+    ethics_leaders_ces2021_issues2,
+    health_edu_ces2021_issues2,
+    health_seniors_ces2021_issues2,
+    health_enviro_ces2021_issues2,
+    welfare_seniors_ces2021_issues2
+  )
+summarized_ces2021_issues
+
 #### Save cleaned datasets ####
 ## 2008 survey
 write_csv(x = cleaned_ces2008, file = "Outputs/Data/CES/cleaned_ces2008.csv")
@@ -310,9 +1294,15 @@ write_csv(x = cleaned_ces2019_web, file = "Outputs/Data/CES/cleaned_ces2019_web.
 # Main issues
 write_csv(x = cleaned_ces2019_issues, file = "Outputs/Data/CES/cleaned_ces2019_issues.csv")
 
+# Re-coded important issues
+write_csv(x = summarized_ces2019_issues, file = "Outputs/Data/CES/summarized_ces2019_issues.csv")
+
 ## 2021 survey
 # Other data
 write_csv(x = cleaned_ces2021_web, file = "Outputs/Data/CES/cleaned_ces2021_web.csv")
 
 # Main issues
 write_csv(x = cleaned_ces2021_issues, file = "Outputs/Data/CES/cleaned_ces2021_issues.csv")
+
+# Re-coded important issues
+write_csv(x = summarized_ces2021_issues, file = "Outputs/Data/CES/summarized_ces2021_issues.csv")
