@@ -12,41 +12,41 @@ library(tidyverse)
 library(janitor)
 
 #### Read in raw datasets ####
-## 2008 survey
+## 2008 survey ##
 raw_ces2008 <- read_csv("Inputs/Data/CES/raw_ces2008.csv")
 
-## 2011 survey
+## 2011 survey ##
 raw_ces2011 <- read_csv("Inputs/Data/CES/raw_ces2011.csv")
 
-## 2015 survey
+## 2015 survey ##
 raw_ces2015_combined <- read_csv("Inputs/Data/CES/raw_ces2015_combined.csv")
 
-## 2019 survey
-# Main issues
+## 2019 survey ##
+# Main issues #
 raw_ces2019_issues <- read_csv("Inputs/Data/CES/raw_ces2019_issues.csv")
 
-# Other data
+# Other data #
 raw_ces2019_web <- read_csv("Inputs/Data/CES/raw_ces2019_web.csv")
 
-## 2021 survey
-# Main issues
+## 2021 survey ##
+# Main issues #
 raw_ces2021_issues <- read_csv("Inputs/Data/CES/raw_ces2021_issues.csv")
 
-# Other data
+# Other data #
 raw_ces2021_web <- read_csv("Inputs/Data/CES/raw_ces2021_web.csv")
 
 #### Clean datasets - get rid of NAs, rename columns, etc ####
-## 2008 survey 
+#### 2008 survey ####
 cleaned_ces2008 =
   raw_ces2008 |>
   drop_na("ces08_CPS_A2") |>
   rename(
     ID = ces08_IDNUM,
     important_issues = ces08_CPS_A2
-  )
+  ) 
 cleaned_ces2008
 
-## 2011 survey
+#### 2011 survey ####
 cleaned_ces2011 =
   raw_ces2011 |>
   drop_na("CPS11_1") |>
@@ -60,8 +60,8 @@ cleaned_ces2011 =
   select(ID, important_issues, language, watched_EN_debate, watched_FR_debate)
 cleaned_ces2011
 
-## 2015 survey
-# Rename column 
+#### 2015 survey ####
+# Rename column #
 cleaned_ces2015_combined =
 raw_ces2015_combined |>
   drop_na("main_issue") |>
@@ -70,7 +70,7 @@ raw_ces2015_combined |>
   )
 cleaned_ces2015_combined
 
-# Case match (referencing: https://ces-eec.sites.olt.ubc.ca/files/2017/04/CES2015_Combined_Data_Codebook.pdf)
+# Case match (referencing: https://ces-eec.sites.olt.ubc.ca/files/2017/04/CES2015_Combined_Data_Codebook.pdf) #
 cleaned_ces2015_combined =
   cleaned_ces2015_combined |>
   mutate("important_issues" = case_when(
@@ -142,8 +142,8 @@ cleaned_ces2015_combined =
   select(ID, important_issues)
   cleaned_ces2015_combined
   
-## 2019 survey
-# Other data: did you watch the debate question (EN/FR)
+#### 2019 survey ####
+# Other data: did you watch the debate question (EN/FR) #
 cleaned_ces2019_web = 
 raw_ces2019_web |>
   select(
@@ -160,7 +160,7 @@ raw_ces2019_web |>
   )
 cleaned_ces2019_web
 
-# Main issues
+# Main issues #
 cleaned_ces2019_issues =
 raw_ces2019_issues |>
   filter(!number_of_cats == "0") |>
@@ -463,8 +463,8 @@ summarized_ces2019_issues <-
   )
 summarized_ces2019_issues
 
-## 2021 survey ##
-# Other data: did you watch the debate question (EN/FR)
+#### 2021 survey ####
+# Other data: did you watch the debate question (EN/FR) #
 cleaned_ces2021_web = 
   raw_ces2021_web |>
   select(
@@ -484,7 +484,7 @@ cleaned_ces2021_web =
   )
 cleaned_ces2021_web
 
-# Main issues
+## Main issues ##
 cleaned_ces2021_issues =
   raw_ces2021_issues |>
   filter(!number_of_cats == "0") |>
@@ -544,7 +544,7 @@ cleaned_ces2021_issues =
   )
 cleaned_ces2021_issues
 
-## Trying something ##
+## Re-code each specific issue category ##
 # Economy #
 economy_ces2021_issues =
   cleaned_ces2021_issues |>
@@ -804,33 +804,33 @@ summarized_ces2021_issues <-
 summarized_ces2021_issues
 
 #### Save cleaned datasets ####
-## 2008 survey
+## 2008 survey ##
 write_csv(x = cleaned_ces2008, file = "Outputs/Data/CES/cleaned_ces2008.csv")
 
-## 2011 survey
+## 2011 survey ##
 write_csv(x = cleaned_ces2011, file = "Outputs/Data/CES/cleaned_ces2011.csv")  
 
-## 2015 survey
+## 2015 survey ##
 write_csv(x = cleaned_ces2015_combined, file = "Outputs/Data/CES/cleaned_ces2015_combined.csv")
 
-## 2019 survey
-# Other data
+## 2019 survey ##
+# Other data #
 write_csv(x = cleaned_ces2019_web, file = "Outputs/Data/CES/cleaned_ces2019_web.csv")
 
-# Main issues
+# Main issues #
 write_csv(x = cleaned_ces2019_issues, file = "Outputs/Data/CES/cleaned_ces2019_issues.csv")
 
-# Re-coded important issue categories
+# Re-coded important issue categories #
 write_csv(x = summarized_ces2019_issues, file = "Outputs/Data/CES/summarized_ces2019_issues.csv")
 
-## 2021 survey
-# Other data
+## 2021 survey ##
+# Other data #
 write_csv(x = cleaned_ces2021_web, file = "Outputs/Data/CES/cleaned_ces2021_web.csv")
 
-# Main issues
+# Main issues #
 write_csv(x = cleaned_ces2021_issues, file = "Outputs/Data/CES/cleaned_ces2021_issues.csv")
 
-# Re-coded important issue categories
+# Re-coded important issue categories #
 write_csv(x = summarized_ces2021_issues, file = "Outputs/Data/CES/summarized_ces2021_issues.csv")
 
 #### OLD code to created combined most important issue categories for the 2019 & 2021 CES ####
