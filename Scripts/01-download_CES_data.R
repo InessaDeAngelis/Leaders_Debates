@@ -6,7 +6,7 @@
 # License: MIT
 # Pre-requisites: None
 # Note: cesR package doesn't consistently work and doesn't cover all CES data (updates coming summer 2024!)
-  # All of 2021 is missing, 2019 and 2015 re-coded issues are missing - download directly from CES website
+  # All of 2021, 2019 re-coded issues, and 2015 combined (web and phone) are missing - download directly from CES website
 
 #### Workspace setup ####
 library(tidyverse)
@@ -49,6 +49,8 @@ raw_ces2019_web =
     cps19_debate_en,
     cps19_debate_fr,
     cps19_imp_iss,
+    cps19_province,
+    cps19_Q_Language
   ) 
 raw_ces2019_web
 
@@ -57,7 +59,12 @@ raw_ces2011 =
   ces2011 |>
   select(
     CES11_IDNUM,
-    CPS11_1
+    CPS11_1,
+    REGION11,
+    PROVINCE11,
+    CPS_INTLANG11,
+    CPS11_76,
+    CPS11_77
   )
 raw_ces2011
 
@@ -66,7 +73,19 @@ raw_ces2008 =
   ces2008 |>
   select(
     ces08_IDNUM,
-    ces08_CPS_A2
+    ces08_CPS_A2,
+    ces08_CPS_INTLANG,
+    ces08_PROVINCE,
+    ces08_CPS_R1,
+    ces08_CPS_R2A,
+    ces08_CPS_R2B,       
+    ces08_CPS_R3A,
+    ces08_CPS_R3B,
+    ces08_CPS_R4,
+    ces08_CPS_R5A,
+    ces08_CPS_R5B,    
+    ces08_CPS_R6A,
+    ces08_CPS_R6B
   )
 raw_ces2008
 
@@ -125,7 +144,9 @@ raw_ces2015_combined =
   raw_ces2015_combined |>
   select(
     ID,
-   main_issue 
+   main_issue,
+   province,
+   language
   ) 
 raw_ces2015_combined
 
@@ -200,7 +221,11 @@ raw_ces2021_web =
     cps21_ResponseId,
     cps21_debate_en,
     cps21_debate_fr,
-    cps21_debate_fr2
+    cps21_debate_fr2,
+    province,
+    provcode,
+    Q_Language,
+    UserLanguage
   )
 raw_ces2021_web
 
