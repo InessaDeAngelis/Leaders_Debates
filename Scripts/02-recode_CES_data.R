@@ -10,7 +10,6 @@
 
 #### Workspace setup ####
 library(tidyverse)
-library(janitor)
 
 #### Read in raw datasets ####
 ## 2008 survey ##
@@ -253,13 +252,13 @@ recoded_ces2019 =
     important_issues == "Housing" ~ "Housing",
     important_issues == "Immigration" ~ "Immigration",
     important_issues == "Crime"  ~ "Crime and public safety",
-    important_issues == "Race" ~  "Other",
-    important_issues == "Quebec" ~  "Other",
-    important_issues == "Women" ~  "Other",
-    important_issues == "Indigenous" ~  "Other",
-    important_issues == "Security" ~  "Other",
-    important_issues == "Election" ~  "Other",
-    important_issues == "Leaders" ~  "Other"
+    important_issues == "Women" ~ "Justice",
+    important_issues == "Race" ~ "Other",
+    important_issues == "Quebec" ~ "Other",
+    important_issues == "Indigenous" ~ "Other",
+    important_issues == "Security" ~ "Other",
+    important_issues == "Election" ~ "Other",
+    important_issues == "Leaders" ~ "Other"
   ))
 recoded_ces2019
 
@@ -283,13 +282,13 @@ recoded_ces2021 =
     important_issues == "Covid" ~ "Covid",
     important_issues == "Immigration" ~ "Immigration",
     important_issues == "Crime"  ~ "Crime and public safety",
+    important_issues == "Women" ~ "Justice",
     important_issues == "Race" ~  "Other",
     important_issues == "Quebec" ~  "Other",
-    important_issues == "Women" ~  "Other",
-    important_issues == "Indigenous" ~  "Other",
-    important_issues == "Security" ~  "Other",
-    important_issues == "Election" ~  "Other",
-    important_issues == "Leaders" ~  "Other"
+    important_issues == "Indigenous" ~ "Other",
+    important_issues == "Security" ~ "Other",
+    important_issues == "Election" ~ "Other",
+    important_issues == "Leaders" ~ "Other"
   ))
 recoded_ces2021
 
