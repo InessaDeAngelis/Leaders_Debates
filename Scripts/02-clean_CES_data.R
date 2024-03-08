@@ -42,8 +42,10 @@ cleaned_ces2008 =
   drop_na("ces08_CPS_A2") |>
   rename(
     ID = ces08_IDNUM,
-    important_issues = ces08_CPS_A2
-  ) 
+    important_issues = ces08_CPS_A2,
+    language = ces08_CPS_INTLANG
+  ) |>
+  select(ID, important_issues, language)
 cleaned_ces2008
 
 #### 2011 survey ####
@@ -61,16 +63,20 @@ cleaned_ces2011 =
 cleaned_ces2011
 
 #### 2015 survey ####
-# Rename column #
+# Drop NAs, Rename columns, case match language #
 cleaned_ces2015_combined =
 raw_ces2015_combined |>
   drop_na("main_issue") |>
   rename(
     important_issues = main_issue
-  )
+  ) |>
+  mutate("language" = case_when(
+    language == 1 ~ "English",
+    language == 5 ~ "French"
+  )) 
 cleaned_ces2015_combined
 
-# Case match (referencing: https://ces-eec.sites.olt.ubc.ca/files/2017/04/CES2015_Combined_Data_Codebook.pdf) #
+# Case match issues (referencing: https://ces-eec.sites.olt.ubc.ca/files/2017/04/CES2015_Combined_Data_Codebook.pdf) #
 cleaned_ces2015_combined =
   cleaned_ces2015_combined |>
   mutate("important_issues" = case_when(
@@ -139,25 +145,31 @@ cleaned_ces2015_combined =
     important_issues == 98 ~ "Don’t know / not sure / not paying attention",
     important_issues == 99 ~ "Refused",
   )) |>
-  select(ID, important_issues)
+  select(ID, important_issues, language)
   cleaned_ces2015_combined
   
 #### 2019 survey ####
 # Other data: did you watch the debate question (EN/FR) #
+  # drop_na("cps19_debate_en") |>
+  # drop_na("cps19_debate_fr") |>
 cleaned_ces2019_web = 
 raw_ces2019_web |>
   select(
     cps19_ResponseId,
     cps19_debate_en,
     cps19_debate_fr,
+    cps19_Q_Language,
   ) |>
-  drop_na("cps19_debate_en") |>
-  drop_na("cps19_debate_fr") |>
   rename(
     ID = cps19_ResponseId,
     watched_EN_debate = cps19_debate_en,
     watched_FR_debate = cps19_debate_fr,
-  )
+    language = cps19_Q_Language
+  ) |>
+    mutate("language" = case_when(
+      language == "EN" ~ "English",
+      language == "FR-CA" ~ "French"
+    )) 
 cleaned_ces2019_web
 
 # Main issues #
@@ -463,8 +475,17 @@ summarized_ces2019_issues <-
   )
 summarized_ces2019_issues
 
+## Join in language data ##
+joined_ces2019_issues <- merge(cleaned_ces2019_web, summarized_ces2019_issues, by="ID") |>
+  select(ID, language, important_issues)
+joined_ces2019_issues
+
 #### 2021 survey ####
 # Other data: did you watch the debate question (EN/FR) #
+  # drop_na("cps21_debate_en") |>
+  # drop_na("cps21_debate_fr") |>
+  # drop_na("cps21_debate_fr2") |>
+
 cleaned_ces2021_web = 
   raw_ces2021_web |>
   select(
@@ -472,16 +493,19 @@ cleaned_ces2021_web =
     cps21_debate_en,
     cps21_debate_fr,
     cps21_debate_fr2,
+    Q_Language
   ) |>
-  drop_na("cps21_debate_en") |>
-  drop_na("cps21_debate_fr") |>
-  drop_na("cps21_debate_fr2") |>
   rename(
     ID = cps21_ResponseId,
     watched_EN_debate = cps21_debate_en,
     watched_FR_debate = cps21_debate_fr,
     watched_FR_debate2 = cps21_debate_fr2,
-  )
+    language = Q_Language
+  ) |>
+  mutate("language" = case_when(
+    language == "EN" ~ "English",
+    language == "FR-CA" ~ "French"
+  )) 
 cleaned_ces2021_web
 
 ## Main issues ##
@@ -803,6 +827,11 @@ summarized_ces2021_issues <-
   )
 summarized_ces2021_issues
 
+## Join in language data ##
+joined_ces2021_issues <- merge(cleaned_ces2021_web, summarized_ces2021_issues, by="ID") |>
+  select(ID, language, important_issues)
+joined_ces2021_issues
+
 #### Save cleaned datasets ####
 ## 2008 survey ##
 write_csv(x = cleaned_ces2008, file = "Outputs/Data/CES/cleaned_ces2008.csv")
@@ -823,6 +852,9 @@ write_csv(x = cleaned_ces2019_issues, file = "Outputs/Data/CES/cleaned_ces2019_i
 # Re-coded important issue categories #
 write_csv(x = summarized_ces2019_issues, file = "Outputs/Data/CES/summarized_ces2019_issues.csv")
 
+# Re-coded issues & by language
+write_csv(x = joined_ces2019_issues, file = "Outputs/Data/CES/joined_ces2019.csv")
+
 ## 2021 survey ##
 # Other data #
 write_csv(x = cleaned_ces2021_web, file = "Outputs/Data/CES/cleaned_ces2021_web.csv")
@@ -832,6 +864,9 @@ write_csv(x = cleaned_ces2021_issues, file = "Outputs/Data/CES/cleaned_ces2021_i
 
 # Re-coded important issue categories #
 write_csv(x = summarized_ces2021_issues, file = "Outputs/Data/CES/summarized_ces2021_issues.csv")
+
+# Re-coded issues & by language
+write_csv(x = joined_ces2021_issues, file = "Outputs/Data/CES/joined_ces2021.csv")
 
 #### OLD code to created combined most important issue categories for the 2019 & 2021 CES ####
 ## Create dataset of combined most important issue categories (2019) ##

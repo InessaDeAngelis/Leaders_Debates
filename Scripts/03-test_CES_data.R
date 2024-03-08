@@ -44,6 +44,9 @@ summarized_ces2019_issues <- read_csv("Outputs/Data/CES/summarized_ces2019_issue
 # Re-coded issues #
 recoded_ces2019 <- read_csv("Outputs/Data/CES/recoding/recoded_ces2019.csv")
 
+# Re-coded issues & by language
+joined_ces2019_issues <- read_csv("Outputs/Data/CES/joined_ces2019.csv")
+
 ## 2021 survey ##
 # Other data #
 cleaned_ces2021_web <- read_csv("Outputs/Data/CES/cleaned_ces2021_web.csv")
@@ -57,11 +60,23 @@ summarized_ces2021_issues <- read_csv("Outputs/Data/CES/summarized_ces2021_issue
 # Re-coded issues #
 recoded_ces2021 <- read_csv("Outputs/Data/CES/recoding/recoded_ces2021.csv")
 
+# Re-coded issues & by language
+joined_ces2021_issues <- read_csv("Outputs/Data/CES/joined_ces2021.csv")
+
 #### Test 2008 survey ####
 ## Cleaned survey data ##
-# Check class #
-class(cleaned_ces2008$ID) == "numeric"
-class(cleaned_ces2008$important_issues) == "character"
+# Check for type of variables #
+rules <- validator(
+  is.numeric(ID),
+  is.character(important_issues),
+  is.character(language),
+  language %vin% c("English", "French") # Check to make sure the only options for 'language' is English or French. 
+)
+
+out <-
+  confront(cleaned_ces2008, rules)
+
+summary(out)
 
 # Check number of rows is correct #
 nrow(cleaned_ces2008) == 2783
@@ -76,8 +91,16 @@ summary(out)
 
 ## Re-coded survey data ##
 # Check class #
-class(recoded_ces2008$ID) == "numeric"
-class(recoded_ces2008$important_issues) == "character"
+rules <- validator(
+  is.numeric(ID),
+  is.character(important_issues),
+  important_issues %vin% c("Crime and public safety", "Social Welfare", "Economy", "Environment", "Other", "Public Finances", "Health", "Education", "Ethics")
+)
+  
+out <-
+  confront(recoded_ces2008, rules)
+
+summary(out)
 
 # Check number of rows is correct #
 nrow(recoded_ces2008) == 2783
@@ -93,8 +116,17 @@ summary(out)
 #### Test 2011 survey ####
 ## Cleaned survey data ##
 # Check class #
-class(cleaned_ces2011$ID) == "numeric"
-class(cleaned_ces2011$important_issues) == "character"
+rules <- validator(
+  is.numeric(ID),
+  is.character(important_issues),
+  is.character(language),
+  language %vin% c("English", "French") # Check to make sure the only options for 'language' is English or French. 
+)
+
+out <-
+  confront(cleaned_ces2011, rules)
+
+summary(out)
 
 # Check number of rows is correct #
 nrow(cleaned_ces2011) == 4308
@@ -125,8 +157,17 @@ summary(out)
 #### Test 2015 survey ####
 ## Cleaned survey data ##
 # Check class #
-class(cleaned_ces2015_combined$ID) == "numeric"
-class(cleaned_ces2015_combined$important_issues) == "character"
+rules <- validator(
+  is.numeric(ID),
+  is.character(important_issues),
+  is.character(language),
+  language %vin% c("English", "French") # Check to make sure the only options for 'language' is English or French. 
+)
+
+out <-
+  confront(cleaned_ces2015_combined, rules)
+
+summary(out)
 
 # Check number of rows is correct #
 nrow(cleaned_ces2015_combined) == 4202
@@ -157,12 +198,21 @@ summary(out)
 #### Test 2019 survey ####
 ## Other data ##
 # Check class #
-class(cleaned_ces2019_web$ID) == "character"
-class(cleaned_ces2019_web$watched_EN_debate) == "character"
-class(cleaned_ces2019_web$watched_FR_debate) == "character"
+rules <- validator(
+  is.character(ID),
+  is.character(watched_EN_debate),
+  is.character(watched_FR_debate),
+  is.character(language),
+  language %vin% c("English", "French") # Check to make sure the only options for 'language' is English or French. 
+)
+
+out <-
+  confront(cleaned_ces2019_web, rules)
+
+summary(out)
 
 # Check number of rows is correct #
-nrow(cleaned_ces2019_web) == 12993
+nrow(cleaned_ces2019_web) == 37822
 
 ## Main issues data ##
 # Check class #
@@ -249,6 +299,22 @@ rules <- validator(
 
 out <- confront(recoded_ces2019, rules)
 summary(out)
+
+## Re-coded issues & by language ##
+rules <- validator(
+  is.character(ID),
+  is.character(language),
+  is.character(important_issues),
+  language %vin% c("English", "French") # Check to make sure the only options for 'language' is English or French. 
+)
+
+out <-
+  confront(joined_ces2019_issues, rules)
+
+summary(out)
+
+# Check number of rows is correct #
+nrow(joined_ces2019_issues) == 23521
 
 #### Test 2021 survey ####
 ## Other data ##
@@ -347,3 +413,19 @@ rules <- validator(
 
 out <- confront(recoded_ces2021, rules)
 summary(out)
+
+## Re-coded issues & by language ##
+rules <- validator(
+  is.character(ID),
+  is.character(language),
+  is.character(important_issues),
+  language %vin% c("English", "French") # Check to make sure the only options for 'language' is English or French. 
+)
+
+out <-
+  confront(joined_ces2021_issues, rules)
+
+summary(out)
+
+# Check number of rows is correct #
+nrow(joined_ces2021_issues) == 15926

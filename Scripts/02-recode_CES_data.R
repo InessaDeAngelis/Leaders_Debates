@@ -22,18 +22,18 @@ cleaned_ces2011 <- read_csv("Outputs/Data/CES/cleaned_ces2011.csv")
 cleaned_ces2015_combined <- read_csv("Outputs/Data/CES/cleaned_ces2015_combined.csv")
 
 ## 2019 survey ##
-# Re-coded important issue categories #
-summarized_ces2019_issues <- read_csv("Outputs/Data/CES/summarized_ces2019_issues.csv")
+# Re-coded issues & by language
+joined_ces2019_issues <- read_csv("Outputs/Data/CES/joined_ces2019.csv")
 
 ## 2021 survey ##
-# Re-coded important issue categories #
-summarized_ces2021_issues <- read_csv("Outputs/Data/CES/summarized_ces2021_issues.csv")
+# Re-coded issues & by language
+joined_ces2021_issues <- read_csv("Outputs/Data/CES/joined_ces2021.csv")
 
 #### Re-coding - 2008 ####
 ## Re-coding ## 
 recoded_ces2008 = 
   cleaned_ces2008 |>
-  select(ID, important_issues) |>
+  select(ID, important_issues, language) |>
   mutate("important_issues" = case_when( 
     important_issues == "Create jobs" ~ "Economy",
     important_issues == "Economy" ~ "Economy",
@@ -92,7 +92,7 @@ write_csv(x = recoded_ces2008, file = "Outputs/Data/CES/recoding/recoded_ces2008
 ## Re-coding ## 
 recoded_ces2011 = 
   cleaned_ces2011 |>
-  select(ID, important_issues) |>
+  select(ID, important_issues, language) |>
   mutate("important_issues" = case_when( 
     important_issues == "Create jobs/employment" ~ "Economy",
     important_issues == "Economy" ~ "Economy",
@@ -159,7 +159,7 @@ write_csv(x = recoded_ces2011, file = "Outputs/Data/CES/recoding/recoded_ces2011
 ## Re-coding ## 
 recoded_ces2015 = 
   cleaned_ces2015_combined |>
-  select(ID, important_issues) |>
+  select(ID, important_issues, language) |>
   mutate("important_issues" = case_when( 
     important_issues == "Create jobs / employment" ~ "Economy",
     important_issues == "Economy" ~ "Economy",
@@ -239,8 +239,8 @@ write_csv(x = recoded_ces2015, file = "Outputs/Data/CES/recoding/recoded_ces2015
 #### Re-coding - 2019 ####
 ## Re-coding ## 
 recoded_ces2019 = 
-  summarized_ces2019_issues |>
-  select(ID, important_issues) |>
+  joined_ces2019_issues |>
+  select(ID, important_issues, language) |>
   mutate("important_issues" = case_when( 
     important_issues == "Economy" ~ "Economy",
     important_issues == "Environment" ~ "Environment",
@@ -268,8 +268,8 @@ write_csv(x = recoded_ces2019, file = "Outputs/Data/CES/recoding/recoded_ces2019
 #### Re-coding - 2021 ####
 ## Re-coding ## 
 recoded_ces2021 = 
-  summarized_ces2021_issues |>
-  select(ID, important_issues) |>
+  joined_ces2021_issues |>
+  select(ID, important_issues, language) |>
   mutate("important_issues" = case_when( 
     important_issues == "Economy" ~ "Economy",
     important_issues == "Environment" ~ "Environment",
