@@ -218,7 +218,7 @@ debate_questions_2015_Munk =
   group_by(value) |>
   summarise(n = n_distinct(rowid)) |>
   mutate(proportion = n / (sum(9))) 
-debate_questions_2015_RC
+debate_questions_2015_Munk
 
 # Macleans #
 debate_questions_2015_Mac =
@@ -321,7 +321,7 @@ debate_questions_2019_all =
   group_by(value) |>
   summarise(n = n_distinct(rowid)) |>
   mutate(proportion = n / (sum(108))) 
-debate_questions_2019_all
+debate_questions_2019_all |> print(n=23)
 
 ## 2021 ##
 # LDC EN #
@@ -403,6 +403,18 @@ debate_qs_2008_FR_territory =
   mutate(proportion = n / (sum(14))) 
 debate_qs_2008_FR_territory
 
+# All 2008 debates #
+debate_qs_2008_all_territory =
+  debate_questions_2008 |>
+  select(territory1, territory2) |>
+  mutate(across(everything(), trimws)) |>
+  rowid_to_column() |>
+  pivot_longer(-rowid) |>
+  group_by(value) |>
+  summarise(n = n_distinct(rowid)) |>
+  mutate(proportion = n / (sum(22))) 
+debate_qs_2008_all_territory
+
 ## 2011 ##
 # EN #
 debate_qs_2011_EN_territory =
@@ -429,3 +441,93 @@ debate_qs_2011_FR_territory =
   summarise(n = n_distinct(rowid)) |>
   mutate(proportion = n / (sum(10))) 
 debate_qs_2011_FR_territory
+
+# All 2011 debates #
+debate_qs_2011_all_territory =
+  debate_questions_2011 |>
+  select(territory1, territory2) |>
+  mutate(across(everything(), trimws)) |>
+  rowid_to_column() |>
+  pivot_longer(-rowid) |>
+  group_by(value) |>
+  summarise(n = n_distinct(rowid)) |>
+  mutate(proportion = n / (sum(16))) 
+debate_qs_2011_all_territory
+
+## 2015 ##
+# TVA #
+debate_qs_2015_TVA_territory =
+  debate_questions_2015 |>
+  filter(debate_number == "2015_TVA") |>
+  select(territory1, territory2) |>
+  mutate(across(everything(), trimws)) |>
+  rowid_to_column() |>
+  pivot_longer(-rowid) |>
+  group_by(value) |>
+  summarise(n = n_distinct(rowid)) |>
+  mutate(proportion = n / (sum(33))) 
+debate_qs_2015_TVA_territory
+
+# Radio-Canada #
+debate_qs_2015_RC_territory =
+  debate_questions_2015 |>
+  filter(debate_number == "2015_Radio-Canada") |>
+  select(territory1, territory2) |>
+  mutate(across(everything(), trimws)) |>
+  rowid_to_column() |>
+  pivot_longer(-rowid) |>
+  group_by(value) |>
+  summarise(n = n_distinct(rowid)) |>
+  mutate(proportion = n / (sum(17))) 
+debate_qs_2015_RC_territory 
+
+# Munk #
+debate_qs_2015_Munk_territory =
+  debate_questions_2015 |>
+  filter(debate_number == "2015_Munk") |>
+  select(territory1, territory2) |>
+  mutate(across(everything(), trimws)) |>
+  rowid_to_column() |>
+  pivot_longer(-rowid) |>
+  group_by(value) |>
+  summarise(n = n_distinct(rowid)) |>
+  mutate(proportion = n / (sum(9))) 
+debate_qs_2015_Munk_territory
+
+# Macleans #
+debate_qs_2015_Mac_territory =
+  debate_questions_2015 |>
+  filter(debate_number == "2015_Macleans") |>
+  select(territory1, territory2) |>
+  mutate(across(everything(), trimws)) |>
+  rowid_to_column() |>
+  pivot_longer(-rowid) |>
+  group_by(value) |>
+  summarise(n = n_distinct(rowid)) |>
+  mutate(proportion = n / (sum(7))) 
+debate_qs_2015_Mac_territory
+
+# Globe & Mail #
+debate_qs_2015_GM_territory =
+  debate_questions_2015 |>
+  filter(debate_number == "2015_Globe&Mail") |>
+  select(territory1, territory2) |>
+  mutate(across(everything(), trimws)) |>
+  rowid_to_column() |>
+  pivot_longer(-rowid) |>
+  group_by(value) |>
+  summarise(n = n_distinct(rowid)) |>
+  mutate(proportion = n / (sum(10))) 
+debate_qs_2015_GM_territory
+
+# All 2015 debates #
+debate_qs_2015_all_territory =
+  debate_questions_2015 |>
+  select(territory1, territory2) |>
+  mutate(across(everything(), trimws)) |>
+  rowid_to_column() |>
+  pivot_longer(-rowid) |>
+  group_by(value) |>
+  summarise(n = n_distinct(rowid)) |>
+  mutate(proportion = n / (sum(76))) 
+debate_qs_2015_all_territory
