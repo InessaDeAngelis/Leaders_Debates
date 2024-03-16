@@ -531,3 +531,120 @@ debate_qs_2015_all_territory =
   summarise(n = n_distinct(rowid)) |>
   mutate(proportion = n / (sum(76))) 
 debate_qs_2015_all_territory
+
+## 2019 ##
+# LDC EN #
+debate_qs_2019_EN_territory =
+  debate_questions_2019 |>
+  filter(debate_number == "2019_LDC_en") |>
+  select(territory1, territory2) |>
+  mutate(across(everything(), trimws)) |>
+  rowid_to_column() |>
+  pivot_longer(-rowid) |>
+  group_by(value) |>
+  summarise(n = n_distinct(rowid)) |>
+  mutate(proportion = n / (sum(18))) 
+debate_qs_2019_EN_territory
+
+# LDC FR #
+debate_qs_2019_FR_territory =
+  debate_questions_2019 |>
+  filter(debate_number == "2019_LDC_fr") |>
+  select(territory1, territory2) |>
+  mutate(across(everything(), trimws)) |>
+  rowid_to_column() |>
+  pivot_longer(-rowid) |>
+  group_by(value) |>
+  summarise(n = n_distinct(rowid)) |>
+  mutate(proportion = n / (sum(40))) 
+debate_qs_2019_FR_territory
+
+# TVA #
+debate_qs_2019_TVA_territory =
+  debate_questions_2019 |>
+  filter(debate_number == "2019_TVA") |>
+  select(territory1, territory2) |>
+  mutate(across(everything(), trimws)) |>
+  rowid_to_column() |>
+  pivot_longer(-rowid) |>
+  group_by(value) |>
+  summarise(n = n_distinct(rowid)) |>
+  mutate(proportion = n / (sum(40))) 
+debate_qs_2019_TVA_territory 
+
+# Macleans #
+debate_qs_2019_Mac_territory =
+  debate_questions_2019 |>
+  filter(debate_number == "2019_Macleans") |>
+  select(territory1, territory2) |>
+  mutate(across(everything(), trimws)) |>
+  rowid_to_column() |>
+  pivot_longer(-rowid) |>
+  group_by(value) |>
+  summarise(n = n_distinct(rowid)) |>
+  mutate(proportion = n / (sum(11))) 
+debate_qs_2019_Mac_territory
+
+# All 2019 debates #
+debate_qs_2019_all_territory =
+  debate_questions_2019 |>
+  select(territory1, territory2) |>
+  mutate(across(everything(), trimws)) |>
+  rowid_to_column() |>
+  pivot_longer(-rowid) |>
+  group_by(value) |>
+  summarise(n = n_distinct(rowid)) |>
+  mutate(proportion = n / (sum(108))) 
+debate_qs_2019_all_territory |> print(n = 23)
+
+## 2021 ##
+# LDC EN #
+debate_qs_2021_EN_territory =
+  debate_questions_2021 |>
+  filter(debate_number == "2021_LDC_en") |>
+  select(territory1, territory2) |>
+  mutate(across(everything(), trimws)) |>
+  rowid_to_column() |>
+  pivot_longer(-rowid) |>
+  group_by(value) |>
+  summarise(n = n_distinct(rowid)) |>
+  mutate(proportion = n / (sum(45)))
+debate_qs_2021_EN_territory
+
+# LDC FR #
+debate_qs_2021_FR_territory =
+  debate_questions_2021 |>
+  filter(debate_number == "2021_LDC_fr") |>
+  select(territory1, territory2) |>
+  mutate(across(everything(), trimws)) |>
+  rowid_to_column() |>
+  pivot_longer(-rowid) |>
+  group_by(value) |>
+  summarise(n = n_distinct(rowid)) |>
+  mutate(proportion = n / (sum(50)))
+debate_qs_2021_FR_territory
+
+# TVA #
+debate_qs_2021_TVA_territory =
+  debate_questions_2021 |>
+  filter(debate_number == "2021_TVA") |>
+  select(territory1, territory2) |>
+  mutate(across(everything(), trimws)) |>
+  rowid_to_column() |>
+  pivot_longer(-rowid) |>
+  group_by(value) |>
+  summarise(n = n_distinct(rowid)) |>
+  mutate(proportion = n / (sum(40)))
+debate_qs_2021_TVA_territory
+
+# All 2021 debates #
+debate_qs_2021_all_territory =
+  debate_questions_2021 |>
+  select(territory1, territory2) |>
+  mutate(across(everything(), trimws)) |>
+  rowid_to_column() |>
+  pivot_longer(-rowid) |>
+  group_by(value) |>
+  summarise(n = n_distinct(rowid)) |>
+  mutate(proportion = n / (sum(135)))
+debate_qs_2021_all_territory 
