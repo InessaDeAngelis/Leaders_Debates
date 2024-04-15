@@ -48,9 +48,9 @@ po/*~
 # RStudio Connect folder
 rsconnect/
 
-# Raw & cleaned data
+# Raw & cleaned data + docs
 Inputs/Data
-Outputs/Data
+Outputs/
 
 # DS Store
 .DS_Store
