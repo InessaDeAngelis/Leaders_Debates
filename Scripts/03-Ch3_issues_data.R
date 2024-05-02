@@ -11,7 +11,6 @@
 library(tidyverse)
 
 #### Read in cleaned dataset ####
-# Outputs/Data/
 debate_questions_cleaned <- read_csv("Outputs/Data/debate_questions_cleaned.csv")
 
 #### Create specific datasets by year ####
@@ -113,7 +112,7 @@ debate_questions_2008_EN =
   pivot_longer(-rowid) |>
   group_by(value) |>
   summarise(n = n_distinct(rowid)) |>
-  mutate(proportion = n / (sum(8))) 
+  mutate(proportion = n / (sum(8))* 100)
 debate_questions_2008_EN
 
 # FR #
@@ -126,7 +125,7 @@ debate_questions_2008_FR =
   pivot_longer(-rowid) |>
   group_by(value) |>
   summarise(n = n_distinct(rowid)) |>
-  mutate(proportion = n / (sum(14))) 
+  mutate(proportion = n / (sum(14))* 100) 
 debate_questions_2008_FR
 
 # All 2008 debates ##
@@ -138,7 +137,7 @@ debate_questions_2008_all =
   pivot_longer(-rowid) |>
   group_by(value) |>
   summarise(n = n_distinct(rowid)) |>
-  mutate(proportion = n / (sum(22))) 
+  mutate(proportion = n / (sum(22))* 100) 
 debate_questions_2008_all
 
 ## 2011 ##
@@ -152,7 +151,7 @@ debate_questions_2011_EN =
   pivot_longer(-rowid) |>
   group_by(value) |>
   summarise(n = n_distinct(rowid)) |>
-  mutate(proportion = n / (sum(6))) 
+  mutate(proportion = n / (sum(6))* 100) 
 debate_questions_2011_EN 
 
 # FR #
@@ -165,7 +164,7 @@ debate_questions_2011_FR =
   pivot_longer(-rowid) |>
   group_by(value) |>
   summarise(n = n_distinct(rowid)) |>
-  mutate(proportion = n / (sum(10))) 
+  mutate(proportion = n / (sum(10))* 100)
 debate_questions_2011_FR 
 
 # All 2011 debates #
@@ -177,7 +176,7 @@ debate_questions_2011_all =
   pivot_longer(-rowid) |>
   group_by(value) |>
   summarise(n = n_distinct(rowid)) |>
-  mutate(proportion = n / (sum(16))) 
+  mutate(proportion = n / (sum(16))* 100)
 debate_questions_2011_all 
 
 ## 2015 ##
@@ -191,7 +190,7 @@ debate_questions_2015_TVA =
   pivot_longer(-rowid) |>
   group_by(value) |>
   summarise(n = n_distinct(rowid)) |>
-  mutate(proportion = n / (sum(33))) 
+  mutate(proportion = n / (sum(33))* 100) 
 debate_questions_2015_TVA
 
 # Radio-Canada #
@@ -204,7 +203,7 @@ debate_questions_2015_RC =
   pivot_longer(-rowid) |>
   group_by(value) |>
   summarise(n = n_distinct(rowid)) |>
-  mutate(proportion = n / (sum(17))) 
+  mutate(proportion = n / (sum(17))* 100) 
 debate_questions_2015_RC
 
 # Munk #
@@ -217,7 +216,7 @@ debate_questions_2015_Munk =
   pivot_longer(-rowid) |>
   group_by(value) |>
   summarise(n = n_distinct(rowid)) |>
-  mutate(proportion = n / (sum(9))) 
+  mutate(proportion = n / (sum(9))* 100)
 debate_questions_2015_Munk
 
 # Macleans #
@@ -230,7 +229,7 @@ debate_questions_2015_Mac =
   pivot_longer(-rowid) |>
   group_by(value) |>
   summarise(n = n_distinct(rowid)) |>
-  mutate(proportion = n / (sum(7))) 
+  mutate(proportion = n / (sum(7))* 100) 
 debate_questions_2015_Mac
 
 # Globe & Mail #
@@ -243,7 +242,7 @@ debate_questions_2015_GM =
   pivot_longer(-rowid) |>
   group_by(value) |>
   summarise(n = n_distinct(rowid)) |>
-  mutate(proportion = n / (sum(10))) 
+  mutate(proportion = n / (sum(10))* 100) 
 debate_questions_2015_GM
 
 # All 2015 debates #
@@ -255,7 +254,7 @@ debate_questions_2015_all =
   pivot_longer(-rowid) |>
   group_by(value) |>
   summarise(n = n_distinct(rowid)) |>
-  mutate(proportion = n / (sum(76))) 
+  mutate(proportion = n / (sum(76))* 100)
 debate_questions_2015_all
 
 ## 2019 ##
@@ -269,7 +268,7 @@ debate_questions_2019_EN =
   pivot_longer(-rowid) |>
   group_by(value) |>
   summarise(n = n_distinct(rowid)) |>
-  mutate(proportion = n / (sum(18))) 
+  mutate(proportion = n / (sum(18))* 100) 
 debate_questions_2019_EN
 
 # LDC FR #
@@ -282,7 +281,7 @@ debate_questions_2019_FR =
   pivot_longer(-rowid) |>
   group_by(value) |>
   summarise(n = n_distinct(rowid)) |>
-  mutate(proportion = n / (sum(40))) 
+  mutate(proportion = n / (sum(40))* 100) 
 debate_questions_2019_FR 
 
 # TVA #
@@ -295,7 +294,7 @@ debate_questions_2019_TVA =
   pivot_longer(-rowid) |>
   group_by(value) |>
   summarise(n = n_distinct(rowid)) |>
-  mutate(proportion = n / (sum(40))) 
+  mutate(proportion = n / (sum(39))* 100) 
 debate_questions_2019_TVA 
 
 # Macleans #
@@ -308,7 +307,7 @@ debate_questions_2019_Mac =
   pivot_longer(-rowid) |>
   group_by(value) |>
   summarise(n = n_distinct(rowid)) |>
-  mutate(proportion = n / (sum(11))) 
+  mutate(proportion = n / (sum(11))* 100) 
 debate_questions_2019_Mac
 
 # All 2019 debates #
@@ -320,7 +319,7 @@ debate_questions_2019_all =
   pivot_longer(-rowid) |>
   group_by(value) |>
   summarise(n = n_distinct(rowid)) |>
-  mutate(proportion = n / (sum(108))) 
+  mutate(proportion = n / (sum(108))* 100) 
 debate_questions_2019_all |> print(n=23)
 
 ## 2021 ##
@@ -334,7 +333,7 @@ debate_questions_2021_EN =
   pivot_longer(-rowid) |>
   group_by(value) |>
   summarise(n = n_distinct(rowid)) |>
-  mutate(proportion = n / (sum(45)))
+  mutate(proportion = n / (sum(45))* 100)
 debate_questions_2021_EN 
 
 # LDC FR #
@@ -347,7 +346,7 @@ debate_questions_2021_FR =
   pivot_longer(-rowid) |>
   group_by(value) |>
   summarise(n = n_distinct(rowid)) |>
-  mutate(proportion = n / (sum(50)))
+  mutate(proportion = n / (sum(50))* 100)
 debate_questions_2021_FR 
 
 # TVA #
@@ -360,7 +359,7 @@ debate_questions_2021_TVA =
   pivot_longer(-rowid) |>
   group_by(value) |>
   summarise(n = n_distinct(rowid)) |>
-  mutate(proportion = n / (sum(40)))
+  mutate(proportion = n / (sum(40))* 100)
 debate_questions_2021_TVA 
 
 # All 2021 debates #
@@ -372,7 +371,7 @@ debate_questions_2021_all =
   pivot_longer(-rowid) |>
   group_by(value) |>
   summarise(n = n_distinct(rowid)) |>
-  mutate(proportion = n / (sum(135)))
+  mutate(proportion = n / (sum(135))* 100)
 debate_questions_2021_all |> print(n =25)
 
 #### Territorial Issue Stats ####
@@ -387,7 +386,7 @@ debate_qs_2008_EN_territory =
   pivot_longer(-rowid) |>
   group_by(value) |>
   summarise(n = n_distinct(rowid)) |>
-  mutate(proportion = n / (sum(8))) 
+  mutate(proportion = n / (sum(8))* 100) 
 debate_qs_2008_EN_territory
 
 # FR #
@@ -400,7 +399,7 @@ debate_qs_2008_FR_territory =
   pivot_longer(-rowid) |>
   group_by(value) |>
   summarise(n = n_distinct(rowid)) |>
-  mutate(proportion = n / (sum(14))) 
+  mutate(proportion = n / (sum(14))* 100) 
 debate_qs_2008_FR_territory
 
 # All 2008 debates #
@@ -412,7 +411,7 @@ debate_qs_2008_all_territory =
   pivot_longer(-rowid) |>
   group_by(value) |>
   summarise(n = n_distinct(rowid)) |>
-  mutate(proportion = n / (sum(22))) 
+  mutate(proportion = n / (sum(22))* 100) 
 debate_qs_2008_all_territory
 
 ## 2011 ##
@@ -426,7 +425,7 @@ debate_qs_2011_EN_territory =
   pivot_longer(-rowid) |>
   group_by(value) |>
   summarise(n = n_distinct(rowid)) |>
-  mutate(proportion = n / (sum(6))) 
+  mutate(proportion = n / (sum(6))* 100) 
 debate_qs_2011_EN_territory
 
 # FR #
@@ -439,7 +438,7 @@ debate_qs_2011_FR_territory =
   pivot_longer(-rowid) |>
   group_by(value) |>
   summarise(n = n_distinct(rowid)) |>
-  mutate(proportion = n / (sum(10))) 
+  mutate(proportion = n / (sum(10))* 100) 
 debate_qs_2011_FR_territory
 
 # All 2011 debates #
@@ -451,7 +450,7 @@ debate_qs_2011_all_territory =
   pivot_longer(-rowid) |>
   group_by(value) |>
   summarise(n = n_distinct(rowid)) |>
-  mutate(proportion = n / (sum(16))) 
+  mutate(proportion = n / (sum(16))* 100) 
 debate_qs_2011_all_territory
 
 ## 2015 ##
@@ -465,7 +464,7 @@ debate_qs_2015_TVA_territory =
   pivot_longer(-rowid) |>
   group_by(value) |>
   summarise(n = n_distinct(rowid)) |>
-  mutate(proportion = n / (sum(33))) 
+  mutate(proportion = n / (sum(33))* 100) 
 debate_qs_2015_TVA_territory
 
 # Radio-Canada #
@@ -478,7 +477,7 @@ debate_qs_2015_RC_territory =
   pivot_longer(-rowid) |>
   group_by(value) |>
   summarise(n = n_distinct(rowid)) |>
-  mutate(proportion = n / (sum(17))) 
+  mutate(proportion = n / (sum(17))* 100) 
 debate_qs_2015_RC_territory 
 
 # Munk #
@@ -491,7 +490,7 @@ debate_qs_2015_Munk_territory =
   pivot_longer(-rowid) |>
   group_by(value) |>
   summarise(n = n_distinct(rowid)) |>
-  mutate(proportion = n / (sum(9))) 
+  mutate(proportion = n / (sum(9))* 100) 
 debate_qs_2015_Munk_territory
 
 # Macleans #
@@ -504,7 +503,7 @@ debate_qs_2015_Mac_territory =
   pivot_longer(-rowid) |>
   group_by(value) |>
   summarise(n = n_distinct(rowid)) |>
-  mutate(proportion = n / (sum(7))) 
+  mutate(proportion = n / (sum(7))* 100) 
 debate_qs_2015_Mac_territory
 
 # Globe & Mail #
@@ -517,7 +516,7 @@ debate_qs_2015_GM_territory =
   pivot_longer(-rowid) |>
   group_by(value) |>
   summarise(n = n_distinct(rowid)) |>
-  mutate(proportion = n / (sum(10))) 
+  mutate(proportion = n / (sum(10))* 100) 
 debate_qs_2015_GM_territory
 
 # All 2015 debates #
@@ -529,7 +528,7 @@ debate_qs_2015_all_territory =
   pivot_longer(-rowid) |>
   group_by(value) |>
   summarise(n = n_distinct(rowid)) |>
-  mutate(proportion = n / (sum(76))) 
+  mutate(proportion = n / (sum(76))* 100) 
 debate_qs_2015_all_territory
 
 ## 2019 ##
@@ -543,7 +542,7 @@ debate_qs_2019_EN_territory =
   pivot_longer(-rowid) |>
   group_by(value) |>
   summarise(n = n_distinct(rowid)) |>
-  mutate(proportion = n / (sum(18))) 
+  mutate(proportion = n / (sum(18))* 100) 
 debate_qs_2019_EN_territory
 
 # LDC FR #
@@ -556,7 +555,7 @@ debate_qs_2019_FR_territory =
   pivot_longer(-rowid) |>
   group_by(value) |>
   summarise(n = n_distinct(rowid)) |>
-  mutate(proportion = n / (sum(40))) 
+  mutate(proportion = n / (sum(40))* 100)
 debate_qs_2019_FR_territory
 
 # TVA #
@@ -569,7 +568,7 @@ debate_qs_2019_TVA_territory =
   pivot_longer(-rowid) |>
   group_by(value) |>
   summarise(n = n_distinct(rowid)) |>
-  mutate(proportion = n / (sum(40))) 
+  mutate(proportion = n / (sum(40))* 100)
 debate_qs_2019_TVA_territory 
 
 # Macleans #
@@ -582,7 +581,7 @@ debate_qs_2019_Mac_territory =
   pivot_longer(-rowid) |>
   group_by(value) |>
   summarise(n = n_distinct(rowid)) |>
-  mutate(proportion = n / (sum(11))) 
+  mutate(proportion = n / (sum(11))* 100) 
 debate_qs_2019_Mac_territory
 
 # All 2019 debates #
@@ -594,7 +593,7 @@ debate_qs_2019_all_territory =
   pivot_longer(-rowid) |>
   group_by(value) |>
   summarise(n = n_distinct(rowid)) |>
-  mutate(proportion = n / (sum(108))) 
+  mutate(proportion = n / (sum(108))* 100) 
 debate_qs_2019_all_territory |> print(n = 23)
 
 ## 2021 ##
@@ -608,7 +607,7 @@ debate_qs_2021_EN_territory =
   pivot_longer(-rowid) |>
   group_by(value) |>
   summarise(n = n_distinct(rowid)) |>
-  mutate(proportion = n / (sum(45)))
+  mutate(proportion = n / (sum(45))* 100)
 debate_qs_2021_EN_territory
 
 # LDC FR #
@@ -621,7 +620,7 @@ debate_qs_2021_FR_territory =
   pivot_longer(-rowid) |>
   group_by(value) |>
   summarise(n = n_distinct(rowid)) |>
-  mutate(proportion = n / (sum(50)))
+  mutate(proportion = n / (sum(50))* 100)
 debate_qs_2021_FR_territory
 
 # TVA #
@@ -634,7 +633,7 @@ debate_qs_2021_TVA_territory =
   pivot_longer(-rowid) |>
   group_by(value) |>
   summarise(n = n_distinct(rowid)) |>
-  mutate(proportion = n / (sum(40)))
+  mutate(proportion = n / (sum(40))* 100)
 debate_qs_2021_TVA_territory
 
 # All 2021 debates #
@@ -646,5 +645,5 @@ debate_qs_2021_all_territory =
   pivot_longer(-rowid) |>
   group_by(value) |>
   summarise(n = n_distinct(rowid)) |>
-  mutate(proportion = n / (sum(135)))
+  mutate(proportion = n / (sum(135))* 100)
 debate_qs_2021_all_territory 
