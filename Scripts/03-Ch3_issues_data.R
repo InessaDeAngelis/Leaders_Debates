@@ -568,7 +568,7 @@ debate_qs_2019_TVA_territory =
   pivot_longer(-rowid) |>
   group_by(value) |>
   summarise(n = n_distinct(rowid)) |>
-  mutate(proportion = n / (sum(40))* 100)
+  mutate(proportion = n / (sum(39))* 100)
 debate_qs_2019_TVA_territory 
 
 # Macleans #
