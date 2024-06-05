@@ -110,4 +110,4 @@ newspaper_data_final =
 newspaper_data_final
 
 #### Save dataset ####
-write_csv(x = newspaper_data_final, file = "Inputs/Data/newspaper_data_final.csv")
+write_csv(x = newspaper_data_final, file = "Outputs/Data/newspaper_data_final.csv")
