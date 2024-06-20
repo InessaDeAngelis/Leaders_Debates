@@ -35,25 +35,36 @@ by_debates_demands =
     debate_number == "2021FrLDC" ~ "2021 FR LDC",
     debate_number == "2021EnLDC" ~ "2021 EN LDC"
   )) |>
-  select(election_year, debate_number, demands_in_words)
+  select(election_year, debate_number, demands_in_words) 
 by_debates_demands
 
 ## Data Visualization ##
 # Code referenced from: https://www.datanovia.com/en/blog/how-to-plot-a-smooth-line-using-ggplot2/
-# & https://ggplot2-book.org/annotations
+# & https://ggplot2-book.org/annotations 
+# & https://stackoverflow.com/questions/48692705/text-repel-with-a-position-argument-in-ggplot-r
 
 # jpeg("Ch4_figure1.jpeg", units="in", width=9, height=5, res=500) 
-p <- ggplot(by_debates_demands, aes(election_year, demands_in_words)) + 
-  geom_point() + 
-  ggrepel::geom_text_repel(data = by_debates_demands, aes(label = debate_number)) +
-  labs(x = "Election year", y = "Demands in words (%)") +
+p <- ggplot(by_debates_demands, aes(election_year, demands_in_words / 100)) +
+  geom_point() +
+  ggrepel::geom_text_repel(
+    data = by_debates_demands,
+    aes(label = debate_number),
+    size = 4,
+    alpha = 0.9,
+    segment.size = .25,
+    segment.alpha = .8,
+    force = 1
+  ) +
+  labs(x = "Election year", y = "Demands in words") +
   scale_x_continuous(breaks = scales::pretty_breaks(n = 13)) +
-  scale_y_continuous(breaks = breaks_width(5)) +
-  guides(x = guide_axis(angle = 55)) +
-  theme_minimal()
+  scale_y_continuous(labels = scales::percent) +
+  theme_linedraw() +
+  theme(axis.text.x = element_text(size = 11)) +
+  theme(axis.title.x = element_text(size = 13)) +
+  theme(axis.text.y = element_text(size = 11)) +
+  theme(axis.title.y.left = element_text(size = 13))
 
-p + geom_smooth(method = "lm", se = FALSE, color = "royalblue4") 
-
+p + geom_smooth(method = "lm", se = FALSE, color = "royalblue4")
 # dev.off()
 
 #### Figure 2 (quality of justification over time) ####
@@ -82,19 +93,20 @@ by_debates_justification =
 by_debates_justification
 
 ## Data Visualization ##
-
 # jpeg("Ch4_figure2.jpeg", units="in", width=9, height=5, res=500) 
 p <- ggplot(by_debates_justification, aes(election_year, dqi_justification)) + 
   geom_point() + 
-  ggrepel::geom_text_repel(data = by_debates_justification, aes(label = debate_number)) +
+  ggrepel::geom_text_repel(data = by_debates_justification, aes(label = debate_number), size = 4) +
   labs(x = "Election year", y = "Level of justification") +
   scale_x_continuous(breaks = scales::pretty_breaks(n = 13)) +
   scale_y_continuous(breaks = scales::pretty_breaks(n = 10)) +
-  guides(x = guide_axis(angle = 55)) +
-  theme_minimal()
+  theme_linedraw() +
+  theme(axis.text.x = element_text(size = 11)) +
+  theme(axis.title.x = element_text(size = 13)) +
+  theme(axis.text.y = element_text(size = 11)) +
+  theme(axis.title.y.left = element_text(size = 13))
 
 p + geom_smooth(method = "lm", se = FALSE, color = "royalblue4") 
-
 # dev.off()
 
 #### Figure 3 (share of interrupted participation over time) ####
@@ -135,20 +147,23 @@ by_debates_interrupted_final <- by_debates_interrupted |> mutate (all_participat
 by_debates_interrupted_final
 
 ## Data Visualization ##
-
-# jpeg("Ch4_figure3.jpeg", units="in", width=9, height=5, res=500) 
-p <- ggplot(by_debates_interrupted_final, aes(election_year, dqi_interrupted_participation)) + 
+ jpeg("Ch4_figure3.jpeg", units="in", width=9, height=5, res=500) 
+p <- ggplot(by_debates_interrupted_final, aes(election_year, dqi_interrupted_participation/100)) + 
   geom_point() + 
-  ggrepel::geom_text_repel(data = by_debates_interrupted_final, aes(label = debate_number)) +
-  labs(x = "Election year", y = "Interrupted Participation (%)") +
+  ggrepel::geom_text_repel(
+    data = by_debates_interrupted_final,
+    aes(label = debate_number), size = 4, box.padding = 0.4) +
+  labs(x = "Election year", y = "Interrupted Participation") +
   scale_x_continuous(breaks = scales::pretty_breaks(n = 13)) +
-  scale_y_continuous(breaks = scales::pretty_breaks(n = 10)) +
-  guides(x = guide_axis(angle = 55)) +
-  theme_minimal()
+  scale_y_continuous(labels = scales::percent) +
+  theme_linedraw() +
+  theme(axis.text.x = element_text(size = 11)) +
+  theme(axis.title.x = element_text(size = 13)) +
+  theme(axis.text.y = element_text(size = 11)) +
+  theme(axis.title.y.left = element_text(size = 13))
 
 p + geom_smooth(method = "lm", se = FALSE, color = "royalblue4") 
-
-# dev.off()
+ dev.off()
 
 #### Figure 4 (respect for demands over time) ####
 ## Create analysis dataset ##
@@ -176,17 +191,18 @@ by_debates_respect =
 by_debates_respect
 
 ## Data Visualization ##
-
 # jpeg("Ch4_figure4.jpeg", units="in", width=9, height=5, res=500) 
-p <- ggplot(by_debates_respect, aes(election_year, dqi_respect_demands)) + 
+p <- ggplot(by_debates_respect, aes(election_year, dqi_respect_demands/100)) + 
   geom_point() + 
-  ggrepel::geom_text_repel(data = by_debates_respect, aes(label = debate_number)) +
-  labs(x = "Election year", y = "Respect for demands (%)") +
+  ggrepel::geom_text_repel(data = by_debates_respect, aes(label = debate_number), size = 4, box.padding = 0.4) +
+  labs(x = "Election year", y = "Respect for demands") +
   scale_x_continuous(breaks = scales::pretty_breaks(n = 13)) +
-  scale_y_continuous(breaks = scales::pretty_breaks(n = 10)) +
-  guides(x = guide_axis(angle = 55)) +
-  theme_minimal()
+  scale_y_continuous(labels = scales::percent) +
+  theme_linedraw() +
+  theme(axis.text.x = element_text(size = 11)) +
+  theme(axis.title.x = element_text(size = 13)) +
+  theme(axis.text.y = element_text(size = 11)) +
+  theme(axis.title.y.left = element_text(size = 13))
 
 p + geom_smooth(method = "lm", se = FALSE, color = "royalblue4") 
-
 # dev.off()

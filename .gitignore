@@ -56,5 +56,4 @@ Outputs/
 .DS_Store
 
 # Simulation and trial scripts
-Scripts/00-random_code.R
-Scripts/00-simulate_Q_data.R
+Scripts/Trial/
