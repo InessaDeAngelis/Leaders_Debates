@@ -9,6 +9,7 @@
 #### Workspace setup ####
 library(tidyverse)
 library(scales)
+library(ggpmisc)
 
 #### Read in dataset ####
 by_debates_cleaned <- read_csv(file = "Outputs/Data/by_debates_cleaned.csv")
@@ -39,10 +40,20 @@ by_debates_strategic_frame =
 by_debates_strategic_frame
 
 ## Data Visualization ##
-# jpeg("Ch5_figure5.jpeg", units="in", width=9, height=5, res=500) 
+# Code referenced from: https://stackoverflow.com/questions/73995249/how-to-fill-the-background-of-a-stat-poly-eq-equation-ggpmisc-using-ggplot2
+
+# jpeg("Ch5_figure5.jpeg", units="in", width=9, height=7, res=500) 
 p <- ggplot(by_debates_strategic_frame, aes(election_year, news_strategic_frame/100)) + 
-  geom_point() + 
-  ggrepel::geom_text_repel(data = by_debates_strategic_frame, aes(label = debate_number)) +
+  geom_point() +
+  ggrepel::geom_text_repel(
+    data = by_debates_strategic_frame,
+    aes(label = debate_number),
+    size = 4,
+    alpha = 0.9,
+    segment.size = .25,
+    segment.alpha = .8,
+    force = 1
+  ) +
   labs(x = "Election year", y = "Strategic Frame") +
   scale_x_continuous(breaks = scales::pretty_breaks(n = 13)) +
   scale_y_continuous(labels = scales::percent) +
@@ -52,13 +63,9 @@ p <- ggplot(by_debates_strategic_frame, aes(election_year, news_strategic_frame/
   theme(axis.text.y = element_text(size = 11)) +
   theme(axis.title.y.left = element_text(size = 13))
 
-p + geom_smooth(method = "lm", se = FALSE, color = "royalblue4") 
+p + geom_smooth(method = "lm", se = FALSE, color = "royalblue4") +
+stat_poly_eq(rr.digits = 2, parse = TRUE, size = 4, label.x = 0.97, label.y = 0.97, geom = "label_npc", label.size = 0.25)
 # dev.off()
-
-## Get r^2 to add ##
-mod <- lm(election_year ~ news_strategic_frame, data = by_debates_strategic_frame)
-s <- summary(mod)
-s$r.squared # extract r^2
 
 #### Figure 6 (Share of Articles Using Strategic Frames and Addressing Substance Over Time) ####
 ## Create analysis dataset ##
@@ -88,8 +95,16 @@ by_debates_substance
 ## Data Visualization ##
 # jpeg("Ch5_figure6.jpeg", units="in", width=9, height=5, res=500) 
 p <- ggplot(by_debates_substance, aes(election_year, news_substance/100)) + 
-  geom_point() + 
-  ggrepel::geom_text_repel(data = by_debates_substance, aes(label = debate_number)) +
+  geom_point() +
+  ggrepel::geom_text_repel(
+    data = by_debates_substance,
+    aes(label = debate_number),
+    size = 4,
+    alpha = 0.9,
+    segment.size = .25,
+    segment.alpha = .8,
+    force = 1
+  ) +
   labs(x = "Election year", y = "Strategic Frame") +
   scale_x_continuous(breaks = scales::pretty_breaks(n = 13)) +
   scale_y_continuous(labels = scales::percent) +
@@ -99,13 +114,9 @@ p <- ggplot(by_debates_substance, aes(election_year, news_substance/100)) +
   theme(axis.text.y = element_text(size = 11)) +
   theme(axis.title.y.left = element_text(size = 13))
 
-p + geom_smooth(method = "lm", se = FALSE, color = "royalblue4") 
+p + geom_smooth(method = "lm", se = FALSE, color = "royalblue4") +
+stat_poly_eq(rr.digits = 2, parse = TRUE, size = 4, geom = "label_npc", label.size = 0.25)
 # dev.off()
-
-## Get r^2 to add ##
-mod2 <- lm(election_year ~ news_substance, data = by_debates_substance)
-s2 <- summary(mod2)
-s2$r.squared # extract r^2
 
 #### Figure 7 (Share of Articles Using ...) ####
 ## Create analysis dataset ##
@@ -136,7 +147,7 @@ by_debates_format =
 by_debates_substance
 
 ## Data Visualization ##
-# jpeg("Ch5_figure8.jpeg", units="in", width=9, height=5, res=500) 
+# jpeg("Ch5_figure8.jpeg", units="in", width=9, height=7, res=500) 
 p <- ggplot(by_debates_format, aes(election_year, news_format/100)) + 
   geom_point() + 
   ggrepel::geom_text_repel(data = by_debates_format, aes(label = debate_number)) +
@@ -147,13 +158,8 @@ p <- ggplot(by_debates_format, aes(election_year, news_format/100)) +
   theme(axis.text.x = element_text(size = 11)) +
   theme(axis.title.x = element_text(size = 13)) +
   theme(axis.text.y = element_text(size = 11)) +
-  theme(axis.title.y.left = element_text(size = 13))
+  theme(axis.title.y.left = element_text(size = 13)) 
 
-p + geom_smooth(method = "lm", se = FALSE, color = "royalblue4") 
-
+p + geom_smooth(method = "lm", se = FALSE, color = "royalblue4") +
+stat_poly_eq(rr.digits = 2, parse = TRUE, size = 4, geom = "label_npc", label.size = 0.25)
 # dev.off()
-
-## Get r^2 to add ##
-mod4 <- lm(election_year ~ news_format, data = by_debates_format)
-s4 <- summary(mod4)
-s4$r.squared # extract r^2
