@@ -33,7 +33,7 @@ newspaper_data_final =
     Less_moderation = Less_Moderation,
     Other_moderation_criticism = OtherModeration_Criticism,
     Moderation_neutral = Moderation_Neutral,
-    Moderation_nomention = Moderation_Nomention,
+    Moderation_no_mention = Moderation_Nomention,
     Total_moderator_criticism = TotalModeratorCriticism,
   )
 newspaper_data_final
@@ -103,7 +103,7 @@ newspaper_data_final =
     Moderation_good,
     Other_moderation_criticism,
     Moderation_neutral,
-    Moderation_nomention,
+    Moderation_no_mention,
     Performance_effects,
     Total_moderator_criticism
     )
