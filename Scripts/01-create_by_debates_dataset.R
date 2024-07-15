@@ -1116,3 +1116,29 @@ newspaper_moderation_praise_all <-
     newspaper_moderation_praise_2021_FR,
     newspaper_moderation_praise_2021_EN)
 newspaper_moderation_praise_all 
+
+#### Add "video_point_count" column for all debates ####
+# Add in data from table #
+video_point_data <- 
+  data <- data.frame(
+    debate_number = c(
+      "2008FrConsortium",
+      "2008EnConsortium",
+      "2011EnConsortium",
+      "2011FrConsortium",
+      "2015Macleans",
+      "2015Globe&Mail",
+      "2015Radio-Canada",
+      "2015Munk",
+      "2015TVA",
+      "2019Macleans",
+      "2019TVA",
+      "2019EnLDC",
+      "2019FrLDC",
+      "2021TVA",
+      "2021FrLDC",
+      "2021EnLDC") ,
+    video_point_count = c(0, 15, 9, 0, 1, 6, 11, 11, 0, 9, 9, 23, 5, 17, 8, 8 ))
+video_point_data
+
+#### Join all individual datasets together to create full "by_debates" dataset ####
