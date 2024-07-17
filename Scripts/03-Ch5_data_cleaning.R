@@ -21,7 +21,6 @@ newspaper_data_final =
   rename(
     Article_title = ArticleTitle,
     Election_year = ElectionYear,
-    Debate_number = DebateNum,
     Both_languages = Bothlanguages,
     EN_FR_Mult_Gen = EnFrMultGen,
     Participation_Crit = ParticipationCrit,
@@ -38,9 +37,12 @@ newspaper_data_final =
   )
 newspaper_data_final
 
-## Drop unneeded columns ##
+## Drop unneeded columns and rows ##
 # Old format/performance/effect/substance column #
 newspaper_data_final <- select(newspaper_data_final, -Format_Performance_Effect_Substance) 
+
+# Remove "DebateNum" column from before things were split into binaries #
+newspaper_data_final <- select(newspaper_data_final, -DebateNum) 
 
 # Not sure what this column does #
 newspaper_data_final <- select(newspaper_data_final, -"filter_$") 
@@ -48,10 +50,13 @@ newspaper_data_final <- select(newspaper_data_final, -"filter_$")
 # Remove old unique ID column before adding my own #
 newspaper_data_final <- select(newspaper_data_final, -UniqueID) 
 
+# Drop blank row #
+newspaper_data_final <- newspaper_data_final[-c(903),]
+
 ## Add in a new ID column ##
 newspaper_data_final =
   newspaper_data_final |>
-  mutate(ID = c(1:903),
+  mutate(ID = c(1:902),
          .before = Article_title) |>
   select(
     ID,
@@ -60,9 +65,7 @@ newspaper_data_final =
     Publication,
     Link,
     Date,
-    Year,
     Election_year,
-    Debate_number,
     Fr08,
     En08,
     Fr11,
