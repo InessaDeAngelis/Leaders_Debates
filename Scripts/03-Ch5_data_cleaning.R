@@ -84,8 +84,6 @@ newspaper_data_final =
     LDCen21,
     English,
     French,
-    Both_languages,
-    En_Fr_Both,
     EN_FR_Mult_Gen,
     Format,
     Performance,
