@@ -10,102 +10,103 @@
 library(tidyverse)
 
 #### Read in cleaned dataset ####
-debate_questions_cleaned <- read_csv("Outputs/Data/debate_questions_cleaned.csv")
+debate_questions_final <- read_csv("Outputs/Data/debate_questions_final.csv")
+print(debate_questions_final)
 
 #### Create specific datasets by year ####
 ## 2008 debate ##
 debate_questions_2008 = 
   debate_questions_cleaned |>
-  filter(year == "2008") |>
-  filter(!lead_followup == "Followup") |>
-  select(unique_id,
-         year,
-         debate_number,
-         language_of_question,
-         question_source,
-         questioner_id,
-         lead_followup,
-         primary_issue,
-         secondary_issue,
-         territory1,
-         territory2,
-         debate_lang) 
+  filter(Year == "2008") |>
+  filter(!Lead_followup == "Followup") |>
+  select(ID,
+         Year,
+         Debate_number,
+         Language_of_question,
+         Question_source,
+         Questioner_id,
+         Lead_followup,
+         Primary_issue,
+         Secondary_issue,
+         Territory_1,
+         Territory_2,
+         Debate_lang) 
 debate_questions_2008
 
 ## 2011 debate ##
 debate_questions_2011 = 
   debate_questions_cleaned |>
-  filter(year == "2011") |>
-  filter(!lead_followup == "Followup") |>
-  select(unique_id,
-         year,
-         debate_number,
-         language_of_question,
-         question_source,
-         questioner_id,
-         lead_followup,
-         primary_issue,
-         secondary_issue,
-         territory1,
-         territory2,
-         debate_lang) 
+  filter(Year == "2011") |>
+  filter(!Lead_followup == "Followup") |>
+  select(ID,
+         Year,
+         Debate_number,
+         Language_of_question,
+         Question_source,
+         Questioner_id,
+         Lead_followup,
+         Primary_issue,
+         Secondary_issue,
+         Territory_1,
+         Territory_2,
+         Debate_lang) 
 debate_questions_2011
 
 ## 2015 debate ##
 debate_questions_2015 = 
   debate_questions_cleaned |>
-  filter(year == "2015") |>
-  filter(!lead_followup == "Followup") |>
-  select(unique_id,
-         year,
-         debate_number,
-         language_of_question,
-         question_source,
-         questioner_id,
-         lead_followup,
-         primary_issue,
-         secondary_issue,
-         territory1,
-         territory2,
-         debate_lang) 
+  filter(Year == "2015") |>
+  filter(!Lead_followup == "Followup") |>
+  select(ID,
+         Year,
+         Debate_number,
+         Language_of_question,
+         Question_source,
+         Questioner_id,
+         Lead_followup,
+         Primary_issue,
+         Secondary_issue,
+         Territory_1,
+         Territory_2,
+         Debate_lang) 
 debate_questions_2015
 
 ## 2019 debate ##
 debate_questions_2019 = 
   debate_questions_cleaned |>
-  filter(year == "2019") |>
-  filter(!lead_followup == "Followup") |>
-  select(unique_id,
-         year,
-         debate_number,
-         language_of_question,
-         question_source,
-         questioner_id,
-         lead_followup,
-         primary_issue,
-         secondary_issue,
-         territory1,
-         territory2,
-         debate_lang)
+  filter(Year == "2019") |>
+  filter(!Lead_followup == "Followup") |>
+  select(ID,
+         Year,
+         Debate_number,
+         Language_of_question,
+         Question_source,
+         Questioner_id,
+         Lead_followup,
+         Primary_issue,
+         Secondary_issue,
+         Territory_1,
+         Territory_2,
+         Debate_lang)
 debate_questions_2019
 
 ## 2021 debate ##
 debate_questions_2021 = 
   debate_questions_cleaned |>
-  filter(year == "2021") |>
-  filter(!lead_followup == "Followup") |>
-  select(unique_id,
-         year,
-         debate_number,
-         language_of_question,
-         question_source,
-         questioner_id,
-         lead_followup,
-         primary_issue,
-         secondary_issue,
-         territory1,
-         territory2,
-         debate_lang) 
+  filter(Year == "2021") |>
+  filter(!Lead_followup == "Followup") |>
+  select(ID,
+         Year,
+         Debate_number,
+         Language_of_question,
+         Question_source,
+         Questioner_id,
+         Lead_followup,
+         Primary_issue,
+         Secondary_issue,
+         Territory_1,
+         Territory_2,
+         Debate_lang) 
 debate_questions_2021
 
 #### Citizens vs journalists vs moderators & issues #####
@@ -115,9 +116,9 @@ debate_questions_2021
 # EN - Citizen Qs #
 citizen_questions_2008_EN =
   debate_questions_2008 |>
-  filter(debate_number == "2008_Consortium_en") |>
-  filter(question_source == "Citizen") |>
-  select(primary_issue, secondary_issue) |>
+  filter(Debate_number == "2008_Consortium_en") |>
+  filter(Question_source == "Citizen") |>
+  select(Primary_issue, Secondary_issue) |>
   mutate(across(everything(), trimws)) |>
   rowid_to_column() |>
   pivot_longer(-rowid) |>
@@ -129,9 +130,9 @@ citizen_questions_2008_EN
 # FR - Moderator Qs #
 moderator_questions_2008_FR =
   debate_questions_2008 |>
-  filter(debate_number == "2008_Consortium_Fr") |>
-  filter(question_source == "Moderator") |>
-  select(primary_issue, secondary_issue) |>
+  filter(Debate_number == "2008_Consortium_Fr") |>
+  filter(Question_source == "Moderator") |>
+  select(Primary_issue, Secondary_issue) |>
   mutate(across(everything(), trimws)) |>
   rowid_to_column() |>
   pivot_longer(-rowid) |>
@@ -143,9 +144,9 @@ moderator_questions_2008_FR
 # FR - Citizen Qs #
 citizen_questions_2008_FR =
   debate_questions_2008 |>
-  filter(debate_number == "2008_Consortium_Fr") |>
-  filter(question_source == "Citizen") |>
-  select(primary_issue, secondary_issue) |>
+  filter(Debate_number == "2008_Consortium_Fr") |>
+  filter(Question_source == "Citizen") |>
+  select(Primary_issue, Secondary_issue) |>
   mutate(across(everything(), trimws)) |>
   rowid_to_column() |>
   pivot_longer(-rowid) |>
@@ -158,9 +159,9 @@ citizen_questions_2008_FR
 # EN - Citizen Qs #
 citizen_questions_2011_EN =
   debate_questions_2011 |>
-  filter(debate_number == "2011_Consortium_en") |>
-  filter(question_source == "Citizen") |>
-  select(primary_issue, secondary_issue) |>
+  filter(Debate_number == "2011_Consortium_en") |>
+  filter(Question_source == "Citizen") |>
+  select(Primary_issue, Secondary_issue) |>
   mutate(across(everything(), trimws)) |>
   rowid_to_column() |>
   pivot_longer(-rowid) |>
@@ -172,9 +173,9 @@ citizen_questions_2011_EN
 # FR - Citizen Qs #
 citizen_questions_2011_FR =
   debate_questions_2011 |>
-  filter(debate_number == "2011_Consortium_Fr") |>
-  filter(question_source == "Citizen") |>
-  select(primary_issue, secondary_issue) |>
+  filter(Debate_number == "2011_Consortium_Fr") |>
+  filter(Question_source == "Citizen") |>
+  select(Primary_issue, Secondary_issue) |>
   mutate(across(everything(), trimws)) |>
   rowid_to_column() |>
   pivot_longer(-rowid) |>
@@ -186,9 +187,9 @@ citizen_questions_2011_FR
 # FR - Moderator Qs #
 moderator_questions_2011_FR =
   debate_questions_2011 |>
-  filter(debate_number == "2011_Consortium_Fr") |>
-  filter(question_source == "Moderator") |>
-  select(primary_issue, secondary_issue) |>
+  filter(Debate_number == "2011_Consortium_Fr") |>
+  filter(Question_source == "Moderator") |>
+  select(Primary_issue, Secondary_issue) |>
   mutate(across(everything(), trimws)) |>
   rowid_to_column() |>
   pivot_longer(-rowid) |>
@@ -201,9 +202,9 @@ moderator_questions_2011_FR
 # TVA - Moderator Qs #
 moderator_questions_2015_TVA =
   debate_questions_2015 |>
-  filter(debate_number == "2015_TVA") |>
-  filter(question_source == "Moderator") |>
-  select(primary_issue, secondary_issue) |>
+  filter(Debate_number == "2015_TVA") |>
+  filter(Question_source == "Moderator") |>
+  select(Primary_issue, Secondary_issue) |>
   mutate(across(everything(), trimws)) |>
   rowid_to_column() |>
   pivot_longer(-rowid) |>
@@ -215,9 +216,9 @@ moderator_questions_2015_TVA
 # Radio-Canada - Journalist Qs #
 journalist_questions_2015_RC =
   debate_questions_2015 |>
-  filter(debate_number == "2015_Radio-Canada") |>
-  filter(question_source == "Journalist") |>
-  select(primary_issue, secondary_issue) |>
+  filter(Debate_number == "2015_Radio-Canada") |>
+  filter(Question_source == "Journalist") |>
+  select(Primary_issue, Secondary_issue) |>
   mutate(across(everything(), trimws)) |>
   rowid_to_column() |>
   pivot_longer(-rowid) |>
@@ -229,9 +230,9 @@ journalist_questions_2015_RC
 # Munk - Moderator Qs #
 moderator_questions_2015_Munk =
   debate_questions_2015 |>
-  filter(debate_number == "2015_Munk") |>
-  filter(question_source == "Moderator") |>
-  select(primary_issue, secondary_issue) |>
+  filter(Debate_number == "2015_Munk") |>
+  filter(Question_source == "Moderator") |>
+  select(Primary_issue, Secondary_issue) |>
   mutate(across(everything(), trimws)) |>
   rowid_to_column() |>
   pivot_longer(-rowid) |>
@@ -243,9 +244,9 @@ moderator_questions_2015_Munk
 # Macleans - Moderator Qs  #
 moderator_questions_2015_Mac =
   debate_questions_2015 |>
-  filter(debate_number == "2015_Macleans") |>
-  filter(question_source == "Moderator") |>
-  select(primary_issue, secondary_issue) |>
+  filter(Debate_number == "2015_Macleans") |>
+  filter(Question_source == "Moderator") |>
+  select(Primary_issue, Secondary_issue) |>
   mutate(across(everything(), trimws)) |>
   rowid_to_column() |>
   pivot_longer(-rowid) |>
@@ -257,9 +258,9 @@ moderator_questions_2015_Mac
 # Globe & Mail - Moderator Qs #
 moderator_questions_2015_GM =
   debate_questions_2015 |>
-  filter(debate_number == "2015_Globe&Mail") |>
-  filter(question_source == "Moderator") |>
-  select(primary_issue, secondary_issue) |>
+  filter(Debate_number == "2015_Globe&Mail") |>
+  filter(Question_source == "Moderator") |>
+  select(Primary_issue, Secondary_issue) |>
   mutate(across(everything(), trimws)) |>
   rowid_to_column() |>
   pivot_longer(-rowid) |>
@@ -272,9 +273,9 @@ moderator_questions_2015_GM
 # LDC EN - Citizen Qs #
 citizen_questions_2019_EN =
   debate_questions_2019 |>
-  filter(debate_number == "2019_LDC_en") |>
-  filter(question_source == "Citizen") |>
-  select(primary_issue, secondary_issue) |>
+  filter(Debate_number == "2019_LDC_en") |>
+  filter(Question_source == "Citizen") |>
+  select(Primary_issue, Secondary_issue) |>
   mutate(across(everything(), trimws)) |>
   rowid_to_column() |>
   pivot_longer(-rowid) |>
@@ -286,9 +287,9 @@ citizen_questions_2019_EN
 # LDC EN - Moderator Qs #
 moderator_questions_2019_EN =
   debate_questions_2019 |>
-  filter(debate_number == "2019_LDC_en") |>
-  filter(question_source == "Moderator") |>
-  select(primary_issue, secondary_issue) |>
+  filter(Debate_number == "2019_LDC_en") |>
+  filter(Question_source == "Moderator") |>
+  select(Primary_issue, Secondary_issue) |>
   mutate(across(everything(), trimws)) |>
   rowid_to_column() |>
   pivot_longer(-rowid) |>
@@ -300,9 +301,9 @@ moderator_questions_2019_EN
 # LDC EN - Journalist Qs #
 journalist_questions_2019_EN =
   debate_questions_2019 |>
-  filter(debate_number == "2019_LDC_en") |>
-  filter(question_source == "Journalist") |>
-  select(primary_issue, secondary_issue) |>
+  filter(Debate_number == "2019_LDC_en") |>
+  filter(Question_source == "Journalist") |>
+  select(Primary_issue, Secondary_issue) |>
   mutate(across(everything(), trimws)) |>
   rowid_to_column() |>
   pivot_longer(-rowid) |>
@@ -314,9 +315,9 @@ journalist_questions_2019_EN
 # LDC FR - Citizen Qs #
 citizen_questions_2019_FR =
   debate_questions_2019 |>
-  filter(debate_number == "2019_LDC_fr") |>
-  filter(question_source == "Citizen") |>
-  select(primary_issue, secondary_issue) |>
+  filter(Debate_number == "2019_LDC_fr") |>
+  filter(Question_source == "Citizen") |>
+  select(Primary_issue, Secondary_issue) |>
   mutate(across(everything(), trimws)) |>
   rowid_to_column() |>
   pivot_longer(-rowid) |>
@@ -328,9 +329,9 @@ citizen_questions_2019_FR
 # LDC FR - Moderator Qs #
 moderator_questions_2019_FR =
   debate_questions_2019 |>
-  filter(debate_number == "2019_LDC_fr") |>
-  filter(question_source == "Moderator") |>
-  select(primary_issue, secondary_issue) |>
+  filter(Debate_number == "2019_LDC_fr") |>
+  filter(Question_source == "Moderator") |>
+  select(Primary_issue, Secondary_issue) |>
   mutate(across(everything(), trimws)) |>
   rowid_to_column() |>
   pivot_longer(-rowid) |>
@@ -342,9 +343,9 @@ moderator_questions_2019_FR
 # LDC FR - Journalist Qs #
 journalist_questions_2019_FR =
   debate_questions_2019 |>
-  filter(debate_number == "2019_LDC_fr") |>
-  filter(question_source == "Journalist") |>
-  select(primary_issue, secondary_issue) |>
+  filter(Debate_number == "2019_LDC_fr") |>
+  filter(Question_source == "Journalist") |>
+  select(Primary_issue, Secondary_issue) |>
   mutate(across(everything(), trimws)) |>
   rowid_to_column() |>
   pivot_longer(-rowid) |>
@@ -356,9 +357,9 @@ journalist_questions_2019_FR
 # TVA - Moderator Qs #
 moderator_questions_2019_TVA =
   debate_questions_2019 |>
-  filter(debate_number == "2019_TVA") |>
-  filter(question_source == "Moderator") |>
-  select(primary_issue, secondary_issue) |>
+  filter(Debate_number == "2019_TVA") |>
+  filter(Question_source == "Moderator") |>
+  select(Primary_issue, Secondary_issue) |>
   mutate(across(everything(), trimws)) |>
   rowid_to_column() |>
   pivot_longer(-rowid) |>
@@ -370,9 +371,9 @@ moderator_questions_2019_TVA
 # Macleans - Moderator Qs #
 moderator_questions_2019_Mac =
   debate_questions_2019 |>
-  filter(debate_number == "2019_Macleans") |>
-  filter(question_source == "Moderator") |>
-  select(primary_issue, secondary_issue) |>
+  filter(Debate_number == "2019_Macleans") |>
+  filter(Question_source == "Moderator") |>
+  select(Primary_issue, Secondary_issue) |>
   mutate(across(everything(), trimws)) |>
   rowid_to_column() |>
   pivot_longer(-rowid) |>
@@ -385,9 +386,9 @@ moderator_questions_2019_Mac
 # LDC EN - Citizen Qs #
 citizen_questions_2021_EN =
   debate_questions_2021 |>
-  filter(debate_number == "2021_LDC_en") |>
-  filter(question_source == "Citizen") |>
-  select(primary_issue, secondary_issue) |>
+  filter(Debate_number == "2021_LDC_en") |>
+  filter(Question_source == "Citizen") |>
+  select(Primary_issue, Secondary_issue) |>
   mutate(across(everything(), trimws)) |>
   rowid_to_column() |>
   pivot_longer(-rowid) |>
@@ -399,9 +400,9 @@ citizen_questions_2021_EN
 # LDC EN - Moderator Qs #
 moderator_questions_2021_EN =
   debate_questions_2021 |>
-  filter(debate_number == "2021_LDC_en") |>
-  filter(question_source == "Moderator") |>
-  select(primary_issue, secondary_issue) |>
+  filter(Debate_number == "2021_LDC_en") |>
+  filter(Question_source == "Moderator") |>
+  select(Primary_issue, Secondary_issue) |>
   mutate(across(everything(), trimws)) |>
   rowid_to_column() |>
   pivot_longer(-rowid) |>
@@ -413,9 +414,9 @@ moderator_questions_2021_EN
 # LDC EN - Journalist Qs #
 journalist_questions_2021_EN =
   debate_questions_2021 |>
-  filter(debate_number == "2021_LDC_en") |>
-  filter(question_source == "Journalist") |>
-  select(primary_issue, secondary_issue) |>
+  filter(Debate_number == "2021_LDC_en") |>
+  filter(Question_source == "Journalist") |>
+  select(Primary_issue, Secondary_issue) |>
   mutate(across(everything(), trimws)) |>
   rowid_to_column() |>
   pivot_longer(-rowid) |>
@@ -427,9 +428,9 @@ journalist_questions_2021_EN
 # LDC FR - Citizen Qs #
 citizen_questions_2021_FR =
   debate_questions_2021 |>
-  filter(debate_number == "2021_LDC_fr") |>
-  filter(question_source == "Citizen") |>
-  select(primary_issue, secondary_issue) |>
+  filter(Debate_number == "2021_LDC_fr") |>
+  filter(Question_source == "Citizen") |>
+  select(Primary_issue, Secondary_issue) |>
   mutate(across(everything(), trimws)) |>
   rowid_to_column() |>
   pivot_longer(-rowid) |>
@@ -441,9 +442,9 @@ citizen_questions_2021_FR
 # LDC FR - Moderator Qs #
 moderator_questions_2021_FR =
   debate_questions_2021 |>
-  filter(debate_number == "2021_LDC_fr") |>
-  filter(question_source == "Moderator") |>
-  select(primary_issue, secondary_issue) |>
+  filter(Debate_number == "2021_LDC_fr") |>
+  filter(Question_source == "Moderator") |>
+  select(Primary_issue, Secondary_issue) |>
   mutate(across(everything(), trimws)) |>
   rowid_to_column() |>
   pivot_longer(-rowid) |>
@@ -455,9 +456,9 @@ moderator_questions_2021_FR
 # LDC FR - Journalist Qs #
 journalist_questions_2021_FR =
   debate_questions_2021 |>
-  filter(debate_number == "2021_LDC_fr") |>
-  filter(question_source == "Journalist") |>
-  select(primary_issue, secondary_issue) |>
+  filter(Debate_number == "2021_LDC_fr") |>
+  filter(Question_source == "Journalist") |>
+  select(Primary_issue, Secondary_issue) |>
   mutate(across(everything(), trimws)) |>
   rowid_to_column() |>
   pivot_longer(-rowid) |>
@@ -469,9 +470,9 @@ journalist_questions_2021_FR
 # TVA - Moderator Qs #
 moderator_questions_2021_TVA =
   debate_questions_2021 |>
-  filter(debate_number == "2021_TVA") |>
-  filter(question_source == "Moderator") |>
-  select(primary_issue, secondary_issue) |>
+  filter(Debate_number == "2021_TVA") |>
+  filter(Question_source == "Moderator") |>
+  select(Primary_issue, Secondary_issue) |>
   mutate(across(everything(), trimws)) |>
   rowid_to_column() |>
   pivot_longer(-rowid) |>

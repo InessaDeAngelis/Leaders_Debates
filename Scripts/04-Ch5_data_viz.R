@@ -19,36 +19,36 @@ by_debates_cleaned <- read_csv(file = "Outputs/Data/by_debates_cleaned.csv")
 ## Create analysis dataset ##
 by_debates_strategic_frame =
   by_debates_cleaned |>
-  mutate("debate_number" = case_when(
-    debate_number == "2008FrConsortium" ~ "2008 FR Consortium",
-    debate_number == "2008EnConsortium" ~ "2008 EN Consortium",
-    debate_number == "2011EnConsortium" ~ "2011 EN Consortium",
-    debate_number == "2011FrConsortium" ~ "2011 FR Consortium",
-    debate_number == "2015Macleans" ~ "2015 Macleans",
-    debate_number == "2015Globe&Mail" ~ "2015 Globe & Mail",
-    debate_number == "2015Radio-Canada" ~ "2015 Radio-Canada",
-    debate_number == "2015Munk" ~ "2015 Munk",
-    debate_number == "2015TVA" ~ "2015 TVA",
-    debate_number == "2019Macleans" ~ "2019 Macleans",
-    debate_number == "2019TVA" ~ "2019 TVA",
-    debate_number == "2019EnLDC" ~ "2019 EN LDC",
-    debate_number == "2019FrLDC" ~ "2019 FR LDC",
-    debate_number == "2021TVA" ~ "2021 TVA",
-    debate_number == "2021FrLDC" ~ "2021 FR LDC",
-    debate_number == "2021EnLDC" ~ "2021 EN LDC"
+  mutate("Debate_number" = case_when(
+    Debate_number == "2008FrConsortium" ~ "2008 FR Consortium",
+    Debate_number == "2008EnConsortium" ~ "2008 EN Consortium",
+    Debate_number == "2011EnConsortium" ~ "2011 EN Consortium",
+    Debate_number == "2011FrConsortium" ~ "2011 FR Consortium",
+    Debate_number == "2015Macleans" ~ "2015 Macleans",
+    Debate_number == "2015Globe&Mail" ~ "2015 Globe & Mail",
+    Debate_number == "2015Radio-Canada" ~ "2015 Radio-Canada",
+    Debate_number == "2015Munk" ~ "2015 Munk",
+    Debate_number == "2015TVA" ~ "2015 TVA",
+    Debate_number == "2019Macleans" ~ "2019 Macleans",
+    Debate_number == "2019TVA" ~ "2019 TVA",
+    Debate_number == "2019EnLDC" ~ "2019 EN LDC",
+    Debate_number == "2019FrLDC" ~ "2019 FR LDC",
+    Debate_number == "2021TVA" ~ "2021 TVA",
+    Debate_number == "2021FrLDC" ~ "2021 FR LDC",
+    Debate_number == "2021EnLDC" ~ "2021 EN LDC"
   )) |>
-  select(election_year, debate_number, news_strategic_frame)
+  select(Election_year, Debate_number, news_strategic_frame)
 by_debates_strategic_frame
 
 ## Data Visualization ##
 # Code referenced from: https://stackoverflow.com/questions/73995249/how-to-fill-the-background-of-a-stat-poly-eq-equation-ggpmisc-using-ggplot2
 
 # jpeg("Ch5_figure5.jpeg", units="in", width=9, height=7, res=500) 
-p <- ggplot(by_debates_strategic_frame, aes(election_year, news_strategic_frame/100)) + 
+p <- ggplot(by_debates_strategic_frame, aes(Election_year, news_strategic_frame/100)) + 
   geom_point() +
   ggrepel::geom_text_repel(
     data = by_debates_strategic_frame,
-    aes(label = debate_number),
+    aes(label = Debate_number),
     size = 4,
     alpha = 0.9,
     segment.size = .25,
@@ -72,34 +72,34 @@ stat_poly_eq(rr.digits = 2, parse = TRUE, size = 4, label.x = 0.97, label.y = 0.
 ## Create analysis dataset ##
 by_debates_substance =
   by_debates_cleaned |>
-  mutate("debate_number" = case_when(
-    debate_number == "2008FrConsortium" ~ "2008 FR Consortium",
-    debate_number == "2008EnConsortium" ~ "2008 EN Consortium",
-    debate_number == "2011EnConsortium" ~ "2011 EN Consortium",
-    debate_number == "2011FrConsortium" ~ "2011 FR Consortium",
-    debate_number == "2015Macleans" ~ "2015 Macleans",
-    debate_number == "2015Globe&Mail" ~ "2015 Globe & Mail",
-    debate_number == "2015Radio-Canada" ~ "2015 Radio-Canada",
-    debate_number == "2015Munk" ~ "2015 Munk",
-    debate_number == "2015TVA" ~ "2015 TVA",
-    debate_number == "2019Macleans" ~ "2019 Macleans",
-    debate_number == "2019TVA" ~ "2019 TVA",
-    debate_number == "2019EnLDC" ~ "2019 EN LDC",
-    debate_number == "2019FrLDC" ~ "2019 FR LDC",
-    debate_number == "2021TVA" ~ "2021 TVA",
-    debate_number == "2021FrLDC" ~ "2021 FR LDC",
-    debate_number == "2021EnLDC" ~ "2021 EN LDC"
+  mutate("Debate_number" = case_when(
+    Debate_number == "2008FrConsortium" ~ "2008 FR Consortium",
+    Debate_number == "2008EnConsortium" ~ "2008 EN Consortium",
+    Debate_number == "2011EnConsortium" ~ "2011 EN Consortium",
+    Debate_number == "2011FrConsortium" ~ "2011 FR Consortium",
+    Debate_number == "2015Macleans" ~ "2015 Macleans",
+    Debate_number == "2015Globe&Mail" ~ "2015 Globe & Mail",
+    Debate_number == "2015Radio-Canada" ~ "2015 Radio-Canada",
+    Debate_number == "2015Munk" ~ "2015 Munk",
+    Debate_number == "2015TVA" ~ "2015 TVA",
+    Debate_number == "2019Macleans" ~ "2019 Macleans",
+    Debate_number == "2019TVA" ~ "2019 TVA",
+    Debate_number == "2019EnLDC" ~ "2019 EN LDC",
+    Debate_number == "2019FrLDC" ~ "2019 FR LDC",
+    Debate_number == "2021TVA" ~ "2021 TVA",
+    Debate_number == "2021FrLDC" ~ "2021 FR LDC",
+    Debate_number == "2021EnLDC" ~ "2021 EN LDC"
   )) |>
-  select(election_year, debate_number, news_substance)
+  select(Election_year, Debate_number, news_substance)
 by_debates_substance
 
 ## Data Visualization ##
 # jpeg("Ch5_figure6.jpeg", units="in", width=9, height=5, res=500) 
-p <- ggplot(by_debates_substance, aes(election_year, news_substance/100)) + 
+p <- ggplot(by_debates_substance, aes(Election_year, news_substance/100)) + 
   geom_point() +
   ggrepel::geom_text_repel(
     data = by_debates_substance,
-    aes(label = debate_number),
+    aes(label = Debate_number),
     size = 4,
     alpha = 0.9,
     segment.size = .25,
@@ -124,7 +124,7 @@ stat_poly_eq(rr.digits = 2, parse = TRUE, size = 4, geom = "label_npc", label.si
 # Add in data from table #
 strategic_substance_data <- 
   data <- data.frame(
-  debate_number = c(
+  Debate_number = c(
     "2008FrConsortium",
     "2008EnConsortium",
     "2011EnConsortium",
@@ -164,32 +164,32 @@ strategic_substance_data
 # Add with existing columns from dataset #
 strategic_sub =
   by_debates_cleaned |>
-  select(election_year, debate_number)
+  select(Election_year, Debate_number)
 strategic_sub
 
 by_debates_strategic_sub =
   merge(
     strategic_sub,
     strategic_substance_data,
-    by = "debate_number"
+    by = "Debate_number"
   ) |>
-  mutate("debate_number" = case_when(
-    debate_number == "2008FrConsortium" ~ "2008 FR Consortium",
-    debate_number == "2008EnConsortium" ~ "2008 EN Consortium",
-    debate_number == "2011EnConsortium" ~ "2011 EN Consortium",
-    debate_number == "2011FrConsortium" ~ "2011 FR Consortium",
-    debate_number == "2015Macleans" ~ "2015 Macleans",
-    debate_number == "2015Globe&Mail" ~ "2015 Globe & Mail",
-    debate_number == "2015Radio-Canada" ~ "2015 Radio-Canada",
-    debate_number == "2015Munk" ~ "2015 Munk",
-    debate_number == "2015TVA" ~ "2015 TVA",
-    debate_number == "2019Macleans" ~ "2019 Macleans",
-    debate_number == "2019TVA" ~ "2019 TVA",
-    debate_number == "2019EnLDC" ~ "2019 EN LDC",
-    debate_number == "2019FrLDC" ~ "2019 FR LDC",
-    debate_number == "2021TVA" ~ "2021 TVA",
-    debate_number == "2021FrLDC" ~ "2021 FR LDC",
-    debate_number == "2021EnLDC" ~ "2021 EN LDC"
+  mutate("Debate_number" = case_when(
+    Debate_number == "2008FrConsortium" ~ "2008 FR Consortium",
+    Debate_number == "2008EnConsortium" ~ "2008 EN Consortium",
+    Debate_number == "2011EnConsortium" ~ "2011 EN Consortium",
+    Debate_number == "2011FrConsortium" ~ "2011 FR Consortium",
+    Debate_number == "2015Macleans" ~ "2015 Macleans",
+    Debate_number == "2015Globe&Mail" ~ "2015 Globe & Mail",
+    Debate_number == "2015Radio-Canada" ~ "2015 Radio-Canada",
+    Debate_number == "2015Munk" ~ "2015 Munk",
+    Debate_number == "2015TVA" ~ "2015 TVA",
+    Debate_number == "2019Macleans" ~ "2019 Macleans",
+    Debate_number == "2019TVA" ~ "2019 TVA",
+    Debate_number == "2019EnLDC" ~ "2019 EN LDC",
+    Debate_number == "2019FrLDC" ~ "2019 FR LDC",
+    Debate_number == "2021TVA" ~ "2021 TVA",
+    Debate_number == "2021FrLDC" ~ "2021 FR LDC",
+    Debate_number == "2021EnLDC" ~ "2021 EN LDC"
   )) 
 by_debates_strategic_sub 
 
@@ -198,9 +198,9 @@ by_debates_strategic_sub
 # &: https://stackoverflow.com/questions/7549694/add-regression-line-equation-and-r2-on-graph
 
 # jpeg("Ch5_figure7.jpeg", units="in", width=9, height=7, res=500) 
-p <- ggplot(by_debates_strategic_sub, aes(election_year, strategic_and_substantive/100)) + 
+p <- ggplot(by_debates_strategic_sub, aes(Election_year, strategic_and_substantive/100)) + 
   geom_point() + 
-  ggrepel::geom_text_repel(data = by_debates_strategic_sub, aes(label = debate_number)) +
+  ggrepel::geom_text_repel(data = by_debates_strategic_sub, aes(label = Debate_number)) +
   labs(x = "Election year", y = "Strategic and Substantive") +
   scale_x_continuous(breaks = scales::pretty_breaks(n = 13)) +
   scale_y_continuous(labels = scales::percent) +
@@ -218,32 +218,32 @@ stat_cor(aes(label =  ..rr.label..))
 ## Create analysis dataset ##
 by_debates_format =
   by_debates_cleaned |>
-  mutate("debate_number" = case_when(
-    debate_number == "2008FrConsortium" ~ "2008 FR Consortium",
-    debate_number == "2008EnConsortium" ~ "2008 EN Consortium",
-    debate_number == "2011EnConsortium" ~ "2011 EN Consortium",
-    debate_number == "2011FrConsortium" ~ "2011 FR Consortium",
-    debate_number == "2015Macleans" ~ "2015 Macleans",
-    debate_number == "2015Globe&Mail" ~ "2015 Globe & Mail",
-    debate_number == "2015Radio-Canada" ~ "2015 Radio-Canada",
-    debate_number == "2015Munk" ~ "2015 Munk",
-    debate_number == "2015TVA" ~ "2015 TVA",
-    debate_number == "2019Macleans" ~ "2019 Macleans",
-    debate_number == "2019TVA" ~ "2019 TVA",
-    debate_number == "2019EnLDC" ~ "2019 EN LDC",
-    debate_number == "2019FrLDC" ~ "2019 FR LDC",
-    debate_number == "2021TVA" ~ "2021 TVA",
-    debate_number == "2021FrLDC" ~ "2021 FR LDC",
-    debate_number == "2021EnLDC" ~ "2021 EN LDC"
+  mutate("Debate_number" = case_when(
+    Debate_number == "2008FrConsortium" ~ "2008 FR Consortium",
+    Debate_number == "2008EnConsortium" ~ "2008 EN Consortium",
+    Debate_number == "2011EnConsortium" ~ "2011 EN Consortium",
+    Debate_number == "2011FrConsortium" ~ "2011 FR Consortium",
+    Debate_number == "2015Macleans" ~ "2015 Macleans",
+    Debate_number == "2015Globe&Mail" ~ "2015 Globe & Mail",
+    Debate_number == "2015Radio-Canada" ~ "2015 Radio-Canada",
+    Debate_number == "2015Munk" ~ "2015 Munk",
+    Debate_number == "2015TVA" ~ "2015 TVA",
+    Debate_number == "2019Macleans" ~ "2019 Macleans",
+    Debate_number == "2019TVA" ~ "2019 TVA",
+    Debate_number == "2019EnLDC" ~ "2019 EN LDC",
+    Debate_number == "2019FrLDC" ~ "2019 FR LDC",
+    Debate_number == "2021TVA" ~ "2021 TVA",
+    Debate_number == "2021FrLDC" ~ "2021 FR LDC",
+    Debate_number == "2021EnLDC" ~ "2021 EN LDC"
   )) |>
-  select(election_year, debate_number, news_format)
+  select(Election_year, Debate_number, news_format)
 by_debates_substance
 
 ## Data Visualization ##
 # jpeg("Ch5_figure8.jpeg", units="in", width=9, height=7, res=500) 
-p <- ggplot(by_debates_format, aes(election_year, news_format/100)) + 
+p <- ggplot(by_debates_format, aes(Election_year, news_format/100)) + 
   geom_point() + 
-  ggrepel::geom_text_repel(data = by_debates_format, aes(label = debate_number)) +
+  ggrepel::geom_text_repel(data = by_debates_format, aes(label = Debate_number)) +
   labs(x = "Election year", y = "News format") +
   scale_x_continuous(breaks = scales::pretty_breaks(n = 13)) +
   scale_y_continuous(labels = scales::percent) +
