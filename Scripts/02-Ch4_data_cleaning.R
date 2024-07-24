@@ -69,4 +69,4 @@ dqi_by_speech_final =
 dqi_by_speech_final
 
 #### Save dataset ####
-write_csv(x = dqi_by_speech_final, file = "Inputs/Data/dqi_by_speech_final.csv")
+write_csv(x = dqi_by_speech_final, file = "Outputs/Data/dqi_by_speech_final.csv")
