@@ -48,7 +48,9 @@ debate_questions_final =
 debate_questions_final |>
   mutate("Debate_number" = case_when(
     Debate_number == "2008_Consortium_en" ~ "2008EnConsortium",
+    Debate_number == "2008_Consortium_Fr" ~ "2008FrConsortium",
     Debate_number == "2011_Consortium_en" ~ "2011EnConsortium",
+    Debate_number == "2011_Consortium_Fr" ~ "2011FrConsortium",
     Debate_number == "2015_Macleans" ~ "2015Macleans",    
     Debate_number == "2015_Globe&Mail" ~ "2015Globe&Mail",
     Debate_number == "2015_Radio-Canada" ~ "2015Radio-Canada",

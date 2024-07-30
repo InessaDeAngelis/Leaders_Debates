@@ -16,7 +16,7 @@ print(debate_questions_final)
 #### Create specific datasets by year ####
 ## 2008 debate ##
 debate_questions_2008 = 
-  debate_questions_cleaned |>
+  debate_questions_final |>
   filter(Year == "2008") |>
   filter(!Lead_followup == "Followup") |>
   select(ID,
@@ -35,7 +35,7 @@ debate_questions_2008
 
 ## 2011 debate ##
 debate_questions_2011 = 
-  debate_questions_cleaned |>
+  debate_questions_final |>
   filter(Year == "2011") |>
   filter(!Lead_followup == "Followup") |>
   select(ID,
@@ -54,7 +54,7 @@ debate_questions_2011
 
 ## 2015 debate ##
 debate_questions_2015 = 
-  debate_questions_cleaned |>
+  debate_questions_final |>
   filter(Year == "2015") |>
   filter(!Lead_followup == "Followup") |>
   select(ID,
@@ -73,7 +73,7 @@ debate_questions_2015
 
 ## 2019 debate ##
 debate_questions_2019 = 
-  debate_questions_cleaned |>
+  debate_questions_final |>
   filter(Year == "2019") |>
   filter(!Lead_followup == "Followup") |>
   select(ID,
@@ -92,7 +92,7 @@ debate_questions_2019
 
 ## 2021 debate ##
 debate_questions_2021 = 
-  debate_questions_cleaned |>
+  debate_questions_final |>
   filter(Year == "2021") |>
   filter(!Lead_followup == "Followup") |>
   select(ID,
@@ -116,7 +116,7 @@ debate_questions_2021
 # EN - Citizen Qs #
 citizen_questions_2008_EN =
   debate_questions_2008 |>
-  filter(Debate_number == "2008_Consortium_en") |>
+  filter(Debate_number == "2008EnConsortium") |>
   filter(Question_source == "Citizen") |>
   select(Primary_issue, Secondary_issue) |>
   mutate(across(everything(), trimws)) |>
@@ -130,7 +130,7 @@ citizen_questions_2008_EN
 # FR - Moderator Qs #
 moderator_questions_2008_FR =
   debate_questions_2008 |>
-  filter(Debate_number == "2008_Consortium_Fr") |>
+  filter(Debate_number == "2008FrConsortium") |>
   filter(Question_source == "Moderator") |>
   select(Primary_issue, Secondary_issue) |>
   mutate(across(everything(), trimws)) |>
