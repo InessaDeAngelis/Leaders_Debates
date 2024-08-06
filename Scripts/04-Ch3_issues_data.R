@@ -16,7 +16,7 @@ debate_questions_final <- read_csv("Outputs/Data/debate_questions_final.csv")
 #### Create specific datasets by year ####
 ## 2008 debate ##
 debate_questions_2008 = 
-  debate_questions_cleaned |>
+  debate_questions_final |>
   filter(Year == "2008") |>
   filter(!Lead_followup == "Followup") |>
   select(ID,
@@ -34,7 +34,7 @@ debate_questions_2008
 
 ## 2011 debate ##
 debate_questions_2011 = 
-  debate_questions_cleaned |>
+  debate_questions_final |>
   filter(Year == "2011") |>
   filter(!Lead_followup == "Followup") |>
   select(ID,
@@ -52,7 +52,7 @@ debate_questions_2011
 
 ## 2015 debate ##
 debate_questions_2015 = 
-  debate_questions_cleaned |>
+  debate_questions_final |>
   filter(Year == "2015") |>
   filter(!Lead_followup == "Followup") |>
   select(ID,
@@ -70,7 +70,7 @@ debate_questions_2015
 
 ## 2019 debate ##
 debate_questions_2019 = 
-  debate_questions_cleaned |>
+  debate_questions_final |>
   filter(Year == "2019") |>
   filter(!Lead_followup == "Followup") |>
   select(ID,
@@ -88,7 +88,7 @@ debate_questions_2019
 
 ## 2021 debate ##
 debate_questions_2021 = 
-  debate_questions_cleaned |>
+  debate_questions_final |>
   filter(Year == "2021") |>
   filter(!Lead_followup == "Followup") |>
   select(ID,
