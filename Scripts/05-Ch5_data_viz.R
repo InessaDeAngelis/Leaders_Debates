@@ -123,7 +123,7 @@ stat_poly_eq(rr.digits = 2, parse = TRUE, size = 4, geom = "label_npc", label.si
 ## Create analysis dataset ##
 # Add in data from table #
 strategic_substance_data <- 
-  data <- data.frame(
+  data.frame(
   Debate_number = c(
     "2008FrConsortium",
     "2008EnConsortium",
