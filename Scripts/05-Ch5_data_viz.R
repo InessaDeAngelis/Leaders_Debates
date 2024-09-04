@@ -13,12 +13,12 @@ library(ggpmisc)
 library(ggpubr)
 
 #### Read in dataset ####
-by_debates_cleaned <- read_csv(file = "Outputs/Data/by_debates_cleaned.csv")
+by_debates_final <- read_csv(file = "Outputs/Data/by_debates_final.csv")
 
 #### Figure 5 (Share of articles using strategic frames over time) ####
 ## Create analysis dataset ##
 by_debates_strategic_frame =
-  by_debates_cleaned |>
+  by_debates_final |>
   mutate("Debate_number" = case_when(
     Debate_number == "2008FrConsortium" ~ "2008 FR Consortium",
     Debate_number == "2008EnConsortium" ~ "2008 EN Consortium",
@@ -49,10 +49,10 @@ p <- ggplot(by_debates_strategic_frame, aes(Election_year, news_strategic_frame/
   ggrepel::geom_text_repel(
     data = by_debates_strategic_frame,
     aes(label = Debate_number),
-    size = 4,
-    alpha = 0.9,
-    segment.size = .25,
-    segment.alpha = .8,
+    size = 3.5,
+    alpha = 0.8,
+    segment.size = 1,
+    segment.alpha = 0.5,
     force = 1
   ) +
   labs(x = "Election year", y = "Strategic Frame") +
@@ -65,13 +65,13 @@ p <- ggplot(by_debates_strategic_frame, aes(Election_year, news_strategic_frame/
   theme(axis.title.y.left = element_text(size = 13))
 
 p + geom_smooth(method = "lm", se = FALSE, color = "royalblue4") +
-stat_poly_eq(rr.digits = 2, parse = TRUE, size = 4, label.x = 0.97, label.y = 0.97, geom = "label_npc", label.size = 0.25)
+  stat_poly_eq(rr.digits = 2, parse = TRUE, size = 4, label.x = 0.97, label.y = 0.97, geom = "label_npc", label.size = 0.25)
 # dev.off()
 
 #### Figure 6 (Share of articles using strategic frames and addressing substance over time) ####
 ## Create analysis dataset ##
 by_debates_substance =
-  by_debates_cleaned |>
+  by_debates_final |>
   mutate("Debate_number" = case_when(
     Debate_number == "2008FrConsortium" ~ "2008 FR Consortium",
     Debate_number == "2008EnConsortium" ~ "2008 EN Consortium",
@@ -163,7 +163,7 @@ strategic_substance_data
 
 # Add with existing columns from dataset #
 strategic_sub =
-  by_debates_cleaned |>
+  by_debates_final |>
   select(Election_year, Debate_number)
 strategic_sub
 
@@ -217,7 +217,7 @@ stat_cor(aes(label =  ..rr.label..))
 #### Figure 8 (Share of articles focusing on news format) ####
 ## Create analysis dataset ##
 by_debates_format =
-  by_debates_cleaned |>
+  by_debates_final |>
   mutate("Debate_number" = case_when(
     Debate_number == "2008FrConsortium" ~ "2008 FR Consortium",
     Debate_number == "2008EnConsortium" ~ "2008 EN Consortium",
