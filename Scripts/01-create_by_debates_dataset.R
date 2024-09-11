@@ -11,7 +11,7 @@ library(tidyverse)
 
 #### Read in datasets ####
 ## DQI by speech dataset ##
-dqi_by_speech_final <- read_csv(file = "Inputs/Data/dqi_by_speech_final.csv")
+dqi_by_speech_final <- read_csv(file = "Outputs/Data/dqi_by_speech_final.csv")
 
 ## Newspaper dataset ##
 newspaper_data_final <- read_csv(file = "Outputs/Data/newspaper_data_final.csv")
@@ -42,6 +42,11 @@ dqi_by_speech_all_final <-
   select(Debate_number, dqi_percent_demands)
 dqi_by_speech_all_final
 
+## Round all numbers ##
+# Code from: https://stackoverflow.com/questions/68626912/r-how-to-round-values-of-a-data-frame #
+dqi_by_speech_all_final |>
+  dplyr::mutate(across(where(is.numeric), round, 2))
+
 #### Calculate "dqi_positional_politics" column for all debates ####
 ## Count total number of positions per debate ##
 dqi_by_speech_positional =
@@ -70,6 +75,10 @@ dqi_positional_pol_final <-
   mutate(dqi_positional_politics = positional_pol_total / (number_of_positions) * 100) |>
   select(Debate_number, dqi_positional_politics)
 dqi_positional_pol_final
+
+## Round all numbers ##
+dqi_positional_pol_final |>
+  dplyr::mutate(across(where(is.numeric), round, 1))
 
 #### Calculate "dqi_respect_demands" column for all debates ####
 ## Count total number of respect options per debate ##
@@ -100,6 +109,10 @@ dqi_respect_final <-
   select(Debate_number, dqi_respect_demands)
 dqi_respect_final
 
+## Round all numbers ##
+dqi_respect_final |>
+  dplyr::mutate(across(where(is.numeric), round, 1))
+
 #### Calculate "dqi_normal_participation" column for all debates ####
 ## Count total number of participation options per debate ##
 dqi_by_speech_interruptions =
@@ -128,6 +141,10 @@ dqi_participation_final <-
   mutate(dqi_normal_participation = normal_participation_total / (total_interruptions) * 100) |>
   select(Debate_number, dqi_normal_participation)
 dqi_participation_final
+
+## Round all numbers ##
+dqi_participation_final |>
+  dplyr::mutate(across(where(is.numeric), round, 1))
 
 #### Calculate "news_substance" column for all debates ####
 ## 2008 - FR ##
@@ -327,6 +344,14 @@ newspaper_substance_all <-
     newspaper_substance_2021_EN)
 newspaper_substance_all 
 
+## Fix rounding ##
+newspaper_substance_all_final = 
+newspaper_substance_all |>
+  mutate(news_substance*100) |>
+  select(debate_number, `news_substance * 100`) |>
+  rename(`news_substance` = `news_substance * 100`)
+newspaper_substance_all_final
+
 #### Calculate "news_format" column for all debates ####
 ## 2008 - FR ##
 newspaper_format_2008_FR =
@@ -523,6 +548,14 @@ newspaper_format_all <-
     newspaper_format_2021_FR,
     newspaper_format_2021_EN)
 newspaper_format_all 
+
+## Fix rounding ##
+newspaper_format_all_final = 
+  newspaper_format_all |>
+  mutate(news_format*100) |>
+  select(debate_number, `news_format * 100`) |>
+  rename(`news_format` = `news_format * 100`)
+newspaper_format_all_final
 
 #### Calculate "news_moderation_more" column for all debates ####
 ## 2008 - FR ##
@@ -722,6 +755,15 @@ newspaper_moderation_more_all <-
     newspaper_moderation_more_2021_EN)
 newspaper_moderation_more_all 
 
+## Fix rounding ##
+newspaper_moderation_more_all_final = 
+  newspaper_moderation_more_all |>
+  mutate(news_moderation_more*100) |>
+  select(debate_number, `news_moderation_more * 100`) |>
+  rename(`news_moderation_more` = `news_moderation_more * 100`) |>
+  dplyr::mutate(across(where(is.numeric), round, 1))
+newspaper_moderation_more_all_final
+
 #### Calculate "news_moderation_less" column for all debates ####
 ## 2008 - FR ##
 newspaper_moderation_less_2008_FR =
@@ -899,6 +941,7 @@ newspaper_moderation_less_2021_EN =
   select(debate_number, news_moderation_less)
 newspaper_moderation_less_2021_EN
 
+## Combine all seperate datasets ##
 newspaper_moderation_less_all <-
   rbind(
     newspaper_moderation_less_2008_FR,
@@ -918,6 +961,15 @@ newspaper_moderation_less_all <-
     newspaper_moderation_less_2021_FR,
     newspaper_moderation_less_2021_EN)
 newspaper_moderation_less_all 
+
+## Fix rounding ##
+newspaper_moderation_less_all_final = 
+  newspaper_moderation_less_all |>
+  mutate(news_moderation_less*100) |>
+  select(debate_number, `news_moderation_less * 100`) |>
+  rename(`news_moderation_less` = `news_moderation_less * 100`) |>
+  dplyr::mutate(across(where(is.numeric), round, 1))
+newspaper_moderation_less_all_final
 
 #### Calculate "news_moderation_praise" column for all debates ####
 ## 2008 - FR ##
@@ -1117,13 +1169,22 @@ newspaper_moderation_praise_all <-
     newspaper_moderation_praise_2021_EN)
 newspaper_moderation_praise_all 
 
+## Fix rounding ##
+newspaper_moderation_praise_all_final = 
+  newspaper_moderation_praise_all |>
+  mutate(news_moderation_praise*100) |>
+  select(debate_number, `news_moderation_praise * 100`) |>
+  rename(`news_moderation_praise` = `news_moderation_praise * 100`) |>
+  dplyr::mutate(across(where(is.numeric), round, 1))
+newspaper_moderation_praise_all_final
+
 #### Add "video_point_count" column for all debates ####
 # Add in data from table #
 video_point_data <- 
   data <- data.frame(
     debate_number = c(
-      "2008FrConsortium",
       "2008EnConsortium",
+      "2008FrConsortium",
       "2011EnConsortium",
       "2011FrConsortium",
       "2015Macleans",
@@ -1138,7 +1199,127 @@ video_point_data <-
       "2021TVA",
       "2021FrLDC",
       "2021EnLDC") ,
-    video_point_count = c(0, 15, 9, 0, 1, 6, 11, 11, 0, 9, 9, 23, 5, 17, 8, 8 ))
+    video_point_count = c(15, NA, 9, NA, 1, 6, 11, 11, NA, 9, 9, 23, 5, 17, 8, 8))
 video_point_data
+
+#### Add "video_fist_count" column for all debates ####
+# Add in data from table #
+video_fist_data <- 
+  data <- data.frame(
+    debate_number = c(
+      "2008EnConsortium",
+      "2008FrConsortium",
+      "2011EnConsortium",
+      "2011FrConsortium",
+      "2015Macleans",
+      "2015Globe&Mail",
+      "2015Radio-Canada",
+      "2015Munk",
+      "2015TVA",
+      "2019Macleans",
+      "2019TVA",
+      "2019EnLDC",
+      "2019FrLDC",
+      "2021TVA",
+      "2021FrLDC",
+      "2021EnLDC") ,
+    video_fist_count = c(1, NA, 0, NA, 0, 0, 0, 0, NA, 1, 0, 0, 0, 0, 0, 0))
+video_fist_data
+
+#### Add "video_crosstalk" column for all debates ####
+# Add in data from table #
+video_crosstalk_data <- 
+  data <- data.frame(
+    debate_number = c(
+      "2008EnConsortium",
+      "2008FrConsortium",
+      "2011EnConsortium",
+      "2011FrConsortium",
+      "2015Macleans",
+      "2015Globe&Mail",
+      "2015Radio-Canada",
+      "2015Munk",
+      "2015TVA",
+      "2019Macleans",
+      "2019TVA",
+      "2019EnLDC",
+      "2019FrLDC",
+      "2021TVA",
+      "2021FrLDC",
+      "2021EnLDC") ,
+    video_crosscount = c(5.5, NA, 5.6, NA, 3.2, 5.2, 4.4, 1.7, 8.5, 9.3, 9.5, 12.0, 3.25, 7.4, 4.9, 5.1))
+video_crosstalk_data
+
+#### Add "demands_in_words" column for all debates ####
+# Add in data from table #
+demands_in_words_data <- 
+  data <- data.frame(
+    debate_number = c(
+      "2008EnConsortium",
+      "2008FrConsortium",
+      "2011EnConsortium",
+      "2011FrConsortium",
+      "2015Macleans",
+      "2015Globe&Mail",
+      "2015Radio-Canada",
+      "2015Munk",
+      "2015TVA",
+      "2019Macleans",
+      "2019TVA",
+      "2019EnLDC",
+      "2019FrLDC",
+      "2021TVA",
+      "2021FrLDC",
+      "2021EnLDC") ,
+    demands_in_words = c(NA, 64, 66, NA, 67, 74, 71, 67, 70, 83, 80, 63, 78, 59, 80, 70))
+demands_in_words_data
+
+#### Add "moderator_objections" column for all debates ####
+# Add in data from table #
+moderator_objections_data <- 
+  data <- data.frame(
+    debate_number = c(
+      "2008EnConsortium",
+      "2008FrConsortium",
+      "2011EnConsortium",
+      "2011FrConsortium",
+      "2015Macleans",
+      "2015Globe&Mail",
+      "2015Radio-Canada",
+      "2015Munk",
+      "2015TVA",
+      "2019Macleans",
+      "2019TVA",
+      "2019EnLDC",
+      "2019FrLDC",
+      "2021TVA",
+      "2021FrLDC",
+      "2021EnLDC") ,
+    moderator_objections = c(NA, 1, 0, NA, 1, 2, 3, 2, 3, 3, 2, 3, 1, 11, 9, 13))
+moderator_objections_data
+
+#### Add "leader_objections" column for all debates ####
+# Add in data from table #
+leader_objections_data <- 
+  data <- data.frame(
+    debate_number = c(
+      "2008EnConsortium",
+      "2008FrConsortium",
+      "2011EnConsortium",
+      "2011FrConsortium",
+      "2015Macleans",
+      "2015Globe&Mail",
+      "2015Radio-Canada",
+      "2015Munk",
+      "2015TVA",
+      "2019Macleans",
+      "2019TVA",
+      "2019EnLDC",
+      "2019FrLDC",
+      "2021TVA",
+      "2021FrLDC",
+      "2021EnLDC") ,
+    leader_objections = c(NA, 3, 4, NA, 1, 0, 5, 0, 2, 1, 2, 6, 0, 2, 0, 2))
+leader_objections_data
 
 #### Join all individual datasets together to create full "by_debates" dataset ####
