@@ -39,11 +39,13 @@ dqi_by_speech_all_combined <- merge(dqi_by_speech_all_demands, dqi_by_speech_all
 dqi_by_speech_all_final <- 
   dqi_by_speech_all_combined |> 
   mutate (dqi_percent_demands = number_of_demands / total_number) |>
-  select(Debate_number, dqi_percent_demands)
+  rename(debate_number = Debate_number) |>
+  select(debate_number, dqi_percent_demands)
 dqi_by_speech_all_final
 
 ## Round all numbers ##
 # Code from: https://stackoverflow.com/questions/68626912/r-how-to-round-values-of-a-data-frame #
+dqi_by_speech_all_final <-
 dqi_by_speech_all_final |>
   dplyr::mutate(across(where(is.numeric), round, 2))
 
@@ -73,10 +75,12 @@ dqi_positional_pol <- merge(dqi_by_speech_positional_pol, dqi_by_speech_position
 dqi_positional_pol_final <-
   dqi_positional_pol |>
   mutate(dqi_positional_politics = positional_pol_total / (number_of_positions) * 100) |>
-  select(Debate_number, dqi_positional_politics)
+  rename(debate_number = Debate_number) |>
+  select(debate_number, dqi_positional_politics)
 dqi_positional_pol_final
 
 ## Round all numbers ##
+dqi_positional_pol_final <-
 dqi_positional_pol_final |>
   dplyr::mutate(across(where(is.numeric), round, 1))
 
@@ -106,10 +110,12 @@ dqi_by_all_respect <- merge(dqi_by_speech_respect, dqi_by_speech_respect_demands
 dqi_respect_final <-
   dqi_by_all_respect |>
   mutate(dqi_respect_demands = respect_total / (respect_for_demands_total) * 100) |>
-  select(Debate_number, dqi_respect_demands)
+  rename(debate_number = Debate_number) |>
+  select(debate_number, dqi_respect_demands)
 dqi_respect_final
 
 ## Round all numbers ##
+dqi_respect_final <-
 dqi_respect_final |>
   dplyr::mutate(across(where(is.numeric), round, 1))
 
@@ -139,10 +145,12 @@ dqi_by_all_participation <- merge(dqi_by_speech_normal_participation, dqi_by_spe
 dqi_participation_final <-
   dqi_by_all_participation |>
   mutate(dqi_normal_participation = normal_participation_total / (total_interruptions) * 100) |>
-  select(Debate_number, dqi_normal_participation)
+  rename(debate_number = Debate_number) |>
+  select(debate_number, dqi_normal_participation)
 dqi_participation_final
 
 ## Round all numbers ##
+dqi_participation_final <-
 dqi_participation_final |>
   dplyr::mutate(across(where(is.numeric), round, 1))
 
@@ -349,7 +357,8 @@ newspaper_substance_all_final =
 newspaper_substance_all |>
   mutate(news_substance*100) |>
   select(debate_number, `news_substance * 100`) |>
-  rename(`news_substance` = `news_substance * 100`)
+  rename(`news_substance` = `news_substance * 100`) |>
+  dplyr::mutate(across(where(is.numeric), round, 1))
 newspaper_substance_all_final
 
 #### Calculate "news_format" column for all debates ####
@@ -554,7 +563,8 @@ newspaper_format_all_final =
   newspaper_format_all |>
   mutate(news_format*100) |>
   select(debate_number, `news_format * 100`) |>
-  rename(`news_format` = `news_format * 100`)
+  rename(`news_format` = `news_format * 100`) |>
+  dplyr::mutate(across(where(is.numeric), round, 1))
 newspaper_format_all_final
 
 #### Calculate "news_moderation_more" column for all debates ####
@@ -1323,3 +1333,33 @@ leader_objections_data <-
 leader_objections_data
 
 #### Join all individual datasets together to create full "by_debates" dataset ####
+# Code referenced from: https://stackoverflow.com/questions/70093718/how-to-use-left-join-on-several-data-frames
+by_debates_new <-
+  list(
+    dqi_by_speech_all_final,
+    dqi_positional_pol_final,
+    dqi_respect_final,
+    dqi_participation_final,
+    newspaper_substance_all_final,
+    newspaper_format_all_final,
+    newspaper_moderation_more_all_final,
+    newspaper_moderation_less_all_final,
+    newspaper_moderation_praise_all_final,
+    video_point_data,
+    video_fist_data,
+    video_crosstalk_data,
+    demands_in_words_data,
+    leader_objections_data,
+    moderator_objections_data
+  ) |>
+  reduce(left_join, by = "debate_number") |>
+  mutate(election_year = case_when(
+    startsWith(debate_number, "2008") ~ "2008",
+    startsWith(debate_number, "2011") ~ "2011",
+    startsWith(debate_number, "2015") ~ "2015",
+    startsWith(debate_number, "2019") ~ "2019",
+    startsWith(debate_number, "2021") ~ "2021"),
+    .before = debate_number) 
+
+#### Save replicated dataset ####
+write_csv(x = by_debates_new, file = "Outputs/Data/by_debates_replicated.csv")
