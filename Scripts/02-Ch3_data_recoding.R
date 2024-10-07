@@ -13,7 +13,7 @@ library(tidyverse)
 debate_questions_final <- read_csv("Outputs/Data/debate_questions_final.csv")
 
 #### Re-coding #### 
-recoded_debate_questions_final = 
+debate_questions_final_recoded = 
   debate_questions_final|>
   mutate("Primary_issue" = case_when( 
     Primary_issue == "Public finance" ~ "Economy", # THIS IS IT
@@ -65,6 +65,7 @@ mutate("Secondary_issue" = case_when(
   Secondary_issue == "Federalism" ~ "Federalism",
   Secondary_issue == "Covid" ~ "Covid",
   Secondary_issue == "Social welfare"~ "Social welfare"))
-    
+debate_questions_final_recoded
+
 #### Save re-coded dataset ####
-write_csv(recoded_debate_questions_final, file = "Outputs/Data/recoded_debate_questions_final.csv")
+write_csv(debate_questions_final_recoded, file = "Outputs/Data/debate_questions_final_recoded.csv")

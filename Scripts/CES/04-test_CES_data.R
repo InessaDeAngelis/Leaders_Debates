@@ -94,7 +94,7 @@ summary(out)
 rules <- validator(
   is.numeric(ID),
   is.character(important_issues),
-  important_issues %vin% c("Crime and public safety", "Social Welfare", "Economy", "Environment", "Other", "Public Finances", "Health", "Education", "Ethics")
+  important_issues %vin% c("Crime and public safety", "Social Welfare", "Economy", "Environment", "Other", "Health", "Education", "Ethics")
 )
   
 out <-

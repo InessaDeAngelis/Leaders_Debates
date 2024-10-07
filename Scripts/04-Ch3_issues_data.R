@@ -11,7 +11,7 @@
 library(tidyverse)
 
 #### Read in cleaned dataset ####
-debate_questions_final <- read_csv("Outputs/Data/debate_questions_final.csv")
+debate_questions_final <- read_csv("Outputs/Data/debate_questions_final_recoded.csv")
 
 #### Create specific datasets by year ####
 ## 2008 debate ##
