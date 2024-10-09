@@ -11,7 +11,7 @@ library(tidyverse)
 library(formattable)
 
 #### Read in dataset ####
-debate_questions_final <- read_csv(file = "Outputs/Data/debate_questions_final.csv")
+debate_questions_final <- read_csv(file = "Outputs/Data/debate_questions_final_recoded.csv")
 
 #### Re-code categories (to align with Bastien & CES) ####
 debate_questions_themes <-

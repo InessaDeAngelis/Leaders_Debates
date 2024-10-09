@@ -14,7 +14,7 @@ library(tidyverse)
 dqi_by_speech_final <- read_csv(file = "Outputs/Data/dqi_by_speech_final.csv")
 
 ## Newspaper dataset ##
-newspaper_data_final <- read_csv(file = "Outputs/Data/newspaper_data_final.csv")
+newspaper_data_final <- read_csv(file = "Outputs/Data/newspaper_data_final_new.csv")
 
 #### Calculate "dqi_percent_demands" column for all debates ####
 ## Count total number of interventions per debate ##
@@ -153,6 +153,165 @@ dqi_participation_final
 dqi_participation_final <-
 dqi_participation_final |>
   dplyr::mutate(across(where(is.numeric), round, 1))
+
+#### Calculate "news_strategic_frame" column for all debates ####
+## 2008 - FR ##
+newspaper_strategic_2008_FR <- newspaper_data_final |>
+  filter(Fr08 == 1)|>
+  summarise(news_strategic_frame = sum(Strategic_frame == 1) / n()) |>
+  mutate(debate_number = "2008FrConsortium") |>
+  select(debate_number, news_strategic_frame)
+newspaper_strategic_2008_FR
+
+## 2008 - EN ##
+newspaper_strategic_2008_EN <- newspaper_data_final |>
+  filter(En08 == 1)|>
+  summarise(news_strategic_frame = sum(Strategic_frame == 1) / n()) |>
+  mutate(debate_number = "2008EnConsortium") |>
+  select(debate_number, news_strategic_frame)
+newspaper_strategic_2008_EN
+
+## 2011 - FR ##
+newspaper_strategic_2011_FR <- newspaper_data_final |>
+  filter(Fr11 == 1)|>
+  summarise(news_strategic_frame = sum(Strategic_frame == 1) / n()) |>
+  mutate(debate_number = "2011FrConsortium") |>
+  select(debate_number, news_strategic_frame)
+newspaper_strategic_2011_FR
+
+## 2011 - EN ##
+newspaper_strategic_2011_EN <- newspaper_data_final |>
+  filter(En11 == 1)|>
+  summarise(news_strategic_frame = sum(Strategic_frame == 1) / n()) |>
+  mutate(debate_number = "2011EnConsortium") |>
+  select(debate_number, news_strategic_frame)
+newspaper_strategic_2011_EN
+
+## 2015 - Macleans ##
+newspaper_strategic_2015_Mac <- newspaper_data_final |>
+  filter(Macleans15 == 1) |>
+  summarise(news_strategic_frame = sum(Strategic_frame == 1) / n()) |>
+  mutate(debate_number = "2015Macleans") |>
+  select(debate_number, news_strategic_frame)
+newspaper_strategic_2015_Mac
+
+## 2015 - Globe & Mail ##
+newspaper_strategic_2015_GM <- newspaper_data_final |>
+  filter(Globe15 == 1) |>
+  summarise(news_strategic_frame = sum(Strategic_frame == 1) / n()) |>
+  mutate(debate_number = "2015Globe&Mail") |>
+  select(debate_number, news_strategic_frame)
+newspaper_strategic_2015_GM
+
+## 2015 - Radio-Canada ##
+newspaper_strategic_2015_RC <- newspaper_data_final |>
+  filter(RC15 == 1) |>
+  summarise(news_strategic_frame = sum(Strategic_frame == 1) / n()) |>
+  mutate(debate_number = "2015Radio-Canada") |>
+  select(debate_number, news_strategic_frame)
+newspaper_strategic_2015_RC
+
+## 2015 - Munk ##
+newspaper_strategic_2015_Munk <- newspaper_data_final |>
+  filter(Munk15 == 1) |>
+  summarise(news_strategic_frame = sum(Strategic_frame == 1) / n()) |>
+  mutate(debate_number = "2015Munk") |>
+  select(debate_number, news_strategic_frame)
+newspaper_strategic_2015_Munk
+
+## 2015 - TVA ##
+newspaper_strategic_2015_TVA <- newspaper_data_final |>
+  filter(TVA15 == 1) |>
+  summarise(news_strategic_frame = sum(Strategic_frame == 1) / n()) |>
+  mutate(debate_number = "2015TVA") |>
+  select(debate_number, news_strategic_frame)
+newspaper_strategic_2015_TVA
+
+## 2019 - Macleans ##
+newspaper_strategic_2019_Mac <- newspaper_data_final |>
+  filter(Macleans19 == 1) |>
+  summarise(news_strategic_frame = sum(Strategic_frame == 1) / n()) |>
+  mutate(debate_number = "2019Macleans") |>
+  select(debate_number, news_strategic_frame)
+newspaper_strategic_2019_Mac
+
+## 2019 - TVA ##
+newspaper_strategic_2019_TVA <- newspaper_data_final |>
+  filter(TVA19 == 1) |>
+  summarise(news_strategic_frame = sum(Strategic_frame == 1) / n()) |>
+  mutate(debate_number = "2019TVA") |>
+  select(debate_number, news_strategic_frame)
+newspaper_strategic_2019_TVA
+
+## 2019 - LCD EN ##
+newspaper_strategic_2019_EN <- newspaper_data_final |>
+  filter(LDCen19 == 1) |>
+  summarise(news_strategic_frame = sum(Strategic_frame == 1) / n()) |>
+  mutate(debate_number = "2019EnLDC") |>
+  select(debate_number, news_strategic_frame)
+newspaper_strategic_2019_EN
+
+## 2019 - LCD FR ##
+newspaper_strategic_2019_FR <- newspaper_data_final |>
+  filter(LDCfr19 == 1) |>
+  summarise(news_strategic_frame = sum(Strategic_frame == 1) / n()) |>
+  mutate(debate_number = "2019FrLDC") |>
+  select(debate_number, news_strategic_frame)
+newspaper_strategic_2019_FR
+
+## 2021 - TVA ##
+newspaper_strategic_2021_TVA <- newspaper_data_final |>
+  filter(TVA21 == 1) |>
+  summarise(news_strategic_frame = sum(Strategic_frame == 1) / n()) |>
+  mutate(debate_number = "2021TVA") |>
+  select(debate_number, news_strategic_frame)
+newspaper_strategic_2021_TVA
+
+## 2021 - LCD EN ##
+newspaper_strategic_2021_EN <- newspaper_data_final |>
+  filter(LDCen21 == 1) |>
+  summarise(news_strategic_frame = sum(Strategic_frame == 1) / n()) |>
+  mutate(debate_number = "2021EnLDC") |>
+  select(debate_number, news_strategic_frame)
+newspaper_strategic_2021_EN
+
+## 2021 - LCD FR ##
+newspaper_strategic_2021_FR <- newspaper_data_final |>
+  filter(LDCfr21 == 1) |>
+  summarise(news_strategic_frame = sum(Strategic_frame == 1) / n()) |>
+  mutate(debate_number = "2021FrLDC") |>
+  select(debate_number, news_strategic_frame)
+newspaper_strategic_2021_FR
+
+## Combine all ##
+newspaper_strategic_all <-
+  rbind(
+    newspaper_strategic_2008_FR,
+    newspaper_strategic_2008_EN,
+    newspaper_strategic_2011_EN,
+    newspaper_strategic_2011_FR,
+    newspaper_strategic_2015_Mac,
+    newspaper_strategic_2015_GM,
+    newspaper_strategic_2015_RC,
+    newspaper_strategic_2015_Munk,
+    newspaper_strategic_2015_TVA,
+    newspaper_strategic_2019_Mac,
+    newspaper_strategic_2019_TVA,
+    newspaper_strategic_2019_EN,
+    newspaper_strategic_2019_FR,
+    newspaper_strategic_2021_TVA,
+    newspaper_strategic_2021_FR,
+    newspaper_strategic_2021_EN)
+newspaper_strategic_all 
+
+## Fix rounding ##
+newspaper_strategic_all_final = 
+  newspaper_strategic_all |>
+  mutate(news_strategic_frame*100) |>
+  select(debate_number, `news_strategic_frame * 100`) |>
+  rename(`news_strategic_frame` = `news_strategic_frame * 100`) |>
+  dplyr::mutate(across(where(is.numeric), round, 1))
+newspaper_strategic_all_final
 
 #### Calculate "news_substance" column for all debates ####
 ## 2008 - FR ##

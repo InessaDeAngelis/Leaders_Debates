@@ -201,7 +201,7 @@ debate_questions_2015_TVA
 # Radio-Canada #
 debate_questions_2015_RC =
   debate_questions_2015 |>
-  filter(Debate_number == "2015_Radio-Canada") |>
+  filter(Debate_number == "2015Radio-Canada") |>
   select(Primary_issue, Secondary_issue) |>
   mutate(across(everything(), trimws)) |>
   rowid_to_column() |>
@@ -240,7 +240,7 @@ debate_questions_2015_Mac
 # Globe & Mail #
 debate_questions_2015_GM =
   debate_questions_2015 |>
-  filter(Debate_number == "2015_Globe&Mail") |>
+  filter(Debate_number == "2015Globe&Mail") |>
   select(Primary_issue, Secondary_issue) |>
   mutate(across(everything(), trimws)) |>
   rowid_to_column() |>
