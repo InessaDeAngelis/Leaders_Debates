@@ -7,8 +7,31 @@
 
 #### Workspace setup ####
 library(tidyverse)
+library(lubridate)
+library(quanteda)
+library(readtext)
 
 #### Read in dataset ####
 debate_comments <- read_csv("Outputs/Data/YouTube/debate_comments.csv")
 
-#### Prepare dataset ####
+#### Prepare Dictionary ####
+debates.lexicon <-
+  dictionary(list(
+    moderation = c(
+      "moderator",
+      "moderation",
+      "moderators",
+      "Althia",
+      "Raj",
+      "Rosie",
+      "Barton",
+      "Susan",
+      "Delacourt",
+      "Donna",
+      "Frisen",
+      "LaFlamme",
+      "Lisa"),
+    format = c("format"),
+    production = c("stage", "podium", "audience"),
+    won = c("won*", "win*")))
+
