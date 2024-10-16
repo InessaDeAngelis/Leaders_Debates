@@ -96,7 +96,7 @@ dqi_justification_2008FR <- dqi_by_speech_final |>
   relocate(debate_number, No_Justification, Inferior_Justification, Qualified_Justification, Justification_score)
 
 ## 2008 - EN ##
-dqi_justification_2008EN <-dqi_by_speech_final |>
+dqi_justification_2008EN <- dqi_by_speech_final |>
   filter(Debate_number == "2008EnConsortium") |>
   drop_na(Justification) |>
   count(Justification) |>
@@ -112,7 +112,7 @@ dqi_justification_2008EN <-dqi_by_speech_final |>
   relocate(debate_number, No_Justification, Inferior_Justification, Qualified_Justification, Justification_score)
 
 ## 2011 - EN ##
-dqi_justification_2011EN <-dqi_by_speech_final |>
+dqi_justification_2011EN <- dqi_by_speech_final |>
   filter(Debate_number == "2011EnConsortium") |>
   drop_na(Justification) |>
   count(Justification) |>
@@ -128,7 +128,7 @@ dqi_justification_2011EN <-dqi_by_speech_final |>
   relocate(debate_number, No_Justification, Inferior_Justification, Qualified_Justification, Justification_score)
 
 ## 2011 - FR ##
-dqi_justification_2011FR <-dqi_by_speech_final |>
+dqi_justification_2011FR <- dqi_by_speech_final |>
   filter(Debate_number == "2011FrConsortium") |>
   drop_na(Justification) |>
   count(Justification) |>
@@ -144,7 +144,7 @@ dqi_justification_2011FR <-dqi_by_speech_final |>
   relocate(debate_number, No_Justification, Inferior_Justification, Qualified_Justification, Justification_score)
 
 ## 2015 - Macleans ##
-dqi_justification_2015Mac <-dqi_by_speech_final |>
+dqi_justification_2015Mac <- dqi_by_speech_final |>
   filter(Debate_number == "2015Macleans") |>
   drop_na(Justification) |>
   count(Justification) |>
@@ -160,11 +160,11 @@ dqi_justification_2015Mac <-dqi_by_speech_final |>
   relocate(debate_number, No_Justification, Inferior_Justification, Qualified_Justification, Justification_score)
 
 ## 2015 - Globe & Mail ##
-dqi_justification_2015GM <-dqi_by_speech_final |>
+dqi_justification_2015GM <- dqi_by_speech_final |>
   filter(Debate_number == "2015Globe&Mail") |>
   drop_na(Justification) |>
   count(Justification) |>
-  mutate(dqi_justification = (n / 64) * 100,
+  mutate(dqi_justification = round((n / 64) * 100, 1),
     Justification_score_temp = case_when(
     Justification == 'No_Justification' ~ dqi_justification * 0,
     Justification == 'Inferior_Justification' ~ dqi_justification * 1,
@@ -176,7 +176,7 @@ dqi_justification_2015GM <-dqi_by_speech_final |>
   relocate(debate_number, No_Justification, Inferior_Justification, Qualified_Justification, Justification_score)
 
 ## 2015 - Radio-Canada ##
-dqi_justification_2015RC <-dqi_by_speech_final |>
+dqi_justification_2015RC <- dqi_by_speech_final |>
   filter(Debate_number == "2015Radio-Canada") |>
   drop_na(Justification) |>
   count(Justification) |>
@@ -192,7 +192,7 @@ dqi_justification_2015RC <-dqi_by_speech_final |>
   relocate(debate_number, No_Justification, Inferior_Justification, Qualified_Justification, Justification_score)
 
 ## 2015 - Munk ##
-dqi_justification_2015Munk <-dqi_by_speech_final |>
+dqi_justification_2015Munk <- dqi_by_speech_final |>
   filter(Debate_number == "2015Munk") |>
   drop_na(Justification) |>
   count(Justification) |>
@@ -208,7 +208,7 @@ dqi_justification_2015Munk <-dqi_by_speech_final |>
   relocate(debate_number, No_Justification, Inferior_Justification, Qualified_Justification, Justification_score)
 
 ## 2015 - TVA ##
-dqi_justification_2015TVA <-dqi_by_speech_final |>
+dqi_justification_2015TVA <- dqi_by_speech_final |>
   filter(Debate_number == "2015TVA") |>
   drop_na(Justification) |>
   count(Justification) |>
@@ -224,7 +224,7 @@ dqi_justification_2015TVA <-dqi_by_speech_final |>
   relocate(debate_number, No_Justification, Inferior_Justification, Qualified_Justification, Justification_score)
 
 ## 2019 - Macleans ##
-dqi_justification_2019Mac <-dqi_by_speech_final |>
+dqi_justification_2019Mac <- dqi_by_speech_final |>
   filter(Debate_number == "2019Macleans") |>
   drop_na(Justification) |>
   count(Justification) |>
@@ -283,7 +283,7 @@ dqi_justification_2019FR <-dqi_by_speech_final |>
     Justification == 'Qualified_Justification' ~ dqi_justification * 2),
     Justification_score = round(sum(Justification_score_temp)/100, 2)) |>
   select(-c(n, Justification_score_temp)) |>
-  mutate(debate_number = "2019FRLDC", .before = Justification) |>
+  mutate(debate_number = "2019FrLDC", .before = Justification) |>
   pivot_wider(names_from = "Justification", values_from = "dqi_justification") |>
   relocate(debate_number, No_Justification, Inferior_Justification, Qualified_Justification, Justification_score)
 
@@ -315,7 +315,7 @@ dqi_justification_2021FR <-dqi_by_speech_final |>
     Justification == 'Qualified_Justification' ~ dqi_justification * 2),
     Justification_score = round(sum(Justification_score_temp)/100, 2)) |>
   select(-c(n, Justification_score_temp)) |>
-  mutate(debate_number = "2021FRLDC", .before = Justification) |>
+  mutate(debate_number = "2021FrLDC", .before = Justification) |>
   pivot_wider(names_from = "Justification", values_from = "dqi_justification") |>
   relocate(debate_number, No_Justification, Inferior_Justification, Qualified_Justification, Justification_score)
 
@@ -335,7 +335,7 @@ dqi_justification_2021EN <-dqi_by_speech_final |>
   pivot_wider(names_from = "Justification", values_from = "dqi_justification") |>
   relocate(debate_number, No_Justification, Inferior_Justification, Qualified_Justification, Justification_score)
 
-## Combine all seperate datasets ##
+## Combine all separate datasets ##
 dqi_justification_all <- rbind(
   dqi_justification_2008FR,
   dqi_justification_2008EN,
