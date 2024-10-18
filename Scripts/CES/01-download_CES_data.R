@@ -5,7 +5,7 @@
 # Contact: inessa.deangelis@mail.utoronto.ca 
 # License: MIT
 # Pre-requisites: None
-# Note: cesR package doesn't consistently work and doesn't cover all CES data (updates coming summer 2024!)
+# Note: cesR package doesn't consistently work and doesn't cover all CES data
   # All of 2021, 2019 re-coded issues, and 2015 combined (web and phone) are missing - download directly from CES website
 
 #### Workspace setup ####
