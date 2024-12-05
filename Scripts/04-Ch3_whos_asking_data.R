@@ -10,7 +10,7 @@
 library(tidyverse)
 
 #### Read in cleaned dataset ####
-debate_questions_final <- read_csv("Outputs/Data/recoded_debate_questions_final.csv")
+debate_questions_final <- read_csv("Outputs/Data/debate_questions_final_recoded.csv")
 
 #### Create specific datasets by year ####
 ## 2008 debate ##
@@ -118,7 +118,11 @@ citizen_questions_2008_EN =
   pivot_longer(-rowid) |>
   group_by(value) |>
   summarise(n = n_distinct(rowid)) |>
-  mutate(proportion = n / (sum(8))* 100) 
+  mutate(proportion = n / (sum(8))* 100) |>
+  mutate(Debate_number = c("2008EnConsortium"),
+         .before = value) |>
+  mutate(Whos_asking = c("Citizen"),
+         .after = Debate_number)
 citizen_questions_2008_EN
 
 # EN - Moderator Qs #
@@ -132,7 +136,11 @@ moderator_questions_2008_EN =
   pivot_longer(-rowid) |>
   group_by(value) |>
   summarise(n = n_distinct(rowid)) |>
-  mutate(proportion = n / (sum(23))* 100) 
+  mutate(proportion = n / (sum(23))* 100) |>
+  mutate(Debate_number = c("2008EnConsortium"),
+         .before = value) |>
+  mutate(Whos_asking = c("Moderator"),
+         .after = Debate_number)
 moderator_questions_2008_EN
 
 # FR - Moderator Qs #
@@ -146,7 +154,11 @@ moderator_questions_2008_FR =
   pivot_longer(-rowid) |>
   group_by(value) |>
   summarise(n = n_distinct(rowid)) |>
-  mutate(proportion = n / (sum(14))* 100)
+  mutate(proportion = n / (sum(14))* 100) |>
+  mutate(Debate_number = c("2008FrConsortium"),
+         .before = value) |>
+  mutate(Whos_asking = c("Moderator"),
+         .after = Debate_number)
 moderator_questions_2008_FR
 
 # FR - Citizen Qs #
@@ -160,7 +172,11 @@ citizen_questions_2008_FR =
   pivot_longer(-rowid) |>
   group_by(value) |>
   summarise(n = n_distinct(rowid)) |>
-  mutate(proportion = n / (sum(8))* 100)
+  mutate(proportion = n / (sum(8))* 100) |>
+  mutate(Debate_number = c("2008FrConsortium"),
+         .before = value) |>
+  mutate(Whos_asking = c("Citizen"),
+         .after = Debate_number)
 citizen_questions_2008_FR
 
 ## 2011 ##
@@ -175,7 +191,11 @@ citizen_questions_2011_EN =
   pivot_longer(-rowid) |>
   group_by(value) |>
   summarise(n = n_distinct(rowid)) |>
-  mutate(proportion = n / (sum(6))* 100) 
+  mutate(proportion = n / (sum(6))* 100) |>
+  mutate(Debate_number = c("2011EnConsortium"),
+         .before = value) |>
+  mutate(Whos_asking = c("Citizen"),
+         .after = Debate_number)
 citizen_questions_2011_EN
 
 # EN - Moderator Qs #
@@ -189,7 +209,11 @@ moderator_questions_2011_EN =
   pivot_longer(-rowid) |>
   group_by(value) |>
   summarise(n = n_distinct(rowid)) |>
-  mutate(proportion = n / (sum(1))* 100) 
+  mutate(proportion = n / (sum(1))* 100) |>
+  mutate(Debate_number = c("2011EnConsortium"),
+         .before = value) |>
+  mutate(Whos_asking = c("Moderator"),
+         .after = Debate_number)
 moderator_questions_2011_EN
 
 # FR - Citizen Qs #
@@ -203,7 +227,11 @@ citizen_questions_2011_FR =
   pivot_longer(-rowid) |>
   group_by(value) |>
   summarise(n = n_distinct(rowid)) |>
-  mutate(proportion = n / (sum(6))* 100)
+  mutate(proportion = n / (sum(6))* 100) |>
+  mutate(Debate_number = c("2011FrConsortium"),
+         .before = value) |>
+  mutate(Whos_asking = c("Citizen"),
+         .after = Debate_number)
 citizen_questions_2011_FR 
 
 # FR - Moderator Qs #
@@ -217,7 +245,11 @@ moderator_questions_2011_FR =
   pivot_longer(-rowid) |>
   group_by(value) |>
   summarise(n = n_distinct(rowid)) |>
-  mutate(proportion = n / (sum(13))* 100) 
+  mutate(proportion = n / (sum(13))* 100) |>
+  mutate(Debate_number = c("2011FrConsortium"),
+         .before = value) |>
+  mutate(Whos_asking = c("Moderator"),
+         .after = Debate_number)
 moderator_questions_2011_FR 
 
 ## 2015 ##
@@ -232,7 +264,11 @@ moderator_questions_2015_TVA =
   pivot_longer(-rowid) |>
   group_by(value) |>
   summarise(n = n_distinct(rowid)) |>
-  mutate(proportion = n / (sum(40))* 100) 
+  mutate(proportion = n / (sum(40))* 100) |>
+  mutate(Debate_number = c("2015TVA"),
+         .before = value) |>
+  mutate(Whos_asking = c("Moderator"),
+         .after = Debate_number)
 moderator_questions_2015_TVA
 
 # Radio-Canada - Journalist Qs #
@@ -246,7 +282,11 @@ journalist_questions_2015_RC =
   pivot_longer(-rowid) |>
   group_by(value) |>
   summarise(n = n_distinct(rowid)) |>
-  mutate(proportion = n / (sum(17))* 100) 
+  mutate(proportion = n / (sum(17))* 100) |>
+  mutate(Debate_number = c("2015Radio-Canada"),
+         .before = value) |>
+  mutate(Whos_asking = c("Journalist"),
+         .after = Debate_number)
 journalist_questions_2015_RC
 
 # Munk - Moderator Qs #
@@ -260,7 +300,11 @@ moderator_questions_2015_Munk =
   pivot_longer(-rowid) |>
   group_by(value) |>
   summarise(n = n_distinct(rowid)) |>
-  mutate(proportion = n / (sum(11))* 100)
+  mutate(proportion = n / (sum(11))* 100) |>
+  mutate(Debate_number = c("2015Munk"),
+         .before = value) |>
+  mutate(Whos_asking = c("Moderator"),
+         .after = Debate_number)
 moderator_questions_2015_Munk
 
 # Macleans - Moderator Qs  #
@@ -274,7 +318,11 @@ moderator_questions_2015_Mac =
   pivot_longer(-rowid) |>
   group_by(value) |>
   summarise(n = n_distinct(rowid)) |>
-  mutate(proportion = n / (sum(40))* 100) 
+  mutate(proportion = n / (sum(40))* 100) |>
+  mutate(Debate_number = c("2015Macleans"),
+         .before = value) |>
+  mutate(Whos_asking = c("Moderator"),
+         .after = Debate_number)
 moderator_questions_2015_Mac
 
 # Globe & Mail - Moderator Qs #
@@ -288,7 +336,11 @@ moderator_questions_2015_GM =
   pivot_longer(-rowid) |>
   group_by(value) |>
   summarise(n = n_distinct(rowid)) |>
-  mutate(proportion = n / (sum(34))* 100) 
+  mutate(proportion = n / (sum(34))* 100) |>
+  mutate(Debate_number = c("2015Globe&Mail"),
+         .before = value) |>
+  mutate(Whos_asking = c("Moderator"),
+         .after = Debate_number)
 moderator_questions_2015_GM
 
 ## 2019 ##
@@ -303,7 +355,11 @@ citizen_questions_2019_EN =
   pivot_longer(-rowid) |>
   group_by(value) |>
   summarise(n = n_distinct(rowid)) |>
-  mutate(proportion = n / (sum(6))* 100) 
+  mutate(proportion = n / (sum(6))* 100) |>
+  mutate(Debate_number = c("2019EnLDC"),
+         .before = value) |>
+  mutate(Whos_asking = c("Citizen"),
+         .after = Debate_number)
 citizen_questions_2019_EN
 
 # LDC EN - Moderator Qs #
@@ -317,7 +373,11 @@ moderator_questions_2019_EN =
   pivot_longer(-rowid) |>
   group_by(value) |>
   summarise(n = n_distinct(rowid)) |>
-  mutate(proportion = n / (sum(4))* 100) 
+  mutate(proportion = n / (sum(4))* 100) |>
+  mutate(Debate_number = c("2019EnLDC"),
+         .before = value) |>
+  mutate(Whos_asking = c("Moderator"),
+         .after = Debate_number)
 moderator_questions_2019_EN
 
 # LDC EN - Journalist Qs #
@@ -331,8 +391,30 @@ journalist_questions_2019_EN =
   pivot_longer(-rowid) |>
   group_by(value) |>
   summarise(n = n_distinct(rowid)) |>
-  mutate(proportion = n / (sum(2))* 100) 
+  mutate(proportion = n / (sum(2))* 100) |>
+  mutate(Debate_number = c("2019EnLDC"),
+         .before = value) |>
+  mutate(Whos_asking = c("Journalist"),
+         .after = Debate_number)
 journalist_questions_2019_EN
+
+# LDC EN - Leader Qs #
+leader_questions_2019_EN =
+  debate_questions_2019 |>
+  filter(Debate_number == "2019EnLDC") |>
+  filter(Question_source == "Leader") |>
+  select(Primary_issue, Secondary_issue) |>
+  mutate(across(everything(), trimws)) |>
+  rowid_to_column() |>
+  pivot_longer(-rowid) |>
+  group_by(value) |>
+  summarise(n = n_distinct(rowid)) |>
+  mutate(proportion = n / (sum(6))* 100) |>
+  mutate(Debate_number = c("2019EnLDC"),
+         .before = value) |>
+  mutate(Whos_asking = c("Leader"),
+         .after = Debate_number)
+leader_questions_2019_EN
 
 # LDC FR - Citizen Qs #
 citizen_questions_2019_FR =
@@ -345,7 +427,11 @@ citizen_questions_2019_FR =
   pivot_longer(-rowid) |>
   group_by(value) |>
   summarise(n = n_distinct(rowid)) |>
-  mutate(proportion = n / (sum(5))* 100) 
+  mutate(proportion = n / (sum(5))* 100) |>
+  mutate(Debate_number = c("2019FrLDC"),
+         .before = value) |>
+  mutate(Whos_asking = c("Citizen"),
+         .after = Debate_number)
 citizen_questions_2019_FR 
 
 # LDC FR - Moderator Qs #
@@ -359,7 +445,11 @@ moderator_questions_2019_FR =
   pivot_longer(-rowid) |>
   group_by(value) |>
   summarise(n = n_distinct(rowid)) |>
-  mutate(proportion = n / (sum(20))* 100) 
+  mutate(proportion = n / (sum(20))* 100) |>
+  mutate(Debate_number = c("2019FrLDC"),
+         .before = value) |>
+  mutate(Whos_asking = c("Moderator"),
+         .after = Debate_number)
 moderator_questions_2019_FR 
 
 # LDC FR - Journalist Qs #
@@ -373,7 +463,11 @@ journalist_questions_2019_FR =
   pivot_longer(-rowid) |>
   group_by(value) |>
   summarise(n = n_distinct(rowid)) |>
-  mutate(proportion = n / (sum(27))* 100) 
+  mutate(proportion = n / (sum(27))* 100) |>
+  mutate(Debate_number = c("2019FrLDC"),
+         .before = value) |>
+  mutate(Whos_asking = c("Journalist"),
+         .after = Debate_number)
 journalist_questions_2019_FR 
 
 # TVA - Moderator Qs #
@@ -387,7 +481,11 @@ moderator_questions_2019_TVA =
   pivot_longer(-rowid) |>
   group_by(value) |>
   summarise(n = n_distinct(rowid)) |>
-  mutate(proportion = n / (sum(45))* 100) 
+  mutate(proportion = n / (sum(45))* 100) |>
+  mutate(Debate_number = c("2019TVA"),
+         .before = value) |>
+  mutate(Whos_asking = c("Moderator"),
+         .after = Debate_number)
 moderator_questions_2019_TVA 
 
 # Macleans - Moderator Qs #
@@ -401,7 +499,11 @@ moderator_questions_2019_Mac =
   pivot_longer(-rowid) |>
   group_by(value) |>
   summarise(n = n_distinct(rowid)) |>
-  mutate(proportion = n / (sum(32))* 100) 
+  mutate(proportion = n / (sum(32))* 100) |>
+  mutate(Debate_number = c("2019Macleans"),
+         .before = value) |>
+  mutate(Whos_asking = c("Moderator"),
+         .after = Debate_number)
 moderator_questions_2019_Mac
 
 ## 2021 ##
@@ -416,7 +518,11 @@ citizen_questions_2021_EN =
   pivot_longer(-rowid) |>
   group_by(value) |>
   summarise(n = n_distinct(rowid)) |>
-  mutate(proportion = n / (sum(4))* 100)
+  mutate(proportion = n / (sum(4))* 100) |>
+  mutate(Debate_number = c("2021EnLDC"),
+         .before = value) |>
+  mutate(Whos_asking = c("Citizen"),
+         .after = Debate_number)
 citizen_questions_2021_EN 
 
 # LDC EN - Moderator Qs #
@@ -430,7 +536,11 @@ moderator_questions_2021_EN =
   pivot_longer(-rowid) |>
   group_by(value) |>
   summarise(n = n_distinct(rowid)) |>
-  mutate(proportion = n / (sum(24))* 100)
+  mutate(proportion = n / (sum(24))* 100) |>
+  mutate(Debate_number = c("2021EnLDC"),
+         .before = value) |>
+  mutate(Whos_asking = c("Moderator"),
+         .after = Debate_number)
 moderator_questions_2021_EN 
 
 # LDC EN - Journalist Qs #
@@ -444,7 +554,11 @@ journalist_questions_2021_EN =
   pivot_longer(-rowid) |>
   group_by(value) |>
   summarise(n = n_distinct(rowid)) |>
-  mutate(proportion = n / (sum(32))* 100)
+  mutate(proportion = n / (sum(32))* 100) |>
+  mutate(Debate_number = c("2021EnLDC"),
+         .before = value) |>
+  mutate(Whos_asking = c("Journalist"),
+         .after = Debate_number)
 journalist_questions_2021_EN 
 
 # LDC FR - Citizen Qs #
@@ -458,7 +572,11 @@ citizen_questions_2021_FR =
   pivot_longer(-rowid) |>
   group_by(value) |>
   summarise(n = n_distinct(rowid)) |>
-  mutate(proportion = n / (sum(5))* 100)
+  mutate(proportion = n / (sum(5))* 100) |>
+  mutate(Debate_number = c("2021FrLDC"),
+         .before = value) |>
+  mutate(Whos_asking = c("Citizen"),
+         .after = Debate_number)
 citizen_questions_2021_FR 
 
 # LDC FR - Moderator Qs #
@@ -472,7 +590,11 @@ moderator_questions_2021_FR =
   pivot_longer(-rowid) |>
   group_by(value) |>
   summarise(n = n_distinct(rowid)) |>
-  mutate(proportion = n / (sum(30))* 100)
+  mutate(proportion = n / (sum(30))* 100) |>
+  mutate(Debate_number = c("2021FrLDC"),
+         .before = value) |>
+  mutate(Whos_asking = c("Moderator"),
+         .after = Debate_number)
 moderator_questions_2021_FR 
 
 # LDC FR - Journalist Qs #
@@ -486,7 +608,11 @@ journalist_questions_2021_FR =
   pivot_longer(-rowid) |>
   group_by(value) |>
   summarise(n = n_distinct(rowid)) |>
-  mutate(proportion = n / (sum(37))* 100)
+  mutate(proportion = n / (sum(37))* 100) |>
+  mutate(Debate_number = c("2021FrLDC"),
+         .before = value) |>
+  mutate(Whos_asking = c("Journalist"),
+         .after = Debate_number)
 journalist_questions_2021_FR 
 
 # TVA - Moderator Qs #
@@ -500,5 +626,55 @@ moderator_questions_2021_TVA =
   pivot_longer(-rowid) |>
   group_by(value) |>
   summarise(n = n_distinct(rowid)) |>
-  mutate(proportion = n / (sum(87))* 100)
+  mutate(proportion = n / (sum(87))* 100) |>
+  mutate(Debate_number = c("2021TVA"),
+         .before = value) |>
+  mutate(Whos_asking = c("Moderator"),
+         .after = Debate_number)
 moderator_questions_2021_TVA 
+
+#### Combine ####
+## Combine all individual datasets ##
+all_qs <-
+  rbind(
+    leader_questions_2019_EN,
+    journalist_questions_2015_RC,
+    journalist_questions_2019_EN,
+    journalist_questions_2019_FR,
+    journalist_questions_2021_EN,
+    journalist_questions_2021_FR,
+    citizen_questions_2021_EN,
+    citizen_questions_2021_FR,
+    citizen_questions_2019_EN,
+    citizen_questions_2019_FR,
+    citizen_questions_2011_EN,
+    citizen_questions_2011_FR,
+    citizen_questions_2008_EN,
+    citizen_questions_2008_FR,
+    moderator_questions_2008_EN,
+    moderator_questions_2008_FR,
+    moderator_questions_2011_EN,
+    moderator_questions_2011_FR,
+    moderator_questions_2015_GM,
+    moderator_questions_2015_Mac,
+    moderator_questions_2015_Munk,
+    moderator_questions_2015_TVA,
+    moderator_questions_2019_EN,
+    moderator_questions_2019_FR,
+    moderator_questions_2019_Mac,
+    moderator_questions_2019_TVA,
+    moderator_questions_2021_TVA,
+    moderator_questions_2021_FR,
+    moderator_questions_2021_EN
+  )
+
+## Clean up column names, rounding ##
+all_qs <- all_qs |>
+  drop_na(value) |>
+  rename(Issue = value,
+         Percentage = proportion,
+         Number_of_Qs = n) |>
+  dplyr::mutate(across(where(is.numeric), round, 2))
+
+## Save dataset ##
+write_csv(all_qs, "all_qs.csv")
