@@ -112,3 +112,18 @@ newspaper_data_final
 
 #### Save dataset ####
 write_csv(x = newspaper_data_final, file = "Outputs/Data/newspaper_data_final.csv")
+
+#### Clean final dataset with strategic and substantive columns added ####
+## Read in new dataset from Spencer ##
+newspaper_data_final_new <- read_csv("Outputs/Data/newspaper_data_final_new.csv")
+
+## Fix column names ##
+newspaper_data_final_new <-
+  newspaper_data_final_new |>
+  rename(
+    Strategic_frame = `strategic frame`,
+    Strategic_and_substantive = `strategic and substantive`)
+
+## Save cleaned dataset ##
+write_csv(newspaper_data_final_new, "Outputs/Data/newspaper_data_final_new.csv")
+  

@@ -53,7 +53,8 @@ debates.lexicon <-
       "Paul Wells"),
     format = c("format", "second*", "design"),
     production = c("stage", "podium", "audience", "requirement", "participat*"),
-    won = c("won*", "win*", "best")))
+    won = c("won*", "win*", "best"),
+    lost = c("worst", "least")))
 
 #### Prepare corpus and run dictionary ####
 ## Prepare ##
@@ -79,6 +80,8 @@ df_analyzed$PublishedAt <- debate_comments$PublishedAt
 df_analyzed$CommentID <- debate_comments$CommentID
 df_analyzed$ParentID <- debate_comments$ParentID
 df_analyzed$VideoID <- debate_comments$VideoID
+
+#### Re-code results to make them binary ####
 
 #### Save analyzed dataset ####
 write_csv(debate_comments, "Outputs/Data/YouTube/debate_comments_analyzed.csv")
