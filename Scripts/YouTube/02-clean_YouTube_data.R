@@ -63,7 +63,7 @@ debate_comments_en =
     Debate_number == "EN_debate_2021_commments_CTV" ~ "2021EnLDC",
     Debate_number == "EN_debate_2021_commments" ~ "2021EnLDC")) |>
   rename(Comment = text) |>
-  select(-c(language_results, AuthorProfileImageUrl, AuthorChannelUrl, UpdatedAt, ReplyCount, LikeCount))
+  select(-c(AuthorProfileImageUrl, AuthorChannelUrl, UpdatedAt, ReplyCount, LikeCount))
 debate_comments_en
 
 ## Save dataset ##
@@ -96,7 +96,7 @@ debate_comments_fr =
     Debate_number == "EN_debate_2021_commments_CTV" ~ "2021EnLDC",
     Debate_number == "EN_debate_2021_commments" ~ "2021EnLDC")) |>
   rename(Comment = text) |>
-  select(-c(language_results, AuthorProfileImageUrl, AuthorChannelUrl, UpdatedAt, ReplyCount, LikeCount))
+  select(-c(AuthorProfileImageUrl, AuthorChannelUrl, UpdatedAt, ReplyCount, LikeCount))
 debate_comments_fr
 
 ## Save dataset ##

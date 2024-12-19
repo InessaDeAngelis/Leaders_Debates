@@ -80,8 +80,7 @@ df_analyzed$PublishedAt <- debate_comments$PublishedAt
 df_analyzed$CommentID <- debate_comments$CommentID
 df_analyzed$ParentID <- debate_comments$ParentID
 df_analyzed$VideoID <- debate_comments$VideoID
-
-#### Re-code results to make them binary ####
+df_analyzed$language_results <- debate_comments$language_results
 
 #### Save analyzed dataset ####
 write_csv(debate_comments, "Outputs/Data/YouTube/debate_comments_analyzed.csv")
@@ -116,7 +115,8 @@ debates_fr.lexicon <-
       "Lisa"),
     format = c("forma*"),
     production = c("participat*"),
-    won = c("gagne", "gagn*")))
+    won = c("gagne", "gagn*"),
+    lost = c("worst", "least")))
 
 #### Prepare corpus and run dictionary ####
 ## Prepare ##
@@ -142,6 +142,16 @@ df_analyzed_fr$PublishedAt <- debate_comments_fr$PublishedAt
 df_analyzed_fr$CommentID <- debate_comments_fr$CommentID
 df_analyzed_fr$ParentID <- debate_comments_fr$ParentID
 df_analyzed_fr$VideoID <- debate_comments_fr$VideoID
+df_analyzed_fr$language_results <- debate_comments_fr$language_results
 
 #### Save analyzed dataset ####
 write_csv(debate_comments_fr, "Outputs/Data/YouTube/debate_comments_fr_analyzed.csv")
+
+#### Combine EN & FR datasets ####
+all_debate_comments <- rbind(df_analyzed, df_analyzed_fr)
+
+all_debate_comments <-
+  all_debate_comments |>
+  rename(comment_language = language_results)
+## Save combined dataset ##
+write_csv(all_debate_comments, "Outputs/Data/YouTube/all_debate_comments.csv")

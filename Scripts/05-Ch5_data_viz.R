@@ -11,6 +11,8 @@ library(tidyverse)
 library(scales)
 library(ggpmisc)
 library(ggpubr)
+library(ggpp)
+library(ggrepel)
 
 #### Read in dataset ####
 by_debates_final <- read_csv(file = "Outputs/Data/by_debates_final.csv")
@@ -42,8 +44,9 @@ by_debates_strategic_frame
 
 ## Data Visualization ##
 # Code referenced from: https://stackoverflow.com/questions/73995249/how-to-fill-the-background-of-a-stat-poly-eq-equation-ggpmisc-using-ggplot2
+# Code for label repelling referenced from: https://www.r4photobiology.info/galleries/nudge-and-repel.html
 
-# jpeg("Ch5_figure5.jpeg", units="in", width=9, height=7, res=500) 
+#jpeg("Ch5_figure5.jpeg", units="in", width=16, height=10, res=500) 
 p <- ggplot(by_debates_strategic_frame, aes(Election_year, news_strategic_frame/100)) + 
   geom_point() +
   ggrepel::geom_text_repel(
@@ -53,20 +56,21 @@ p <- ggplot(by_debates_strategic_frame, aes(Election_year, news_strategic_frame/
     alpha = 0.8,
     segment.size = 1,
     segment.alpha = 0.5,
-    force = 1
+    force = 1,
+    position = position_nudge_center(x = 0.10)
   ) +
   labs(x = "Election year", y = "Strategic Frame") +
   scale_x_continuous(breaks = scales::pretty_breaks(n = 13)) +
   scale_y_continuous(labels = scales::percent) +
   theme_linedraw() +
-  theme(axis.text.x = element_text(size = 11)) +
-  theme(axis.title.x = element_text(size = 13)) +
-  theme(axis.text.y = element_text(size = 11)) +
-  theme(axis.title.y.left = element_text(size = 13))
+  theme(axis.text.x = element_text(size = 13)) +
+  theme(axis.title.x = element_text(size = 15)) +
+  theme(axis.text.y = element_text(size = 13)) +
+  theme(axis.title.y.left = element_text(size = 15))
 
 p + geom_smooth(method = "lm", se = FALSE, color = "royalblue4") +
   stat_poly_eq(rr.digits = 2, parse = TRUE, size = 4, label.x = 0.97, label.y = 0.97, geom = "label_npc", label.size = 0.25)
-# dev.off()
+#dev.off()
 
 #### Figure 6 (Share of articles using strategic frames and addressing substance over time) ####
 ## Create analysis dataset ##
@@ -94,7 +98,7 @@ by_debates_substance =
 by_debates_substance
 
 ## Data Visualization ##
-# jpeg("Ch5_figure6.jpeg", units="in", width=9, height=5, res=500) 
+#jpeg("Ch5_figure6.jpeg", units="in", width=13, height=8, res=500) 
 p <- ggplot(by_debates_substance, aes(Election_year, news_substance/100)) + 
   geom_point() +
   ggrepel::geom_text_repel(
@@ -104,7 +108,8 @@ p <- ggplot(by_debates_substance, aes(Election_year, news_substance/100)) +
     alpha = 0.9,
     segment.size = .25,
     segment.alpha = .8,
-    force = 1
+    force = 1,
+    position = position_nudge_center(0.2, 0.1, 0, 0)
   ) +
   labs(x = "Election year", y = "Substance") +
   scale_x_continuous(breaks = scales::pretty_breaks(n = 13)) +
@@ -117,7 +122,7 @@ p <- ggplot(by_debates_substance, aes(Election_year, news_substance/100)) +
 
 p + geom_smooth(method = "lm", se = FALSE, color = "royalblue4") +
 stat_poly_eq(rr.digits = 2, parse = TRUE, size = 4, geom = "label_npc", label.size = 0.25)
-# dev.off()
+#dev.off()
 
 #### Figure 7 (Share of articles using strategic frames and addressing substance over time) ####
 ## Create analysis dataset ##
@@ -197,10 +202,19 @@ by_debates_strategic_sub
 # Code referenced from: https://stackoverflow.com/questions/77609363/stat-poly-eq-erroring-when-using-grouped-data-in-a-ggplot
 # &: https://stackoverflow.com/questions/7549694/add-regression-line-equation-and-r2-on-graph
 
-# jpeg("Ch5_figure7.jpeg", units="in", width=9, height=7, res=500) 
+jpeg("Ch5_figure7.jpeg", units="in", width=14, height=11, res=500) 
 p <- ggplot(by_debates_strategic_sub, aes(Election_year, strategic_and_substantive/100)) + 
   geom_point() + 
-  ggrepel::geom_text_repel(data = by_debates_strategic_sub, aes(label = Debate_number)) +
+  ggrepel::geom_text_repel(
+    data = by_debates_strategic_sub,
+    aes(label = Debate_number),
+    size = 4,
+    alpha = 0.9,
+    segment.size = .5,
+    segment.alpha = .8,
+    force = 1,
+    position = position_nudge_center(x = 0.05)
+  )+
   labs(x = "Election year", y = "Strategic and Substantive") +
   scale_x_continuous(breaks = scales::pretty_breaks(n = 13)) +
   scale_y_continuous(labels = scales::percent) +
@@ -210,9 +224,8 @@ p <- ggplot(by_debates_strategic_sub, aes(Election_year, strategic_and_substanti
   theme(axis.text.y = element_text(size = 11)) +
   theme(axis.title.y.left = element_text(size = 13)) 
 
-p + geom_smooth(method = "lm", se = FALSE, color = "royalblue4") +
-stat_cor(aes(label =  ..rr.label..))
-# dev.off()
+p + geom_smooth(method = "lm", se = FALSE, color = "royalblue4") 
+dev.off()
 
 #### Figure 8 (Share of articles focusing on news format) ####
 ## Create analysis dataset ##
