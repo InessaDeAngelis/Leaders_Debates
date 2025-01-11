@@ -53,8 +53,8 @@ debates.lexicon <-
       "Paul Wells"),
     format = c("format", "second*", "design"),
     production = c("stage", "podium", "audience", "requirement", "participat*"),
-    won = c("won*", "win*", "best"),
-    lost = c("worst", "least")))
+    won = c("won", "win*", "best", "winner", "winning"),
+    lost = c("worst", "least", "lost")))
 
 #### Prepare corpus and run dictionary ####
 ## Prepare ##
@@ -153,5 +153,6 @@ all_debate_comments <- rbind(df_analyzed, df_analyzed_fr)
 all_debate_comments <-
   all_debate_comments |>
   rename(comment_language = language_results)
+
 ## Save combined dataset ##
 write_csv(all_debate_comments, "Outputs/Data/YouTube/all_debate_comments.csv")

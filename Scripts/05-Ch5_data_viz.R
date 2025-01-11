@@ -202,7 +202,7 @@ by_debates_strategic_sub
 # Code referenced from: https://stackoverflow.com/questions/77609363/stat-poly-eq-erroring-when-using-grouped-data-in-a-ggplot
 # &: https://stackoverflow.com/questions/7549694/add-regression-line-equation-and-r2-on-graph
 
-jpeg("Ch5_figure7.jpeg", units="in", width=14, height=11, res=500) 
+#jpeg("Ch5_figure7.jpeg", units="in", width=14, height=11, res=500) 
 p <- ggplot(by_debates_strategic_sub, aes(Election_year, strategic_and_substantive/100)) + 
   geom_point() + 
   ggrepel::geom_text_repel(
@@ -219,13 +219,13 @@ p <- ggplot(by_debates_strategic_sub, aes(Election_year, strategic_and_substanti
   scale_x_continuous(breaks = scales::pretty_breaks(n = 13)) +
   scale_y_continuous(labels = scales::percent) +
   theme_linedraw() +
-  theme(axis.text.x = element_text(size = 11)) +
-  theme(axis.title.x = element_text(size = 13)) +
-  theme(axis.text.y = element_text(size = 11)) +
-  theme(axis.title.y.left = element_text(size = 13)) 
+  theme(axis.text.x = element_text(size = 14)) +
+  theme(axis.title.x = element_text(size = 16)) +
+  theme(axis.text.y = element_text(size = 14)) +
+  theme(axis.title.y.left = element_text(size = 16)) 
 
 p + geom_smooth(method = "lm", se = FALSE, color = "royalblue4") 
-dev.off()
+#dev.off()
 
 #### Figure 8 (Share of articles focusing on news format) ####
 ## Create analysis dataset ##

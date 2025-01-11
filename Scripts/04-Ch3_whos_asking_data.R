@@ -678,3 +678,56 @@ all_qs <- all_qs |>
 
 ## Save dataset ##
 write_csv(all_qs, "all_qs.csv")
+
+#### EDA to see by gender and policy issues ####
+debate_qs_gender <- debate_questions_final |>
+  filter(!Question_source == "Citizen") |>
+  filter(!Question_source == "Leader") |>
+  filter(Content_of_question == "Policy_Issues") |>
+  select(
+    Year,
+    Debate_number,
+    Question_text,
+    Question_source,
+    Questioner_id,
+    Lead_followup,
+    Primary_issue,
+    Secondary_issue
+  ) |>
+  mutate(Gender = case_when(
+    startsWith(Questioner_id, "Paikin") ~ "Man",
+    startsWith(Questioner_id, "Wells") ~ "Man",
+    startsWith(Questioner_id, "Walmsley") ~ "Man",
+    startsWith(Questioner_id, "Roy") ~ "Man",
+    startsWith(Questioner_id, "Laroque") ~ "Man",
+    startsWith(Questioner_id, "Kurl") ~ "Woman",
+    startsWith(Questioner_id, "Griffiths") ~ "Man",
+    startsWith(Questioner_id, "Friesen") ~ "Woman",
+    startsWith(Questioner_id, "Dussault") ~ "Woman",
+    startsWith(Questioner_id, "Delacourt") ~ "Woman",
+    startsWith(Questioner_id, "Bureau") ~ "Man",
+    startsWith(Questioner_id, "Bruneau") ~ "Man",
+    startsWith(Questioner_id, "Barton") ~ "Woman",
+    startsWith(Questioner_id, "Soloman") ~ "Man",
+    startsWith(Questioner_id, "Vastel") ~ "Man",
+    startsWith(Questioner_id, "Ridgen") ~ "Woman",
+    startsWith(Questioner_id, "Raj") ~ "Woman",
+    startsWith(Questioner_id, "Laflamme") ~ "Woman",
+    startsWith(Questioner_id, "Journet") ~ "Man",
+    startsWith(Questioner_id, "Cloutier") ~ "Woman",
+    startsWith(Questioner_id, "Castonguay") ~ "Man",
+    startsWith(Questioner_id, "Cardinal") ~ "Man",
+    startsWith(Questioner_id, "Buzzetti") ~ "Woman",
+    startsWith(Questioner_id, "Bourgault-Cote") ~ "Man",
+    startsWith(Questioner_id, "Boisvert") ~ "Man",
+    startsWith(Questioner_id, "Stephenson") ~ "Woman"),
+    .before = Lead_followup) 
+debate_qs_gender
+
+write_csv(debate_qs_gender, file = "debate_qs_gender.csv")
+
+## Generate summary stats ##
+debate_qs_gender |>
+  filter(Primary_issue == "Social welfare") |>
+  group_by(Gender) |>
+  count()
