@@ -65,5 +65,39 @@ debate_questions_final |>
     Debate_number == "2021_LDC_en" ~ "2021EnLDC")) 
 debate_questions_final
 
+#### Fix spelling of names in "Questioner_id" column ####
+debate_questions_final =
+  debate_questions_final |>
+  mutate("Questioner_id" = case_when(
+    Questioner_id == "Soloman" ~ "Solomon", # this is the name with the error
+    Questioner_id == "Paikin" ~ "Paikin",
+    Questioner_id == "Wells" ~ "Wells",
+    Questioner_id == "Walmsley" ~ "Walmsley",
+    Questioner_id == "Roy" ~ "Roy",
+    Questioner_id == "Laroque" ~ "Laroque",
+    Questioner_id == "Kurl" ~ "Kurl",
+    Questioner_id == "Griffiths" ~ "Griffiths",
+    Questioner_id == "Friesen" ~ "Friesen",
+    Questioner_id == "Dussault" ~ "Dussault",
+    Questioner_id == "Delacourt" ~ "Delacourt",
+    Questioner_id == "Bureau" ~ "Bureau",
+    Questioner_id == "Bruneau" ~ "Bruneau",
+    Questioner_id == "Barton" ~ "Barton",
+    Questioner_id == "Vastel" ~ "Vastel",
+    Questioner_id == "Mercier" ~ "Mercier",
+    Questioner_id == "Ridgen" ~ "Ridgen",
+    Questioner_id == "Raj" ~ "Raj",
+    Questioner_id == "Laflamme" ~ "Laflamme",
+    Questioner_id == "Journet" ~ "Journet",
+    Questioner_id == "Cloutier" ~ "Cloutier",
+    Questioner_id == "Castonguay" ~ "Castonguay",
+    Questioner_id == "Cardinal" ~ "Cardinal",
+    Questioner_id == "Buzzetti" ~ "Buzzetti",
+    Questioner_id == "Boisvert" ~ "Boisvert",
+    Questioner_id == "Bourgault-Cote" ~ "Bourgault-Cote",
+    Questioner_id == "Stephenson" ~ "Stephenson",
+    Questioner_id == "Citizen" ~ "Citizen"))
+debate_questions_final   
+
 #### Save dataset ####
 write_csv(x = debate_questions_final, file = "Outputs/Data/debate_questions_final.csv")

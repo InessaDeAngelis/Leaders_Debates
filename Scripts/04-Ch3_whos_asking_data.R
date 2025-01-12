@@ -708,8 +708,9 @@ debate_qs_gender <- debate_questions_final |>
     startsWith(Questioner_id, "Bureau") ~ "Man",
     startsWith(Questioner_id, "Bruneau") ~ "Man",
     startsWith(Questioner_id, "Barton") ~ "Woman",
-    startsWith(Questioner_id, "Soloman") ~ "Man",
-    startsWith(Questioner_id, "Vastel") ~ "Man",
+    startsWith(Questioner_id, "Solomon") ~ "Man",
+    startsWith(Questioner_id, "Vastel") ~ "Woman",
+    startsWith(Questioner_id, "Mercier") ~ "Woman",
     startsWith(Questioner_id, "Ridgen") ~ "Woman",
     startsWith(Questioner_id, "Raj") ~ "Woman",
     startsWith(Questioner_id, "Laflamme") ~ "Woman",
@@ -727,7 +728,7 @@ debate_qs_gender
 write_csv(debate_qs_gender, file = "debate_qs_gender.csv")
 
 ## Generate summary stats ##
-debate_qs_gender |>
-  filter(Primary_issue == "Social welfare") |>
-  group_by(Gender) |>
-  count()
+all_qs |>
+  group_by(Whos_asking, Issue) |>
+  count() |>
+  print(n = 62)
