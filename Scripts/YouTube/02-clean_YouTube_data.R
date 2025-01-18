@@ -43,8 +43,7 @@ FR_debate_2021_comments_GN2 <- process_comments(FR_debate_2021_comments_GN2, '20
 
 ## Combine cleaned datasets into one ##
 debate_comments_raw <-
-  rbind(
-    debate_2015_commments_GM,
+  rbind(debate_2015_commments_GM,
     debate_2015_commments_Mac,
     EN_debate_2019_comments_CBC,
     EN_debate_2019_comments_CTV,
@@ -54,4 +53,35 @@ debate_comments_raw <-
     EN_debate_2021_comments_GN,
     FR_debate_2021_comments_GN,
     FR_debate_2021_comments_GN2)
-debate_comments_raw 
+
+## Detect comment language ##
+# Rename column #
+debate_comments_raw <- debate_comments_raw |>
+  rename(text = Comment)
+
+# Detect languages #
+language_results <- detect_language(debate_comments_raw$text)
+
+# Put language categorizations into df #
+df2 <- data.frame(language_results)
+
+# Combine language categorizations with the rest of the data #
+debate_comments <- cbind(debate_comments_raw, df2)
+
+## Create EN dataset ##
+debate_comments_en <- debate_comments |>
+  filter(grepl('en',language_results)) |>
+  rename(Comment = text) |>
+  select(-c(AuthorProfileImageUrl, AuthorChannelUrl, UpdatedAt, ReplyCount, LikeCount))
+debate_comments_en
+
+## Create FR dataset ##
+debate_comments_fr <- debate_comments |>
+  filter(grepl('fr',language_results)) |>
+  rename(Comment = text) |>
+  select(-c(AuthorProfileImageUrl, AuthorChannelUrl, UpdatedAt, ReplyCount, LikeCount))
+debate_comments_fr
+
+#### Save datasets ####
+write_csv(debate_comments_en, "Outputs/Data/YouTube/debate_comments_en.csv")
+write_csv(debate_comments_fr, "Outputs/Data/YouTube/debate_comments_fr.csv")
