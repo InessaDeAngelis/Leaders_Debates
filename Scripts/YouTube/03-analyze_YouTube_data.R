@@ -8,6 +8,8 @@
 #### Workspace setup ####
 library(tidyverse)
 library(quanteda)
+library(tidytext)
+library(stm)
 
 #### Read in datasets ####
 debate_comments_en <- read_csv("Outputs/Data/YouTube/debate_comments_en.csv")
@@ -19,14 +21,20 @@ debates.lexicon <-
     important_issues = c("issue*", "immigration", "trade","welfare","health","housing",
       "economy","justice", "platform", "platforms","crime","coalition","tax*","climate change",
       "indigenous","welfare","agricultur*","energy", "environment", "infrastructure","covid",
-      "snc", "snc lavalin"),
+      "snc", "snc lavalin", "job*", "carbon", "science", "foreign*", "quebec*", "racism",
+      "francophon*", "farm*", "deficit*", "corrupt*"),
     moderation = c("moderator", "moderation", "moderators", "faciliator", "facil*",
       "host", "Althia", "Raj", "Rosie", "Barton", "Susan", "Delacourt", "Donna","Frisen",
-      "LaFlamme", "Lisa", "Paul","Wells","Paul Wells", "poorly run","poorly done"),
+      "LaFlamme", "Lisa", "Paul","Wells","Paul Wells", "poorly run","poorly done", "journalist*",
+      "anchor", "Patrice", "bruno", "Dussault", "Kurl", "Shachi", "impartial", "Walmsley", "paikin",
+      "Mercedes", "Solomon"),
     format = c("format", "second*", "design"),
     production = c("stage", "podium", "audience", "requirement", "participat*"),
-    won = c("won", "win", "best", "winner", "winning"),
-    lost = c("worst", "least", "lost", "awful", "terrible", "nasty")))
+    won = c("won", "win", "best", "winner", "winning", "worthy"),
+    lost = c("worst", "least", "lost", "awful", "terrible", "nasty"),
+    leaders_party = c("bernier", "green", "singh", "jagmeet", "trudeau", 
+      "elizabeth", "prime minister", "mulcair", "harper", "andrew", "scheer",
+      "conservative", "liberal", "ppc", "vote", "bloc", "blanchet", "trudy", "turd", "max*", "People’s Party")))
 
 #### Prepare corpus and run dictionary ####
 ## Prepare ##
@@ -60,50 +68,20 @@ write_csv(df_analyzed, "Outputs/Data/YouTube/debate_comments_en_analyzed.csv")
 #### Prepare Dictionary (FR) ####
 debates_fr.lexicon <-
   dictionary(list(
-    important_issues = c(
-      "conomie",
-      "economie",
-      "économie",
-      "sante",
-      "emploi*",
-      "climat*",
-      "enviro*",
-      "immigrat*",
-      "constitution",
-      "énergie",
-      "budget",
-      "vacci*",
-      "covid",
-      "pandémie",
-      "armée",
-      "l’armée",
-      "snc",
-      "snc lavalin",
-      "justice",
-      "racis*",
-      "démocrat*",
-      "democratie",
-      "fédéralisme"), 
-    moderation = c(
-      "modération",
-      "modérat",
-      "modérat*",
-      "civilisé",
-      "clown show",
-      "Althia",
-      "Raj",
-      "Rosie",
-      "Barton",
-      "Susan",
-      "Delacourt",
-      "Donna",
-      "Frisen",
-      "LaFlamme",
-      "Lisa"),
-    format = c("forma*"),
+    important_issues = c("conomie", "economie", "économie", "sante", "emploi*", "climat*", "enviro*", "immigrat*",
+      "constitution", "énergie", "budget", "vacci*", "covid", "pandémie", "armée", "l’armée", "snc", "snc lavalin", 
+      "justice", "racis*", "démocrat*", "democratie", "fédéralisme", "foreign*", "quebec*", "racism", "francophon*",
+      "farm*", "deficit*", "corrupt*"), 
+    moderation = c("modération", "modérat","modérat*", "civilisé", "clown show", "Althia", "Raj", "Rosie", "Barton",
+      "Susan", "Delacourt", "Donna", "Frisen", "LaFlamme", "Lisa", "journalist*", "roy", "Patrice", "bruno", "Dussault",
+      "Kurl", "Shachi", "impartial", "Walmsley", "paikin", "Mercedes", "Solomon"),
+    format = c("forma*", "théatre", "comédie"),
     production = c("participat*"),
     won = c("gagne", "gagn*", "meilleur"),
-    lost = c("worst", "least", "pas gagner")))
+    lost = c("worst", "least", "pas gagner"),
+    leaders_party = c("bernier", "green", "singh", "jagmeet", "trudeau", "elizabeth", "prime minister", "mulcair",
+                      "harper", "andrew", "scheer", "conservative", "liberal", "ppc", "vote", "bloc", "blanchet",
+                      "trudy", "turd", "max*")))
 
 #### Prepare corpus and run dictionary ####
 ## Prepare ##
@@ -141,5 +119,47 @@ all_debate_comments <-
   all_debate_comments |>
   rename(comment_language = language_results)
 
+## Re-code the coded comments so everything is on a binary ##
+all_debate_comments <- all_debate_comments |>
+  mutate(
+    important_issues = ifelse(important_issues == "0", "0", "1"),
+    moderation = ifelse(moderation == "0", "0", "1"),
+    format = ifelse(format == "0", "0", "1"),
+    production = ifelse(production == "0", "0", "1"),
+    won = ifelse(won == "0", "0", "1"),
+    lost = ifelse(lost == "0", "0", "1"),
+    leaders_party = ifelse(lost == "0", "0", "1"))
+
 ## Save combined dataset ##
 write_csv(all_debate_comments, "Outputs/Data/YouTube/all_debate_comments.csv")
+
+#### Create topic models to validate coding/themes ####
+all_debate_comments <- read_csv("Outputs/Data/YouTube/all_debate_comments.csv")
+
+comment_corpus <-
+  corpus(all_debate_comments, 
+         text_field = "Comment")
+comment_corpus
+
+toks <- tokens(comment_corpus)
+
+# Create custom list of stop words #
+comment_dfm <-
+  comment_corpus |>
+  tokens(
+    remove_punct = TRUE,
+    remove_symbols = TRUE,
+    remove_numbers = TRUE
+  ) |>
+  dfm() |>
+  dfm_trim(min_termfreq = 2, min_docfreq = 2, ) |>
+  dfm_remove(stopwords(source = "stopwords-iso")) 
+
+comment_dfm
+
+#### Make model ####
+comment_topics <- stm(documents = comment_dfm, K = 10)
+
+labelTopics(comment_topics)
+
+write_rds(comment_topics, file = "comment_topics.rda")

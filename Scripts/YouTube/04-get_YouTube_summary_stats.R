@@ -11,19 +11,17 @@ library(tidyverse)
 #### Read in datasets ####
 all_debate_comments <- read_csv("Outputs/Data/YouTube/all_debate_comments.csv")
 
-## Re-code the coded comments so everything is on a binary ##
-all_debate_comments <- all_debate_comments |>
-  mutate(
-    important_issues = ifelse(important_issues == "0", "0", "1"),
-    moderation = ifelse(moderation == "0", "0", "1"),
-    format = ifelse(format == "0", "0", "1"),
-    production = ifelse(production == "0", "0", "1"),
-    won = ifelse(won == "0", "0", "1"),
-    lost = ifelse(lost == "0", "0", "1"))
-
 #### Get summary stats ####
 imp_issues <- all_debate_comments  |>
-  filter(important_issues == 1) |>
+  filter(moderation == 1) |>
   count() |>
   mutate(proportion = n / (sum(11832))* 100) 
 imp_issues
+
+## By debate ##
+by_debate <- all_debate_comments |>
+  filter(Debate_number == "2021FrLDC") |>
+  filter(lost == 1) |>
+  count() |>
+  mutate(proportion = n / (sum(1192))* 100) 
+by_debate
