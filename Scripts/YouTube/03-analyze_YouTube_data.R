@@ -18,23 +18,27 @@ debate_comments_fr <- read_csv("Outputs/Data/YouTube/debate_comments_fr.csv")
 #### Prepare Dictionary (EN) ####
 debates.lexicon <-
   dictionary(list(
-    important_issues = c("issue*", "immigration", "trade","welfare","health","housing",
-      "economy","justice", "platform", "platforms","crime","coalition","tax*","climate change",
-      "indigenous","welfare","agricultur*","energy", "environment", "infrastructure","covid",
-      "snc", "snc lavalin", "job*", "carbon", "science", "foreign*", "quebec*", "racism",
-      "francophon*", "farm*", "deficit*", "corrupt*"),
+    important_issues = c("issue*", "immigration", "trade","welfare","health","housing", "Lbtq", "EI", "CPP", "mining",
+      "economy","justice", "platform", "platforms","crime","coalition","tax*","climate change", "Pipelines",
+      "indigenous","welfare","agricultur*","energy", "environment", "infrastructure","covid", "ECONOMY", "First Nations",
+      "snc", "snc lavalin", "job*", "carbon", "science", "foreign*", "quebec*", "racism", "lgtbq", "Global warming",
+      "francophon*", "farm*", "deficit*", "corrupt*", "NAFTA", "middle class", "Keystone XL", "climate", "ingenious",
+      "manufacturing", "border*", "platform*", "money", "refugee*"),
     moderation = c("moderator", "moderation", "moderators", "faciliator", "facil*",
       "host", "Althia", "Raj", "Rosie", "Barton", "Susan", "Delacourt", "Donna","Frisen",
       "LaFlamme", "Lisa", "Paul","Wells","Paul Wells", "poorly run","poorly done", "journalist*",
       "anchor", "Patrice", "bruno", "Dussault", "Kurl", "Shachi", "impartial", "Walmsley", "paikin",
-      "Mercedes", "Solomon"),
-    format = c("format", "second*", "design"),
+      "Mercedes", "Solomon", "bad debate", "host's"),
+    format = c("format", "second*", "design", "open-debating", "set up"),
     production = c("stage", "podium", "audience", "requirement", "participat*"),
     won = c("won", "win", "best", "winner", "winning", "worthy"),
     lost = c("worst", "least", "lost", "awful", "terrible", "nasty"),
-    leaders_party = c("bernier", "green", "singh", "jagmeet", "trudeau", 
-      "elizabeth", "prime minister", "mulcair", "harper", "andrew", "scheer",
-      "conservative", "liberal", "ppc", "vote", "bloc", "blanchet", "trudy", "turd", "max*", "People’s Party")))
+    leaders_party = c("bernier", "green*", "singh", "jagmeet", "trudeau", "justin", "Trudeau*", "Scheer", "NDP", "PC", "LIBS", "Libs",
+      "elizabeth", "prime minister", "mulcair", "harper", "andrew", "scheer", "O’Toole", "Trudumb", "erin", "Harper", "Harpo",
+      "conservative", "liberal", "ppc", "vote", "bloc", "blanchet", "trudy", "turd", "max*", "People’s Party", "PPC", "Mulcair",
+      "Blanchette", "erin", "Barnier", "May", "MsMay", "PM", "Truturd", "Sheer", "Blanchè", "peoples party", "mr.Singh", "jt", "CONS ervatives",
+      "#PPC2019", "Trudope", "truedue", "CPC", "Conservatives", "Blanchett", "sheer", "Bernie", "Prime Minister", "Liz", "liz",
+      "Gilles Duceppe", "Duceppe", "Gilles", "Mulclair's", "May's", "max*", "Mulcair's", "Harper's", "BLOC QUÉBÉCOIS", "sheer")))
 
 #### Prepare corpus and run dictionary ####
 ## Prepare ##
@@ -71,17 +75,22 @@ debates_fr.lexicon <-
     important_issues = c("conomie", "economie", "économie", "sante", "emploi*", "climat*", "enviro*", "immigrat*",
       "constitution", "énergie", "budget", "vacci*", "covid", "pandémie", "armée", "l’armée", "snc", "snc lavalin", 
       "justice", "racis*", "démocrat*", "democratie", "fédéralisme", "foreign*", "quebec*", "racism", "francophon*",
-      "farm*", "deficit*", "corrupt*"), 
+      "farm*", "deficit*", "corrupt*", "immigrants", "immigration", "SNC-Lavalin", "pipeline", "Anti-science", "bilingue", "Russie",
+      "argent"), 
     moderation = c("modération", "modérat","modérat*", "civilisé", "clown show", "Althia", "Raj", "Rosie", "Barton",
       "Susan", "Delacourt", "Donna", "Frisen", "LaFlamme", "Lisa", "journalist*", "roy", "Patrice", "bruno", "Dussault",
-      "Kurl", "Shachi", "impartial", "Walmsley", "paikin", "Mercedes", "Solomon"),
-    format = c("forma*", "théatre", "comédie"),
+      "Kurl", "Shachi", "impartial", "Walmsley", "paikin", "Mercedes", "Solomon", "Anne-Marie", "modérateur"),
+    format = c("forma*", "théatre", "comédie", "section", "Section", "agenda*"),
     production = c("participat*"),
     won = c("gagne", "gagn*", "meilleur"),
     lost = c("worst", "least", "pas gagner"),
-    leaders_party = c("bernier", "green", "singh", "jagmeet", "trudeau", "elizabeth", "prime minister", "mulcair",
-                      "harper", "andrew", "scheer", "conservative", "liberal", "ppc", "vote", "bloc", "blanchet",
-                      "trudy", "turd", "max*")))
+    leaders_party = c("bernier", "green*", "singh", "jagmeet", "trudeau", "justin", "Trudeau*", "Scheer", "NDP", "PC", "LIBS", "Libs",
+                      "elizabeth", "prime minister", "mulcair", "harper", "andrew", "scheer", "O’Toole", "Trudumb", "erin", "Harper", "Harpo",
+                      "conservative", "liberal", "ppc", "vote", "bloc", "blanchet", "trudy", "turd", "max*", "People’s Party", "PPC", "Mulcair",
+                      "Blanchette", "erin", "Barnier", "May", "MsMay", "PM", "Truturd", "Sheer", "Blanchè", "peoples party", "mr.Singh", "jt", "CONS ervatives",
+                      "#PPC2019", "Trudope", "truedue", "CPC", "Conservatives", "Blanchett", "sheer", "Bernie", "Prime Minister", "Liz", "liz",
+                      "Gilles Duceppe", "Duceppe", "Gilles", "Mulclair's", "May's", "max*", "Mulcair's", "Harper's", "BLOC QUÉBÉCOIS", "Parti Québécois",
+                      "parti*", "Parti*", "paul")))
 
 #### Prepare corpus and run dictionary ####
 ## Prepare ##
@@ -158,7 +167,7 @@ comment_dfm <-
 comment_dfm
 
 #### Make model ####
-comment_topics <- stm(documents = comment_dfm, K = 10)
+comment_topics <- stm(documents = comment_dfm, K = 20)
 
 labelTopics(comment_topics)
 
