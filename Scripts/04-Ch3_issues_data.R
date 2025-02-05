@@ -652,3 +652,28 @@ debate_qs_2021_all_territory =
   summarise(n = n_distinct(rowid)) |>
   mutate(proportion = n / (sum(135))* 100)
 debate_qs_2021_all_territory 
+
+#### Generate summary stats for lead vs follow up questions by language about Quebec ####
+## Create analysis datasets ##
+# Lead Qs # 
+qc_qs_lead <- debate_questions_final |>
+  filter(Lead_followup == "Lead") |>
+  select(Territory_1, Territory_2, Language_of_question) |>
+  filter(Territory_1 == "QC" | Territory_2 == "QC")
+
+# Follow Up Qs #
+qc_qs_followup <- debate_questions_final |>
+  filter(Lead_followup == "Followup") |>
+  select(Territory_1, Territory_2, Language_of_question) |>
+  filter(Territory_1 == "QC" | Territory_2 == "QC")
+
+## Summary stats ##
+# Lead Qs #
+qc_qs_lead |>
+  group_by(Language_of_question) |>
+  count()
+
+# Follow Up Qs #
+qc_qs_followup |>
+  group_by(Language_of_question) |>
+  count()
