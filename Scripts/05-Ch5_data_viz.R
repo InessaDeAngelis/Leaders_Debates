@@ -109,8 +109,7 @@ p <- ggplot(by_debates_substance, aes(Election_year, news_substance/100)) +
     segment.size = .25,
     segment.alpha = .8,
     force = 1,
-    position = position_nudge_center(0.2, 0.1, 0, 0)
-  ) +
+    position = position_nudge_center(0.2, 0.1, 0, 0)) +
   labs(x = "Election year", y = "Substance") +
   scale_x_continuous(breaks = scales::pretty_breaks(n = 13)) +
   scale_y_continuous(labels = scales::percent) +
@@ -213,8 +212,7 @@ p <- ggplot(by_debates_strategic_sub, aes(Election_year, strategic_and_substanti
     segment.size = .5,
     segment.alpha = .8,
     force = 1,
-    position = position_nudge_center(x = 0.05)
-  )+
+    position = position_nudge_center(x = 0.05))+
   labs(x = "Election year", y = "Strategic and Substantive") +
   scale_x_continuous(breaks = scales::pretty_breaks(n = 13)) +
   scale_y_continuous(labels = scales::percent) +
@@ -224,7 +222,8 @@ p <- ggplot(by_debates_strategic_sub, aes(Election_year, strategic_and_substanti
   theme(axis.text.y = element_text(size = 14)) +
   theme(axis.title.y.left = element_text(size = 16)) 
 
-p + geom_smooth(method = "lm", se = FALSE, color = "royalblue4") 
+p + geom_smooth(method = "lm", se = FALSE, color = "royalblue4")  +
+stat_poly_eq(rr.digits = 2, parse = FALSE, size = 4, geom = "label_npc", label.size = 0.25)
 #dev.off()
 
 #### Figure 8 (Share of articles focusing on news format) ####

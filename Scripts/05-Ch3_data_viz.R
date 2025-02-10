@@ -39,21 +39,22 @@ all_qs_viz <-
   ))
 
 #### Visualize data ####
+## Helpful suggestions: https://www.datacamp.com/tutorial/facets-ggplot-r
+
 #jpeg("whos_asking.jpeg", units="in", width=9, height=5, res=300) 
 
-ggplot(all_qs_viz, aes(Whos_asking, Percentage/100)) +
-  geom_jitter(aes(colour = Issue), size = 1.75, width = 1) +
-  facet_wrap(~ Debate_number) +
+ggplot(all_qs_viz, aes(Issue, Percentage/1000)) +
+  geom_bar(stat='identity', fill="black") +
+  facet_wrap(~Whos_asking) +
   labs(
-    x = "Who's asking",
+    x = "Issue",
     y = "Percentage of questions asked",
-    color = "Issue",
   ) +
   theme_bw() +
   theme(legend.position = "bottom") +
   scale_y_continuous(labels=scales::percent) +
   theme(strip.text.x = element_text(size = 14)) +
-  theme(axis.text.x = element_text(size = 10)) +
+  theme(axis.text.x =  element_text(size = 10, angle = 75, hjust=1)) +
   theme(axis.text.y = element_text(size = 10)) + 
   theme(axis.title.x = element_text(size = 14)) +
   theme(axis.title.y = element_text(size = 14)) +
