@@ -11,12 +11,12 @@ library(tidyverse)
 library(scales)
 
 #### Read in dataset ####
-by_debates_cleaned <- read_csv(file = "Outputs/Data/by_debates_cleaned.csv")
+by_debates_final <- read_csv(file = "Outputs/Data/by_debates_final.csv")
 
 #### Figure 1 (presence of demands by debate) ####
 ## Create analysis dataset ##
 by_debates_demands =
-  by_debates_cleaned |>
+  by_debates_final |>
   mutate("Debate_number" = case_when(
     Debate_number == "2008FrConsortium" ~ "2008 FR Consortium",
     Debate_number == "2008EnConsortium" ~ "2008 EN Consortium",
@@ -43,34 +43,36 @@ by_debates_demands
 # & https://ggplot2-book.org/annotations 
 # & https://stackoverflow.com/questions/48692705/text-repel-with-a-position-argument-in-ggplot-r
 
-# jpeg("Ch4_figure1.jpeg", units="in", width=9, height=5, res=500) 
+#jpeg("Ch4_figure1.jpeg", units="in", width=8, height=5, res=500) 
 p <- ggplot(by_debates_demands, aes(Election_year, demands_in_words / 100)) +
   geom_point() +
   ggrepel::geom_text_repel(
     data = by_debates_demands,
     aes(label = Debate_number),
-    size = 4,
+    size = 6,
     alpha = 0.9,
     segment.size = .25,
     segment.alpha = .8,
-    force = 1
+    force = 2, 
+    max.overlaps = 10, 
+    box.padding = 0.35
   ) +
   labs(x = "Election year", y = "Demands in words") +
   scale_x_continuous(breaks = scales::pretty_breaks(n = 13)) +
   scale_y_continuous(labels = scales::percent) +
   theme_linedraw() +
-  theme(axis.text.x = element_text(size = 11)) +
-  theme(axis.title.x = element_text(size = 13)) +
-  theme(axis.text.y = element_text(size = 11)) +
-  theme(axis.title.y.left = element_text(size = 13))
+  theme(axis.text.x = element_text(size = 14)) +
+  theme(axis.title.x = element_text(size = 16)) +
+  theme(axis.text.y = element_text(size = 14)) +
+  theme(axis.title.y.left = element_text(size = 16))
 
-p + geom_smooth(method = "lm", se = FALSE, color = "royalblue4")
-# dev.off()
+p + geom_smooth(method = "lm", se = FALSE, linewidth = 1.2, color = "black")
+#dev.off()
 
 #### Figure 2 (quality of justification over time) ####
 ## Create analysis dataset ##
 by_debates_justification =
-  by_debates_cleaned |>
+  by_debates_final |>
   mutate("Debate_number" = case_when(
     Debate_number == "2008FrConsortium" ~ "2008 FR Consortium",
     Debate_number == "2008EnConsortium" ~ "2008 EN Consortium",
@@ -106,14 +108,14 @@ p <- ggplot(by_debates_justification, aes(Election_year, dqi_justification)) +
   theme(axis.text.y = element_text(size = 11)) +
   theme(axis.title.y.left = element_text(size = 13))
 
-p + geom_smooth(method = "lm", se = FALSE, color = "royalblue4") 
+p + geom_smooth(method = "lm", se = FALSE, color = "black") 
 # dev.off()
 
 #### Figure 3 (share of interrupted participation over time) ####
 ## Create analysis dataset ##
 # Code referenced from: https://www.reddit.com/r/Rlanguage/comments/aw3nkb/subtracting_data_in_column_from_data_in_another/
 by_debates_interrupted =
-  by_debates_cleaned |>
+  by_debates_final |>
   select(Election_year, Debate_number, dqi_normal_participation) |>
   mutate(all_participation = c("100"),
          .after = Debate_number) |>
@@ -162,13 +164,13 @@ p <- ggplot(by_debates_interrupted_final, aes(Election_year, dqi_interrupted_par
   theme(axis.text.y = element_text(size = 11)) +
   theme(axis.title.y.left = element_text(size = 13))
 
-p + geom_smooth(method = "lm", se = FALSE, color = "royalblue4") 
+p + geom_smooth(method = "lm", se = FALSE, color = "black") 
  dev.off()
 
 #### Figure 4 (respect for demands over time) ####
 ## Create analysis dataset ##
 by_debates_respect =
-  by_debates_cleaned |>
+  by_debates_final |>
   mutate("Debate_number" = case_when(
     Debate_number == "2008FrConsortium" ~ "2008 FR Consortium",
     Debate_number == "2008EnConsortium" ~ "2008 EN Consortium",
@@ -204,5 +206,5 @@ p <- ggplot(by_debates_respect, aes(Election_year, dqi_respect_demands/100)) +
   theme(axis.text.y = element_text(size = 11)) +
   theme(axis.title.y.left = element_text(size = 13))
 
-p + geom_smooth(method = "lm", se = FALSE, color = "royalblue4") 
+p + geom_smooth(method = "lm", se = FALSE, color = "black") 
 # dev.off()
