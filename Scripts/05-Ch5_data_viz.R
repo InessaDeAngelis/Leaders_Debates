@@ -46,12 +46,12 @@ by_debates_strategic_frame
 # Code referenced from: https://stackoverflow.com/questions/73995249/how-to-fill-the-background-of-a-stat-poly-eq-equation-ggpmisc-using-ggplot2
 # Code for label repelling referenced from: https://www.r4photobiology.info/galleries/nudge-and-repel.html
 
-#jpeg("Ch5_figure5.jpeg", units="in", width=16, height=10, res=500) 
+#jpeg("Ch5_figure5.jpeg", units="in", width=11, height=7, res=500) 
 p <- ggplot(by_debates_strategic_frame, aes(Election_year, news_strategic_frame/100)) + 
   geom_point() +
   ggrepel::geom_text_repel(
     data = by_debates_strategic_frame,
-    aes(label = Debate_number),
+    (aes(label = Debate_number)),
     size = 3.5,
     alpha = 0.8,
     segment.size = 1,
@@ -63,13 +63,13 @@ p <- ggplot(by_debates_strategic_frame, aes(Election_year, news_strategic_frame/
   scale_x_continuous(breaks = scales::pretty_breaks(n = 13)) +
   scale_y_continuous(labels = scales::percent) +
   theme_linedraw() +
-  theme(axis.text.x = element_text(size = 13)) +
-  theme(axis.title.x = element_text(size = 15)) +
-  theme(axis.text.y = element_text(size = 13)) +
-  theme(axis.title.y.left = element_text(size = 15))
+  theme(axis.text.x = element_text(size = 11)) +
+  theme(axis.title.x = element_text(size = 13)) +
+  theme(axis.text.y = element_text(size = 11)) +
+  theme(axis.title.y.left = element_text(size = 13))
 
-p + geom_smooth(method = "lm", se = FALSE, color = "royalblue4") +
-  stat_poly_eq(rr.digits = 2, parse = TRUE, size = 4, label.x = 0.97, label.y = 0.97, geom = "label_npc", label.size = 0.25)
+p + geom_smooth(method = "lm", se = FALSE, linewidth = 0.8, color = "black") +
+  stat_poly_eq(rr.digits = 2, parse = TRUE, size = 3, label.x = 0.98, label.y = 0.98, geom = "label_npc", label.size = 0.2)
 #dev.off()
 
 #### Figure 6 (Share of articles using strategic frames and addressing substance over time) ####
@@ -119,7 +119,7 @@ p <- ggplot(by_debates_substance, aes(Election_year, news_substance/100)) +
   theme(axis.text.y = element_text(size = 11)) +
   theme(axis.title.y.left = element_text(size = 13))
 
-p + geom_smooth(method = "lm", se = FALSE, color = "royalblue4") +
+p + geom_smooth(method = "lm", se = FALSE, linewidth = 0.8, color = "black") +
 stat_poly_eq(rr.digits = 2, parse = TRUE, size = 4, geom = "label_npc", label.size = 0.25)
 #dev.off()
 
@@ -201,13 +201,13 @@ by_debates_strategic_sub
 # Code referenced from: https://stackoverflow.com/questions/77609363/stat-poly-eq-erroring-when-using-grouped-data-in-a-ggplot
 # &: https://stackoverflow.com/questions/7549694/add-regression-line-equation-and-r2-on-graph
 
-#jpeg("Ch5_figure7.jpeg", units="in", width=14, height=11, res=500) 
+#jpeg("Ch5_figure7.jpeg", units="in", width=9, height=5, res=500) 
 p <- ggplot(by_debates_strategic_sub, aes(Election_year, strategic_and_substantive/100)) + 
   geom_point() + 
   ggrepel::geom_text_repel(
     data = by_debates_strategic_sub,
     aes(label = Debate_number),
-    size = 4,
+    size = 3.5,
     alpha = 0.9,
     segment.size = .5,
     segment.alpha = .8,
@@ -217,24 +217,24 @@ p <- ggplot(by_debates_strategic_sub, aes(Election_year, strategic_and_substanti
   scale_x_continuous(breaks = scales::pretty_breaks(n = 13)) +
   scale_y_continuous(labels = scales::percent) +
   theme_linedraw() +
-  theme(axis.text.x = element_text(size = 14)) +
-  theme(axis.title.x = element_text(size = 16)) +
-  theme(axis.text.y = element_text(size = 14)) +
-  theme(axis.title.y.left = element_text(size = 16)) 
+  theme(axis.text.x = element_text(size = 11)) +
+  theme(axis.title.x = element_text(size = 13)) +
+  theme(axis.text.y = element_text(size = 11)) +
+  theme(axis.title.y.left = element_text(size = 13)) 
 
-p + geom_smooth(method = "lm", se = FALSE, color = "royalblue4")  +
-stat_poly_eq(rr.digits = 2, parse = FALSE, size = 4, geom = "label_npc", label.size = 0.25)
+p + geom_smooth(method = "lm", se = FALSE, linewidth = 0.8, color = "black") 
 #dev.off()
+#stat_poly_eq(rr.digits = 2, parse = FALSE, size = 4, geom = "label_npc", label.size = 0.25)
 
 #### Figure 8 (Share of articles focusing on news format) ####
 ## Create analysis dataset ##
 by_debates_format =
   by_debates_final |>
+  filter(!grepl('2008FrConsortium', Debate_number)) |>
+  filter(!grepl('2011FrConsortium', Debate_number)) |>
   mutate("Debate_number" = case_when(
-    Debate_number == "2008FrConsortium" ~ "2008 FR Consortium",
     Debate_number == "2008EnConsortium" ~ "2008 EN Consortium",
     Debate_number == "2011EnConsortium" ~ "2011 EN Consortium",
-    Debate_number == "2011FrConsortium" ~ "2011 FR Consortium",
     Debate_number == "2015Macleans" ~ "2015 Macleans",
     Debate_number == "2015Globe&Mail" ~ "2015 Globe & Mail",
     Debate_number == "2015Radio-Canada" ~ "2015 Radio-Canada",
@@ -249,13 +249,13 @@ by_debates_format =
     Debate_number == "2021EnLDC" ~ "2021 EN LDC"
   )) |>
   select(Election_year, Debate_number, news_format)
-by_debates_substance
+by_debates_format
 
 ## Data Visualization ##
-# jpeg("Ch5_figure8.jpeg", units="in", width=9, height=7, res=500) 
+#jpeg("Ch5_figure8.jpeg", units="in", width=9, height=5, res=500) 
 p <- ggplot(by_debates_format, aes(Election_year, news_format/100)) + 
   geom_point() + 
-  ggrepel::geom_text_repel(data = by_debates_format, aes(label = Debate_number)) +
+  ggrepel::geom_text_repel(data = by_debates_format, aes(label = Debate_number), size = 3.5) +
   labs(x = "Election year", y = "News format") +
   scale_x_continuous(breaks = scales::pretty_breaks(n = 13)) +
   scale_y_continuous(labels = scales::percent) +
@@ -265,6 +265,6 @@ p <- ggplot(by_debates_format, aes(Election_year, news_format/100)) +
   theme(axis.text.y = element_text(size = 11)) +
   theme(axis.title.y.left = element_text(size = 13)) 
 
-p + geom_smooth(method = "lm", se = FALSE, color = "royalblue4") +
-stat_poly_eq(rr.digits = 2, parse = TRUE, size = 4, geom = "label_npc", label.size = 0.25)
-# dev.off()
+p + geom_smooth(method = "lm", se = FALSE, linewidth = 0.8, color = "black") +
+stat_poly_eq(rr.digits = 2, parse = TRUE, size = 3.5, geom = "label_npc", label.size = 0.2)
+#dev.off()
