@@ -90,3 +90,11 @@ summary(model2)
 ## Model interruptions by incumbency ##
 model3 <- lm(Interruption ~ Incumbent, data = dqi_in)
 summary(model3)
+
+## Model interruptions by gender ##
+model4 <- lm(Interruption ~ Gender, data = dqi_in)
+summary(model4)
+
+## Model interruptions by background ##
+model5 <- lm(Interruption ~ Background, data = dqi_in)
+summary(model5)
