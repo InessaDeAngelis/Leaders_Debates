@@ -22,13 +22,13 @@ by_debates_final <- read_csv(file = "Outputs/Data/by_debates_final.csv")
 by_debates_strategic_frame =
   by_debates_final |>
   mutate("Debate_number" = case_when(
-    Debate_number == "2008FrConsortium" ~ "2008 FR Consortium",
-    Debate_number == "2008EnConsortium" ~ "2008 EN Consortium",
-    Debate_number == "2011EnConsortium" ~ "2011 EN Consortium",
-    Debate_number == "2011FrConsortium" ~ "2011 FR Consortium",
+    Debate_number == "2008FrConsortium" ~ "2008 Consortium (FR)",
+    Debate_number == "2008EnConsortium" ~ "2008 Consortium (EN)",
+    Debate_number == "2011EnConsortium" ~ "2011 Consortium (EN)",
+    Debate_number == "2011FrConsortium" ~ "2011 Consortium (FR)",
     Debate_number == "2015Macleans" ~ "2015 Macleans",
     Debate_number == "2015Globe&Mail" ~ "2015 Globe & Mail",
-    Debate_number == "2015Radio-Canada" ~ "2015 Radio-Canada",
+    Debate_number == "2015Radio-Canada" ~ "2015 Consortium (FR)",
     Debate_number == "2015Munk" ~ "2015 Munk",
     Debate_number == "2015TVA" ~ "2015 TVA",
     Debate_number == "2019Macleans" ~ "2019 Macleans",
@@ -77,13 +77,13 @@ p + geom_smooth(method = "lm", se = FALSE, linewidth = 0.8, color = "black") +
 by_debates_substance =
   by_debates_final |>
   mutate("Debate_number" = case_when(
-    Debate_number == "2008FrConsortium" ~ "2008 FR Consortium",
-    Debate_number == "2008EnConsortium" ~ "2008 EN Consortium",
-    Debate_number == "2011EnConsortium" ~ "2011 EN Consortium",
-    Debate_number == "2011FrConsortium" ~ "2011 FR Consortium",
+    Debate_number == "2008FrConsortium" ~ "2008 Consortium (FR)",
+    Debate_number == "2008EnConsortium" ~ "2008 Consortium (EN)",
+    Debate_number == "2011EnConsortium" ~ "2011 Consortium (EN)",
+    Debate_number == "2011FrConsortium" ~ "2011 Consortium (FR)",
     Debate_number == "2015Macleans" ~ "2015 Macleans",
     Debate_number == "2015Globe&Mail" ~ "2015 Globe & Mail",
-    Debate_number == "2015Radio-Canada" ~ "2015 Radio-Canada",
+    Debate_number == "2015Radio-Canada" ~ "2015 Consortium (FR)",
     Debate_number == "2015Munk" ~ "2015 Munk",
     Debate_number == "2015TVA" ~ "2015 TVA",
     Debate_number == "2019Macleans" ~ "2019 Macleans",
@@ -92,8 +92,7 @@ by_debates_substance =
     Debate_number == "2019FrLDC" ~ "2019 FR LDC",
     Debate_number == "2021TVA" ~ "2021 TVA",
     Debate_number == "2021FrLDC" ~ "2021 FR LDC",
-    Debate_number == "2021EnLDC" ~ "2021 EN LDC"
-  )) |>
+    Debate_number == "2021EnLDC" ~ "2021 EN LDC")) |>
   select(Election_year, Debate_number, news_substance)
 by_debates_substance
 
@@ -166,8 +165,7 @@ strategic_substance_data <-
 strategic_substance_data
 
 # Add with existing columns from dataset #
-strategic_sub =
-  by_debates_final |>
+strategic_sub <- by_debates_final |>
   select(Election_year, Debate_number)
 strategic_sub
 
@@ -175,16 +173,15 @@ by_debates_strategic_sub =
   merge(
     strategic_sub,
     strategic_substance_data,
-    by = "Debate_number"
-  ) |>
+    by = "Debate_number") |>
   mutate("Debate_number" = case_when(
-    Debate_number == "2008FrConsortium" ~ "2008 FR Consortium",
-    Debate_number == "2008EnConsortium" ~ "2008 EN Consortium",
-    Debate_number == "2011EnConsortium" ~ "2011 EN Consortium",
-    Debate_number == "2011FrConsortium" ~ "2011 FR Consortium",
+    Debate_number == "2008FrConsortium" ~ "2008 Consortium (FR)",
+    Debate_number == "2008EnConsortium" ~ "2008 Consortium (EN)",
+    Debate_number == "2011EnConsortium" ~ "2011 Consortium (EN)",
+    Debate_number == "2011FrConsortium" ~ "2011 Consortium (FR)",
     Debate_number == "2015Macleans" ~ "2015 Macleans",
     Debate_number == "2015Globe&Mail" ~ "2015 Globe & Mail",
-    Debate_number == "2015Radio-Canada" ~ "2015 Radio-Canada",
+    Debate_number == "2015Radio-Canada" ~ "2015 Consortium (FR)",
     Debate_number == "2015Munk" ~ "2015 Munk",
     Debate_number == "2015TVA" ~ "2015 TVA",
     Debate_number == "2019Macleans" ~ "2019 Macleans",
@@ -207,7 +204,7 @@ p <- ggplot(by_debates_strategic_sub, aes(Election_year, strategic_and_substanti
   ggrepel::geom_text_repel(
     data = by_debates_strategic_sub,
     aes(label = Debate_number),
-    size = 3.5,
+    size = 3.25,
     alpha = 0.9,
     segment.size = .5,
     segment.alpha = .8,
@@ -224,6 +221,7 @@ p <- ggplot(by_debates_strategic_sub, aes(Election_year, strategic_and_substanti
 
 p + geom_smooth(method = "lm", se = FALSE, linewidth = 0.8, color = "black") 
 #dev.off()
+
 #stat_poly_eq(rr.digits = 2, parse = FALSE, size = 4, geom = "label_npc", label.size = 0.25)
 
 #### Figure 8 (Share of articles focusing on news format) ####
@@ -233,11 +231,11 @@ by_debates_format =
   filter(!grepl('2008FrConsortium', Debate_number)) |>
   filter(!grepl('2011FrConsortium', Debate_number)) |>
   mutate("Debate_number" = case_when(
-    Debate_number == "2008EnConsortium" ~ "2008 EN Consortium",
-    Debate_number == "2011EnConsortium" ~ "2011 EN Consortium",
+    Debate_number == "2008EnConsortium" ~ "2008 Consortium (EN)",
+    Debate_number == "2011EnConsortium" ~ "2011 Consortium (EN)",
     Debate_number == "2015Macleans" ~ "2015 Macleans",
     Debate_number == "2015Globe&Mail" ~ "2015 Globe & Mail",
-    Debate_number == "2015Radio-Canada" ~ "2015 Radio-Canada",
+    Debate_number == "2015Radio-Canada" ~ "2015 Consortium (FR)",
     Debate_number == "2015Munk" ~ "2015 Munk",
     Debate_number == "2015TVA" ~ "2015 TVA",
     Debate_number == "2019Macleans" ~ "2019 Macleans",

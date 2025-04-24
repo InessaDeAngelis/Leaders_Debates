@@ -12,7 +12,7 @@ library(tidyverse)
 library(ggplot2)
 
 ## Read in dataset ##
-all_qs <- read_csv("all_qs.csv")
+all_qs <- read_csv("Outputs/Data/all_qs.csv")
 
 ## Fix up dataset for visualization ##
 all_qs_viz <-
@@ -26,7 +26,7 @@ all_qs_viz <-
     Debate_number == "2011FrConsortium" ~ "2011 Consortium (FR)",
     Debate_number == "2015Macleans" ~ "2015 Maclean's",
     Debate_number == "2015Globe&Mail" ~ "2015 Globe & Mail",
-    Debate_number == "2015Radio-Canada" ~ "2015 Radio-Canada",
+    Debate_number == "2015Radio-Canada" ~ "2015 Consortium (FR)",
     Debate_number == "2015Munk" ~ "2015 Munk",
     Debate_number == "2015TVA" ~ "2015 TVA",
     Debate_number == "2019Macleans" ~ "2019 Maclean's",

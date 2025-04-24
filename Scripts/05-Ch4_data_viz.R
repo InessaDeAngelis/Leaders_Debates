@@ -18,13 +18,13 @@ by_debates_final <- read_csv(file = "Outputs/Data/by_debates_final.csv")
 by_debates_demands =
   by_debates_final |>
   mutate("Debate_number" = case_when(
-    Debate_number == "2008FrConsortium" ~ "2008 FR Consortium",
-    Debate_number == "2008EnConsortium" ~ "2008 EN Consortium",
-    Debate_number == "2011EnConsortium" ~ "2011 EN Consortium",
-    Debate_number == "2011FrConsortium" ~ "2011 FR Consortium",
+    Debate_number == "2008FrConsortium" ~ "2008 Consortium (FR)",
+    Debate_number == "2008EnConsortium" ~ "2008 Consortium (EN)",
+    Debate_number == "2011EnConsortium" ~ "2011 Consortium (EN)",
+    Debate_number == "2011FrConsortium" ~ "2011 Consortium (FR)",
     Debate_number == "2015Macleans" ~ "2015 Macleans",
     Debate_number == "2015Globe&Mail" ~ "2015 Globe & Mail",
-    Debate_number == "2015Radio-Canada" ~ "2015 Radio-Canada",
+    Debate_number == "2015Radio-Canada" ~ "2015 Consortium (FR)",
     Debate_number == "2015Munk" ~ "2015 Munk",
     Debate_number == "2015TVA" ~ "2015 TVA",
     Debate_number == "2019Macleans" ~ "2019 Macleans",
@@ -49,7 +49,7 @@ p <- ggplot(by_debates_demands, aes(Election_year, demands_in_words / 100)) +
   ggrepel::geom_text_repel(
     data = by_debates_demands,
     aes(label = Debate_number),
-    size = 3.35,
+    size = 3,
     alpha = 0.7,
     segment.size = .25,
     segment.alpha = .8,
@@ -74,13 +74,13 @@ p + geom_smooth(method = "lm", se = FALSE, linewidth = 0.8, color = "black")
 by_debates_justification =
   by_debates_final |>
   mutate("Debate_number" = case_when(
-    Debate_number == "2008FrConsortium" ~ "2008 FR Consortium",
-    Debate_number == "2008EnConsortium" ~ "2008 EN Consortium",
-    Debate_number == "2011EnConsortium" ~ "2011 EN Consortium",
-    Debate_number == "2011FrConsortium" ~ "2011 FR Consortium",
+    Debate_number == "2008FrConsortium" ~ "2008 Consortium (FR)",
+    Debate_number == "2008EnConsortium" ~ "2008 Consortium (EN)",
+    Debate_number == "2011EnConsortium" ~ "2011 Consortium (EN)",
+    Debate_number == "2011FrConsortium" ~ "2011 Consortium (FR)",
     Debate_number == "2015Macleans" ~ "2015 Macleans",
     Debate_number == "2015Globe&Mail" ~ "2015 Globe & Mail",
-    Debate_number == "2015Radio-Canada" ~ "2015 Radio-Canada",
+    Debate_number == "2015Radio-Canada" ~ "2015 Consortium (FR)",
     Debate_number == "2015Munk" ~ "2015 Munk",
     Debate_number == "2015TVA" ~ "2015 TVA",
     Debate_number == "2019Macleans" ~ "2019 Macleans",
@@ -121,13 +121,13 @@ by_debates_interrupted =
          .after = Debate_number) |>
   mutate(all_participation = as.numeric(all_participation)) |>
   mutate("Debate_number" = case_when(
-    Debate_number == "2008FrConsortium" ~ "2008 FR Consortium",
-    Debate_number == "2008EnConsortium" ~ "2008 EN Consortium",
-    Debate_number == "2011EnConsortium" ~ "2011 EN Consortium",
-    Debate_number == "2011FrConsortium" ~ "2011 FR Consortium",
+    Debate_number == "2008FrConsortium" ~ "2008 Consortium (FR)",
+    Debate_number == "2008EnConsortium" ~ "2008 Consortium (EN)",
+    Debate_number == "2011EnConsortium" ~ "2011 Consortium (EN)",
+    Debate_number == "2011FrConsortium" ~ "2011 Consortium (FR)",
     Debate_number == "2015Macleans" ~ "2015 Macleans",
     Debate_number == "2015Globe&Mail" ~ "2015 Globe & Mail",
-    Debate_number == "2015Radio-Canada" ~ "2015 Radio-Canada",
+    Debate_number == "2015Radio-Canada" ~ "2015 Consortium (FR)",
     Debate_number == "2015Munk" ~ "2015 Munk",
     Debate_number == "2015TVA" ~ "2015 TVA",
     Debate_number == "2019Macleans" ~ "2019 Macleans",
@@ -136,15 +136,13 @@ by_debates_interrupted =
     Debate_number == "2019FrLDC" ~ "2019 FR LDC",
     Debate_number == "2021TVA" ~ "2021 TVA",
     Debate_number == "2021FrLDC" ~ "2021 FR LDC",
-    Debate_number == "2021EnLDC" ~ "2021 EN LDC"
-  )) |>
+    Debate_number == "2021EnLDC" ~ "2021 EN LDC")) |>
 select(Election_year, Debate_number, all_participation, dqi_normal_participation)
 by_debates_interrupted
 
 by_debates_interrupted_final <- by_debates_interrupted |> mutate (all_participation - dqi_normal_participation) |>
   rename(
-   dqi_interrupted_participation = "all_participation - dqi_normal_participation"
-  ) |>
+   dqi_interrupted_participation = "all_participation - dqi_normal_participation") |>
   select(Election_year, Debate_number, dqi_normal_participation, dqi_interrupted_participation)
 by_debates_interrupted_final
 
@@ -154,7 +152,7 @@ p <- ggplot(by_debates_interrupted_final, aes(Election_year, dqi_interrupted_par
   geom_point() + 
   ggrepel::geom_text_repel(
     data = by_debates_interrupted_final,
-    aes(label = Debate_number), size = 3.5, box.padding = 0.4) +
+    aes(label = Debate_number), size = 3, box.padding = 0.4) +
   labs(x = "Election year", y = "Interrupted Participation") +
   scale_x_continuous(breaks = scales::pretty_breaks(n = 13)) +
   scale_y_continuous(labels = scales::percent) +
@@ -172,13 +170,13 @@ p + geom_smooth(method = "lm", se = FALSE, linewidth = 0.8, color = "black")
 by_debates_respect =
   by_debates_final |>
   mutate("Debate_number" = case_when(
-    Debate_number == "2008FrConsortium" ~ "2008 FR Consortium",
-    Debate_number == "2008EnConsortium" ~ "2008 EN Consortium",
-    Debate_number == "2011EnConsortium" ~ "2011 EN Consortium",
-    Debate_number == "2011FrConsortium" ~ "2011 FR Consortium",
+    Debate_number == "2008FrConsortium" ~ "2008 Consortium (FR)",
+    Debate_number == "2008EnConsortium" ~ "2008 Consortium (EN)",
+    Debate_number == "2011EnConsortium" ~ "2011 Consortium (EN)",
+    Debate_number == "2011FrConsortium" ~ "2011 Consortium (FR)",
     Debate_number == "2015Macleans" ~ "2015 Macleans",
     Debate_number == "2015Globe&Mail" ~ "2015 Globe & Mail",
-    Debate_number == "2015Radio-Canada" ~ "2015 Radio-Canada",
+    Debate_number == "2015Radio-Canada" ~ "2015 Consortium (FR)",
     Debate_number == "2015Munk" ~ "2015 Munk",
     Debate_number == "2015TVA" ~ "2015 TVA",
     Debate_number == "2019Macleans" ~ "2019 Macleans",
