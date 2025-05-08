@@ -5,7 +5,7 @@
 # Contact: inessa.deangelis@mail.utoronto.ca 
 # License: MIT
 # Pre-requisites: 
-  # 02-clean_data.R
+  # 02-Ch3_data_cleaning.R
 
 #### Workspace setup ####
 library(tidyverse)
@@ -198,10 +198,10 @@ debate_questions_2015_TVA =
   mutate(proportion = n / (sum(33))* 100) 
 debate_questions_2015_TVA
 
-# Radio-Canada #
-debate_questions_2015_RC =
+# Consortium #
+debate_questions_2015_Con =
   debate_questions_2015 |>
-  filter(Debate_number == "2015Radio-Canada") |>
+  filter(Debate_number == "2015FrConsortium") |>
   select(Primary_issue, Secondary_issue) |>
   mutate(across(everything(), trimws)) |>
   rowid_to_column() |>
@@ -472,10 +472,10 @@ debate_qs_2015_TVA_territory =
   mutate(proportion = n / (sum(33))* 100) 
 debate_qs_2015_TVA_territory
 
-# Radio-Canada #
-debate_qs_2015_RC_territory =
+# Consortium #
+debate_qs_2015_Con_territory =
   debate_questions_2015 |>
-  filter(Debate_number == "2015_Radio-Canada") |>
+  filter(Debate_number == "2015FrConsortium") |>
   select(Territory_1, Territory_2) |>
   mutate(across(everything(), trimws)) |>
   rowid_to_column() |>
@@ -652,6 +652,15 @@ debate_qs_2021_all_territory =
   summarise(n = n_distinct(rowid)) |>
   mutate(proportion = n / (sum(135))* 100)
 debate_qs_2021_all_territory 
+
+## All organizers across time ##
+debate_questions_org <- debate_questions_final |>
+  select(Organizer, Territory_1, Territory_2) |>
+  mutate(across(c(Territory_1, Territory_2), trimws)) |>
+  rowid_to_column() |>
+  pivot_longer(cols = c(Territory_1, Territory_2), names_to = "territory", values_to = "value") |>
+  group_by(Organizer, value) |>
+  summarise(n = n_distinct(rowid), .groups = "drop")
 
 #### Generate summary stats for lead vs follow up questions by language about Quebec ####
 ## Create analysis datasets ##

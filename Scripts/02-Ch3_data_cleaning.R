@@ -13,8 +13,7 @@ library(tidyverse)
 debate_questions_cleaned <- read_csv("Outputs/Data/debate_questions_cleaned.csv")
 
 #### Re-name ID column ####
-debate_questions_final = 
-debate_questions_cleaned |>
+debate_questions_final <- debate_questions_cleaned |>
   rename(
     ID = unique_id,
     Year = year,
@@ -36,16 +35,14 @@ debate_questions_cleaned |>
     Territory_2 = territory2,
     Coder = coder,
     Incumbent = incumbent,
-    Debate_lang = debate_lang
-    )
+    Debate_lang = debate_lang)
 debate_questions_final
 
 #### Drop old "filter" column ####
 debate_questions_final <- select(debate_questions_final, -"filter") 
 
 #### Re-code "debate_number" for consistency across datasets ####
-debate_questions_final =
-debate_questions_final |>
+debate_questions_final <- debate_questions_final |>
   mutate("Debate_number" = case_when(
     Debate_number == "2008_Consortium_en" ~ "2008EnConsortium",
     Debate_number == "2008_Consortium_Fr" ~ "2008FrConsortium",
@@ -53,7 +50,7 @@ debate_questions_final |>
     Debate_number == "2011_Consortium_Fr" ~ "2011FrConsortium",
     Debate_number == "2015_Macleans" ~ "2015Macleans",    
     Debate_number == "2015_Globe&Mail" ~ "2015Globe&Mail",
-    Debate_number == "2015_Radio-Canada" ~ "2015Radio-Canada",
+    Debate_number == "2015_Radio-Canada" ~ "2015FrConsortium",
     Debate_number == "2015_Munk" ~ "2015Munk",
     Debate_number == "2015_TVA" ~ "2015TVA",
     Debate_number == "2019_Macleans" ~ "2019Macleans",
@@ -65,39 +62,33 @@ debate_questions_final |>
     Debate_number == "2021_LDC_en" ~ "2021EnLDC")) 
 debate_questions_final
 
+#### Update "debate_organizer" for 2015 Consortium debate ####
+debate_questions_final <- debate_questions_final |>
+  mutate("Organizer" = case_when(
+  Organizer == "Radio_Canada" ~ "Consortium", 
+  TRUE ~ Organizer))
+debate_questions_final
+
 #### Fix spelling of names in "Questioner_id" column ####
-debate_questions_final =
-  debate_questions_final |>
+debate_questions_final <- debate_questions_final |>
   mutate("Questioner_id" = case_when(
-    Questioner_id == "Soloman" ~ "Solomon", # this is the name with the error
-    Questioner_id == "Paikin" ~ "Paikin",
-    Questioner_id == "Wells" ~ "Wells",
-    Questioner_id == "Walmsley" ~ "Walmsley",
-    Questioner_id == "Roy" ~ "Roy",
-    Questioner_id == "Laroque" ~ "Laroque",
-    Questioner_id == "Kurl" ~ "Kurl",
-    Questioner_id == "Griffiths" ~ "Griffiths",
-    Questioner_id == "Friesen" ~ "Friesen",
-    Questioner_id == "Dussault" ~ "Dussault",
-    Questioner_id == "Delacourt" ~ "Delacourt",
-    Questioner_id == "Bureau" ~ "Bureau",
-    Questioner_id == "Bruneau" ~ "Bruneau",
-    Questioner_id == "Barton" ~ "Barton",
-    Questioner_id == "Vastel" ~ "Vastel",
-    Questioner_id == "Mercier" ~ "Mercier",
-    Questioner_id == "Ridgen" ~ "Ridgen",
-    Questioner_id == "Raj" ~ "Raj",
-    Questioner_id == "Laflamme" ~ "Laflamme",
-    Questioner_id == "Journet" ~ "Journet",
-    Questioner_id == "Cloutier" ~ "Cloutier",
-    Questioner_id == "Castonguay" ~ "Castonguay",
-    Questioner_id == "Cardinal" ~ "Cardinal",
-    Questioner_id == "Buzzetti" ~ "Buzzetti",
-    Questioner_id == "Boisvert" ~ "Boisvert",
-    Questioner_id == "Bourgault-Cote" ~ "Bourgault-Cote",
-    Questioner_id == "Stephenson" ~ "Stephenson",
-    Questioner_id == "Citizen" ~ "Citizen"))
+    Questioner_id == "Soloman" ~ "Solomon", 
+    TRUE ~ Questioner_id))
 debate_questions_final   
 
 #### Save dataset ####
-write_csv(x = debate_questions_final, file = "Outputs/Data/debate_questions_final.csv")
+write_csv(debate_questions_final, "Outputs/Data/debate_questions_final.csv")
+
+#### Re-code issues: public finance -> economy #### 
+debate_questions_final_recoded = 
+  debate_questions_final|>
+  mutate("Primary_issue" = case_when( 
+    Primary_issue == "Public finance" ~ "Economy", 
+    TRUE ~ Primary_issue)) |>
+  mutate("Secondary_issue" = case_when( 
+    Secondary_issue == "Public finance" ~ "Economy", 
+    TRUE ~ Secondary_issue))
+debate_questions_final_recoded
+
+#### Save re-coded dataset ####
+write_csv(debate_questions_final_recoded, "Outputs/Data/debate_questions_final_recoded.csv")

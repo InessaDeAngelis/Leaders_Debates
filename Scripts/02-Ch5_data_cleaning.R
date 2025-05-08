@@ -16,9 +16,9 @@ newspaper_data_cleaned <- read_csv(file = "Outputs/Data/newspaper_data_cleaned.c
 
 #### Further cleaning ####
 ## Rename columns ##
-newspaper_data_final =
-  newspaper_data_cleaned |>
+newspaper_data_final <- newspaper_data_cleaned |>
   rename(
+    Fr15 = RC15,
     Article_title = ArticleTitle,
     Election_year = ElectionYear,
     Both_languages = Bothlanguages,
@@ -33,8 +33,7 @@ newspaper_data_final =
     Other_moderation_criticism = OtherModeration_Criticism,
     Moderation_neutral = Moderation_Neutral,
     Moderation_no_mention = Moderation_Nomention,
-    Total_moderator_criticism = TotalModeratorCriticism,
-  )
+    Total_moderator_criticism = TotalModeratorCriticism)
 newspaper_data_final
 
 ## Drop unneeded columns and rows ##
@@ -54,10 +53,8 @@ newspaper_data_final <- select(newspaper_data_final, -UniqueID)
 newspaper_data_final <- newspaper_data_final[-c(903),]
 
 ## Add in a new ID column ##
-newspaper_data_final =
-  newspaper_data_final |>
-  mutate(ID = c(1:902),
-         .before = Article_title) |>
+newspaper_data_final <- newspaper_data_final |>
+  mutate(ID = c(1:902), .before = Article_title) |>
   select(
     ID,
     Article_title,
@@ -72,7 +69,7 @@ newspaper_data_final =
     En11,
     Macleans15,
     Globe15,
-    RC15,
+    Fr15,
     Munk15,
     TVA15,
     Macleans19,
@@ -106,12 +103,11 @@ newspaper_data_final =
     Moderation_neutral,
     Moderation_no_mention,
     Performance_effects,
-    Total_moderator_criticism
-    )
+    Total_moderator_criticism)
 newspaper_data_final
 
 #### Save dataset ####
-write_csv(x = newspaper_data_final, file = "Outputs/Data/newspaper_data_final.csv")
+write_csv(newspaper_data_final, "Outputs/Data/newspaper_data_final.csv")
 
 #### Clean final dataset with strategic and substantive columns added ####
 ## Read in new dataset from Spencer ##

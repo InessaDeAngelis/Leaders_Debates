@@ -327,3 +327,7 @@ summary(mod6)
 ## Model respect by gender, background, incumbency AND political affiliation ##
 mod7 <- lm(Respect_for_demands ~ Gender + Background + Incumbent + Political_affiliation, data = dqi_respect)
 summary(mod7)
+
+#### Make models - justification ####
+m1 <- lm(Interruption ~ Debate_organizer, Number_of_Debaters_in_Segment, Presence_of_demands, Political_affiliation, data = dqi_in)
+summary(m1)

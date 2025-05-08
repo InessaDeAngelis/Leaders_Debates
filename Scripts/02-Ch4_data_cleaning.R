@@ -18,11 +18,10 @@ dqi_by_speech_cleaned <- read_csv(file = "Outputs/Data/dqi_by_speech_cleaned.csv
 
 #### Further clean by debates dataset ####
 ## Re-name columns ##
-by_debates_cleaned =
-  by_debates_cleaned |>
+by_debates_cleaned <- by_debates_cleaned |>
   rename(
-    Debate_number = debate_number,
-    Election_year = election_year)
+    debate_number = Debate_number,
+    election_year = Election_year)
 by_debates_cleaned
 
 #### Further clean DQI by speech dataset ####
@@ -30,11 +29,10 @@ by_debates_cleaned
 dqi_by_speech_cleaned <- select(dqi_by_speech_cleaned, -UniqueID) 
 
 ## Rename columns ##
-dqi_by_speech_final =
-  dqi_by_speech_cleaned |>
+dqi_by_speech_final <- dqi_by_speech_cleaned |>
   rename(
     Election_year = ElectionYear,
-    Debate_organizer = DebateOrganizer,
+    Organizer = DebateOrganizer,
     Debate_number = DebateNum,
     Speech_act_number = SpeechActNumber,
     Segment_classification = SegmentClassification,
@@ -45,13 +43,11 @@ dqi_by_speech_final =
     Respect_for_demands = RespectForDemands,
     Group_mention = GroupMention,
     Respect_for_groups = RespectforGroups,
-    Speaker_incumbent_PM = IsSpeakerIncumbentPM
-)
+    Speaker_incumbent_PM = IsSpeakerIncumbentPM)
 dqi_by_speech_final
 
 #### Re-code "debate_number" for consistency across datasets ####
-dqi_by_speech_final =
-  dqi_by_speech_final |>
+dqi_by_speech_final <- dqi_by_speech_final |>
   mutate("Debate_number" = case_when(
     Debate_number == 	"2008_FrConsortium" ~ "2008FrConsortium",
     Debate_number == "2008_EnConsortium" ~ "2008EnConsortium",
@@ -59,7 +55,7 @@ dqi_by_speech_final =
     Debate_number == "2011_FrConsortium" ~ "2011FrConsortium",
     Debate_number == "2015_Macleans" ~ "2015Macleans",    
     Debate_number == "2015_Globe" ~ "2015Globe&Mail",
-    Debate_number == "2015_Radio-Canada" ~ "2015Radio-Canada",
+    Debate_number == "2015_Radio-Canada" ~ "2015FrConsortium",
     Debate_number == "2015_Munk" ~ "2015Munk",
     Debate_number == "2015_TVA" ~ "2015TVA",
     Debate_number == "2019_Macleans" ~ "2019Macleans",
@@ -71,16 +67,21 @@ dqi_by_speech_final =
     Debate_number == "2021_En_Commission" ~ "2021EnLDC")) 
 dqi_by_speech_final
 
+#### Update "debate_organizer" for 2015 Consortium debate ####
+dqi_by_speech_final <- dqi_by_speech_final |>
+  mutate("Organizer" = case_when(
+    Organizer == "Radio_Canada" ~ "Consortium", 
+    TRUE ~ Organizer))
+dqi_by_speech_final
+
 ## Add Unique ID column back in, starting from 1 ##
-dqi_by_speech_final =
-  dqi_by_speech_final |>
-  mutate(ID = c(1:6995),
-         .before = Language) |>
+dqi_by_speech_final <- dqi_by_speech_final |>
+  mutate(ID = c(1:6995), .before = Language) |>
   select(
     ID,
     Language,
     Election_year,
-    Debate_organizer,
+    Organizer,
     Debate_number,
     Speech_act_number,
     Speaker,
@@ -95,13 +96,12 @@ dqi_by_speech_final =
     Respect_for_demands,
     Group_mention,
     Respect_for_groups,
-    Speaker_incumbent_PM
-  )
+    Speaker_incumbent_PM)
 dqi_by_speech_final
 
 #### Save datasets ####
 ## By debates ##
-write_csv(x = by_debates_cleaned, file = "Outputs/Data/by_debates_cleaned.csv")
+write_csv(by_debates_cleaned, "Outputs/Data/by_debates_cleaned.csv")
 
 ## DQI by speech ##
-write_csv(x = dqi_by_speech_final, file = "Outputs/Data/dqi_by_speech_final.csv")
+write_csv(dqi_by_speech_final, "Outputs/Data/dqi_by_speech_final.csv")
