@@ -70,7 +70,7 @@ dqi_by_speech_final
 #### Update "debate_organizer" for 2015 Consortium debate ####
 dqi_by_speech_final <- dqi_by_speech_final |>
   mutate("Organizer" = case_when(
-    Organizer == "Radio_Canada" ~ "Consortium", 
+    Organizer == "Radio-Canada" ~ "Consortium", 
     TRUE ~ Organizer))
 dqi_by_speech_final
 

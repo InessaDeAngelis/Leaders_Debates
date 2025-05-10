@@ -137,6 +137,7 @@ dqi_in$Background <- ifelse(dqi_in$Background == "White", 1, 0)
 dqi_in$Incumbent <- ifelse(dqi_in$Incumbent == "Incumbent", 1, 0)
 dqi_in$Interruption <- ifelse(dqi_in$Interruption == "Interruption", 1, 0)
 dqi_in$Political_affiliation <- factor(dqi_in$Political_affiliation)
+dqi_in$Number_of_Debaters_in_Segment <- factor(dqi_in$Number_of_Debaters_in_Segment)
 
 ## Model interruptions with gender and background as predictors (with interaction) ##
 model <- lm(Interruption ~ Gender * Background, data = dqi_in)
@@ -329,5 +330,9 @@ mod7 <- lm(Respect_for_demands ~ Gender + Background + Incumbent + Political_aff
 summary(mod7)
 
 #### Make models - justification ####
-m1 <- lm(Interruption ~ Debate_organizer, Number_of_Debaters_in_Segment, Presence_of_demands, Political_affiliation, data = dqi_in)
+m1 <- lm(Interruption ~ Organizer + Number_of_Debaters_in_Segment + Political_affiliation, data = dqi_in)
 summary(m1)
+
+m1_logit <- glm(Interruption ~ Organizer + Number_of_Debaters_in_Segment + Political_affiliation,
+  data = dqi_in, family = binomial(link = "logit"))
+summary(m1_logit)
