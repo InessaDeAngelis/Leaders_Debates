@@ -18,11 +18,14 @@ dqi_by_speech_cleaned <- read_csv(file = "Outputs/Data/dqi_by_speech_cleaned.csv
 
 #### Further clean by debates dataset ####
 ## Re-name columns ##
-by_debates_cleaned <- by_debates_cleaned |>
+by_debates_final <- by_debates_cleaned |>
   rename(
-    debate_number = Debate_number,
-    election_year = Election_year)
-by_debates_cleaned
+    Debate_number = debate_number,
+    Election_year = election_year) |>
+  mutate("Debate_number" = case_when(
+         Debate_number == "2015Radio-Canada" ~ "2015FrConsortium",
+         TRUE ~ Debate_number))
+by_debates_final
 
 #### Further clean DQI by speech dataset ####
 ## Remove old unique ID column before adding my own ##
@@ -101,7 +104,7 @@ dqi_by_speech_final
 
 #### Save datasets ####
 ## By debates ##
-write_csv(by_debates_cleaned, "Outputs/Data/by_debates_cleaned.csv")
+write_csv(by_debates_final, "Outputs/Data/by_debates_final.csv")
 
 ## DQI by speech ##
 write_csv(dqi_by_speech_final, "Outputs/Data/dqi_by_speech_final.csv")

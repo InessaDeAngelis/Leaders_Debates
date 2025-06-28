@@ -26,6 +26,9 @@ head(ces2019_web)
 ## Select columns of interest ##
 raw_ces2019_web <- ces2019_web |>
   select(
+    cps19_gender,
+    cps19_age,
+    cps19_yob,
     cps19_debate_en,
     cps19_debate_fr,
     pes19_follow_pol,
@@ -47,6 +50,9 @@ raw_ces2021_web <- to_factor(raw_ces2021_web)
 ## Select columns of interest ##
 raw_ces2021_web <- raw_ces2021_web |>
   select(
+    cps21_genderid,
+    cps21_age,
+    cps21_yob,
     cps21_debate_en,
     cps21_debate_fr,
     pes21_follow_pol,
