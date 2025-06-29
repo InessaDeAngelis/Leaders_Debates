@@ -35,8 +35,7 @@ all_qs_viz <-
     Debate_number == "2019FrLDC" ~ "2019 LDC (FR)",
     Debate_number == "2021TVA" ~ "2021 TVA",
     Debate_number == "2021FrLDC" ~ "2021 LDC (FR)",
-    Debate_number == "2021EnLDC" ~ "2021 LDC (EN)"
-  ))
+    Debate_number == "2021EnLDC" ~ "2021 LDC (EN)"))
 
 #### Visualize data ####
 ## Helpful suggestions: https://www.datacamp.com/tutorial/facets-ggplot-r
@@ -53,12 +52,12 @@ ggplot(all_qs_viz, aes(Issue, Percentage/1000)) +
   theme_bw() +
   theme(legend.position = "bottom") +
   scale_y_continuous(labels=scales::percent) +
-  theme(strip.text.x = element_text(size = 14)) +
-  theme(axis.text.x =  element_text(size = 10, angle = 75, hjust=1)) +
-  theme(axis.text.y = element_text(size = 10)) + 
-  theme(axis.title.x = element_text(size = 14)) +
-  theme(axis.title.y = element_text(size = 14)) +
-  theme(legend.title = element_text(size = 12)) +
+  theme(strip.text.x = element_text(size = 15)) +
+  theme(axis.text.x =  element_text(size = 16, angle = 75, hjust=1)) +
+  theme(axis.text.y = element_text(size = 12)) + 
+  theme(axis.title.x = element_text(size = 16)) +
+  theme(axis.title.y = element_text(size = 16)) +
+  theme(legend.title = element_text(size = 13)) +
   theme(legend.text = element_text(size = 10)) 
 
 #dev.off()
