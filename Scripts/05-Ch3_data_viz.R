@@ -15,10 +15,7 @@ library(ggplot2)
 all_qs <- read_csv("Outputs/Data/all_qs.csv")
 
 ## Fix up dataset for visualization ##
-all_qs_viz <-
-  all_qs |>
-  #filter(Percentage >= 5.0) |>
-  #filter(Whos_asking == "Moderator") |>
+all_qs_viz <- all_qs |>
   mutate("Debate_number" = case_when(
     Debate_number == "2008FrConsortium" ~ "2008 Consortium (FR)",
     Debate_number == "2008EnConsortium" ~ "2008 Consortium (EN)",
@@ -47,17 +44,15 @@ ggplot(all_qs_viz, aes(Issue, Percentage/1000)) +
   facet_wrap(~Whos_asking) +
   labs(
     x = "Issue",
-    y = "Percentage of questions asked",
-  ) +
+    y = "Percentage of questions asked") +
   theme_bw() +
   theme(legend.position = "bottom") +
   scale_y_continuous(labels=scales::percent) +
-  theme(strip.text.x = element_text(size = 15)) +
-  theme(axis.text.x =  element_text(size = 16, angle = 75, hjust=1)) +
-  theme(axis.text.y = element_text(size = 12)) + 
-  theme(axis.title.x = element_text(size = 16)) +
-  theme(axis.title.y = element_text(size = 16)) +
-  theme(legend.title = element_text(size = 13)) +
-  theme(legend.text = element_text(size = 10)) 
+  theme(strip.text.x = element_text(size = 20)) +
+  theme(axis.text.x =  element_text(size = 20, angle = 75, hjust=1)) +
+  theme(axis.text.y = element_text(size = 20)) + 
+  theme(axis.title.x = element_text(size = 22)) +
+  theme(axis.title.y = element_text(size = 22)) +
+  theme(legend.title = element_text(size = 15)) 
 
 #dev.off()
