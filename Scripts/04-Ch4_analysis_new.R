@@ -46,9 +46,24 @@ summary(interruption_model)
 
 slopes(interruption_model, newdata = "median")
 
+#### Re-run interruption logistic regression model with only 2 or more participants in a segment ####
+## Further prepare data ##
+analysis_data_reduced <- analysis_data |>
+  filter(!Number_of_Debaters_in_Segment == "1") 
+
+analysis_data_reduced$Number_of_Debaters_in_Segment <- 
+  factor(analysis_data_reduced$Number_of_Debaters_in_Segment)
+
+interruption_model_reduced <- glm(Interruption ~ Organizer + Number_of_Debaters_in_Segment + Language,
+                                  data = analysis_data_reduced, family = binomial(link = "logit"))
+summary(interruption_model_reduced)
+
+slopes(interruption_model_reduced, newdata = "median")
+
 #### Save models ####
 write_rds(justification_model, "Outputs/Models/justification_model.rds")
 write_rds(interruption_model, "Outputs/Models/interruption_model.rds")
+write_rds(interruption_model_reduced, "Outputs/Models/interruption_model_reduced.rds")
 
 #### Prepare dataset 
 ## Add all in data from Table 3 in Chapter 2 ##
@@ -144,7 +159,10 @@ time_dataset <- data.frame(
     126,
     120,
     120
-  )
+  ),
+  Number_of_Segments = c(
+  19,
+  16)
 )
 time_dataset
 
@@ -158,3 +176,5 @@ class(both$video_crosstalk)
 
 #### Correlation Tests - Cross Talk ####
 cor.test(both$video_crosstalk, both$Number_of_participants, method = "pearson")
+
+#### Correlation Tests - Segments and Demands ####
