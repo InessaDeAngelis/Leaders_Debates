@@ -39,6 +39,10 @@ round(p, 4)
 
 tidy(justification_model, conf.int = TRUE) |> print(n=25)
 
+sl <- slopes(justification_model, newdata = "median")
+head(sl, 25)
+tail(sl, 10)
+
 #### Make logistic regression - Interruption ####
 interruption_model <- glm(Interruption ~ Organizer + Number_of_Debaters_in_Segment + Language,
                 data = dqi_in, family = binomial(link = "logit"))
@@ -162,7 +166,21 @@ time_dataset <- data.frame(
   ),
   Number_of_Segments = c(
   19,
-  16)
+  16,
+  13,
+  13,
+  15,
+  12,
+  18,
+  13,
+  25,
+  5,
+  27,
+  18,
+  22,
+  29,
+  5,
+  25)
 )
 time_dataset
 
@@ -173,8 +191,13 @@ both <- by_debates_final |>
 ## Test variable class ##
 class(both$Number_of_participants)
 class(both$video_crosstalk)
+class(both$Number_of_Segments)
+class(both$dqi_percent_demands)
+class(both$demands_in_words)
 
 #### Correlation Tests - Cross Talk ####
 cor.test(both$video_crosstalk, both$Number_of_participants, method = "pearson")
 
 #### Correlation Tests - Segments and Demands ####
+cor.test(both$dqi_percent_demands, both$Number_of_Segments, method = "pearson")
+cor.test(both$demands_in_words, both$Number_of_Segments, method = "pearson")
