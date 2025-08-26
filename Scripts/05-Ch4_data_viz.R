@@ -206,3 +206,65 @@ p <- ggplot(by_debates_respect, aes(Election_year, dqi_respect_demands/100)) +
 
 p + geom_smooth(method = "lm", se = FALSE, linewidth = 0.8, color = "black") 
 #dev.off()
+
+#### Figure (change in % of crosstalk over time) ####
+## Create analysis dataset ## 
+## Add all in data from Table 25 in Chapter 4 ##
+crosstalk_dataset <- data.frame(
+  Debate_number = c(
+    "2008EnConsortium",
+    "2011EnConsortium",
+    "2015Macleans",
+    "2015Globe&Mail",
+    "2015FrConsortium",
+    "2015Munk",
+    "2015TVA",
+    "2019Macleans",
+    "2019TVA",
+    "2019EnLDC",
+    "2019FrLDC",
+    "2021TVA",
+    "2021FrLDC",
+    "2021EnLDC"),
+  Election_year = c("2008", "2011", "2015", "2015", "2015", "2015", "2015", "2019", "2019",
+                    "2019", "2019", "2021", "2021", "2021"),
+  percentage_of_crosstalk = c(5.5, 5.6, 3.2, 5.2, 4.4, 1.7, 8.5, 9.3, 9.5, 12, 3.25, 7.4, 4.9, 5.1))
+crosstalk_dataset
+
+crosstalk_dataset <- crosstalk_dataset |>
+  mutate("Debate_number" = case_when(
+    Debate_number == "2008EnConsortium" ~ "2008 Consortium (EN)",
+    Debate_number == "2011EnConsortium" ~ "2011 Consortium (EN)",
+    Debate_number == "2015Macleans" ~ "2015 Macleans",
+    Debate_number == "2015Globe&Mail" ~ "2015 Globe & Mail",
+    Debate_number == "2015FrConsortium" ~ "2015 Consortium (FR)",
+    Debate_number == "2015Munk" ~ "2015 Munk",
+    Debate_number == "2015TVA" ~ "2015 TVA",
+    Debate_number == "2019Macleans" ~ "2019 Macleans",
+    Debate_number == "2019TVA" ~ "2019 TVA",
+    Debate_number == "2019EnLDC" ~ "2019 EN LDC",
+    Debate_number == "2019FrLDC" ~ "2019 FR LDC",
+    Debate_number == "2021TVA" ~ "2021 TVA",
+    Debate_number == "2021FrLDC" ~ "2021 FR LDC",
+    Debate_number == "2021EnLDC" ~ "2021 EN LDC"
+  )) |>
+  select(Election_year, Debate_number, percentage_of_crosstalk)
+
+crosstalk_dataset$Election_year <- as.numeric(crosstalk_dataset$Election_year)
+
+## Data Visualization ##
+#jpeg("Ch4_crosstalk.jpeg", units="in", width=9, height=5.5, res=500) 
+p <- ggplot(crosstalk_dataset, aes(Election_year, percentage_of_crosstalk/100)) + 
+  geom_point() + 
+  ggrepel::geom_text_repel(data = crosstalk_dataset, aes(label = Debate_number), size = 3.5, box.padding = 0.4) +
+  labs(x = "Election year", y = "Change in percentage of crosstalk over time (2008-2021)") +
+  scale_x_continuous(breaks = scales::pretty_breaks(n = 13)) +
+  scale_y_continuous(labels = scales::percent) +
+  theme_linedraw() +
+  theme(axis.text.x = element_text(size = 11)) +
+  theme(axis.title.x = element_text(size = 13)) +
+  theme(axis.text.y = element_text(size = 11)) +
+  theme(axis.title.y.left = element_text(size = 13))
+
+p + geom_smooth(method = "lm", se = FALSE, linewidth = 0.8, color = "black") 
+#dev.off()
