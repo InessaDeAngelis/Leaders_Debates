@@ -20,7 +20,7 @@ ces2019_EN_debate <- ces2019_pol_interest |>
   filter(!grepl("Don't know/ Prefer not to answer", cps19_debate_en)) 
 
 # Save #
-write_csv(ces2019_EN_debate, "ces2019_EN_debate.csv")
+write_csv(ces2019_EN_debate, "ces2019_EN_debate_pol_interest.csv")
 
 ## FR ##
 ces2019_FR_debate <- ces2019_pol_interest |>
@@ -29,7 +29,7 @@ ces2019_FR_debate <- ces2019_pol_interest |>
   filter(!grepl("Don't know/ Prefer not to answer", cps19_debate_fr)) 
 
 # Save #
-write_csv(ces2019_FR_debate, "ces2019_FR_debate.csv")
+write_csv(ces2019_FR_debate, "ces2019_FR_debate_pol_interest.csv")
 
 #### Clean 2021 data ####
 ## EN ##
@@ -39,7 +39,7 @@ ces2021_EN_debate <- ces2021_pol_interest |>
   filter(!grepl("Don't know/ Prefer not to answer", cps21_debate_en)) 
 
 # Save #
-write_csv(ces2021_EN_debate, "ces2021_EN_debate.csv")
+write_csv(ces2021_EN_debate, "ces2021_EN_debate_pol_interest.csv")
 
 ## FR ##
 ces2021_FR_debate <- ces2021_pol_interest |>
@@ -48,4 +48,4 @@ ces2021_FR_debate <- ces2021_pol_interest |>
   filter(!grepl("Don't know/ Prefer not to answer", cps21_debate_fr)) 
 
 # Save #
-write_csv(ces2021_FR_debate, "ces2021_FR_debate.csv")
+write_csv(ces2021_FR_debate, "ces2021_FR_debate_pol_interest.csv")

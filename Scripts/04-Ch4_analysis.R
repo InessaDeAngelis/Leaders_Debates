@@ -396,7 +396,7 @@ summary(mod7)
 m1 <- lm(Interruption ~ Organizer + Number_of_Debaters_in_Segment + Political_affiliation, data = dqi_in)
 summary(m1)
 
-m1_logit <- glm(Interruption ~ Organizer + Number_of_Debaters_in_Segment +Number_of_participants + Language,
+m1_logit <- glm(Interruption ~ Organizer + Number_of_Debaters_in_Segment + Number_of_participants + Language,
                 data = dqi_in, family = binomial(link = "logit"))
 summary(m1_logit)
 
