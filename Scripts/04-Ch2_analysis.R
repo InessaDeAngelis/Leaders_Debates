@@ -13,10 +13,10 @@ library(tinytable)
 library(marginaleffects)
 library(kableExtra)
 
-ces2019_EN_debate <- read_csv("ces2019_EN_debate.csv")
-ces2021_EN_debate <- read_csv("ces2021_EN_debate.csv")
-ces2019_FR_debate <- read_csv("ces2019_FR_debate.csv")
-ces2021_FR_debate <- read_csv("ces2021_FR_debate.csv")
+ces2019_EN_debate <- read_csv("Outputs/Data/CES/ces2019_EN_debate_pol_interest.csv")
+ces2021_EN_debate <- read_csv("Outputs/Data/CES/ces2021_EN_debate_pol_interest.csv")
+ces2019_FR_debate <- read_csv("Outputs/Data/CES/ces2019_FR_debate_pol_interest.csv")
+ces2021_FR_debate <- read_csv("Outputs/Data/CES/ces2021_FR_debate_pol_interest.csv")
 
 #### Make 2019 models ####
 ## EN = 2019 ##
@@ -324,7 +324,7 @@ df <- ces2021_EN_mod |>
 cps19_gender = case_when(
   cps19_gender == "A man" ~ 0,
   cps19_gender == "A woman" ~ 1,
-  cps19_gender == "Other (e.g. Trans, non-binary, two-spirit, gender-queer)" ~ 2),
+  cps19_gender == "Other (e.g. Trans, non-binary, two-spirit, gender-queer)" ~ 2)
 
 tt(df, caption = "People who watched the 2019 EN debate, by political media consumption")
 

@@ -41,7 +41,7 @@ raw_ces2019_web <- ces2019_web |>
 raw_ces2019_web
 
 ## Save dataset ##
-write_csv(raw_ces2019_web, "raw_ces2019_pol_interest.csv")
+write_csv(raw_ces2019_web, "Inputs/Data/CES/raw_ces2019_pol_interest.csv")
 
 #### Download and clean 2021 data ####
 raw_ces2021_web <- read_dta(here::here("Inputs/Data/CES/2021_CES_v2.dta"))
@@ -63,4 +63,4 @@ raw_ces2021_web <- raw_ces2021_web |>
     cps21_finmin_name) 
 
 ## Save dataset ##
-write_csv(raw_ces2021_web, "raw_ces2021_pol_interest.csv")
+write_csv(raw_ces2021_web, "Inputs/Data/CES/raw_ces2021_pol_interest.csv")
