@@ -8,11 +8,11 @@
 
 #### Workspace setup ####
 library(tidyverse)
-library(ggplot2)
+library(hrbrthemes)
 
 time_data <- read_csv("Outputs/Data/time_allocation_data.csv")
 
-## Fix 2015 Consotrium debate name ##
+## Update names and fix 2015 Consortium debate name ##
 time_data <- time_data |>
     mutate("Debate_number" = case_when(
       Debate_number == "2008FrConsortium" ~ "2008 Consortium (FR)",
@@ -33,18 +33,18 @@ time_data <- time_data |>
       Debate_number == "2021EnLDC" ~ "2021 LDC (EN)"))
 
 #### Data visualization ####
-#jpeg("Ch2_figure1.jpeg", units="in", width=9, height=5, res=500) 
+jpeg("Ch2_figure1.jpeg", units="in", width=9, height=5, res=500) 
 p <- ggplot(time_data, aes(Election_year, Average_time)) + 
-  geom_point() + 
-  ggrepel::geom_text_repel(data = time_data, aes(label = Debate_number), size = 3) +
-  labs(x = "Election year", y = "Average time per question per speaker (minutes)") +
-  scale_x_continuous(breaks = scales::pretty_breaks(n = 13)) +
+  geom_point(color = "black", size = 1) + 
+  ggrepel::geom_text_repel(data = time_data, aes(label = Debate_number), size = 3.5, family = "Arial Narrow") +
+  labs(x = "Year", y = "Average time per question per speaker (minutes)") +
+  scale_x_continuous(breaks = scales::pretty_breaks(n = 12)) +
   scale_y_continuous(breaks = scales::pretty_breaks(n = 10)) +
-  theme_linedraw() +
+  theme_ipsum() +
   theme(axis.text.x = element_text(size = 10)) +
-  theme(axis.title.x = element_text(size = 12)) +
+  theme(axis.title.x = element_text(size = 14, face = "bold")) +
   theme(axis.text.y.left = element_text(size = 10)) +
-  theme(axis.title.y.left = element_text(size = 12))
+  theme(axis.title.y.left = element_text(size = 13, face = "bold"))
 
-p + geom_smooth(method = "lm", se = FALSE, linewidth = 0.8, color = "black") 
-#dev.off()
+p + geom_smooth(method = "lm", se = FALSE, linewidth = 0.9, color = "#123A7A") 
+dev.off()

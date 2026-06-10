@@ -9,7 +9,8 @@
 #### Workspace setup ####
 ## Read in packages ##
 library(tidyverse)
-library(ggplot2)
+library(hrbrthemes)
+library(patchwork)
 
 ## Read in dataset ##
 all_qs <- read_csv("Outputs/Data/all_qs.csv")
@@ -32,27 +33,77 @@ all_qs_viz <- all_qs |>
     Debate_number == "2019FrLDC" ~ "2019 LDC (FR)",
     Debate_number == "2021TVA" ~ "2021 TVA",
     Debate_number == "2021FrLDC" ~ "2021 LDC (FR)",
-    Debate_number == "2021EnLDC" ~ "2021 LDC (EN)"))
+    Debate_number == "2021EnLDC" ~ "2021 LDC (EN)"),
+    "Issue" = case_when(
+      Issue == "Health care" ~ "Healthcare",
+      TRUE ~ Issue))
 
 #### Visualize data ####
+## V1: Facet wrap ##
 ## Helpful suggestions: https://www.datacamp.com/tutorial/facets-ggplot-r
 
-#jpeg("whos_asking.jpeg", units="in", width=9, height=5, res=300) 
-
+jpeg("Ch3_whos_asking.jpeg", units="in", width=8, height=7, res=300) 
 ggplot(all_qs_viz, aes(Issue, Percentage/1000)) +
-  geom_bar(stat='identity', fill="black") +
+  geom_bar(stat = "identity", fill = "#123A7A") +
   facet_wrap(~Whos_asking) +
   labs(
     x = "Issue",
     y = "Percentage of questions asked") +
-  theme_bw() +
-  theme(legend.position = "bottom") +
+  theme_ipsum() +
   scale_y_continuous(labels=scales::percent) +
-  theme(strip.text.x = element_text(size = 20)) +
-  theme(axis.text.x =  element_text(size = 20, angle = 75, hjust=1)) +
-  theme(axis.text.y = element_text(size = 20)) + 
-  theme(axis.title.x = element_text(size = 22)) +
-  theme(axis.title.y = element_text(size = 22)) +
-  theme(legend.title = element_text(size = 15)) 
+  theme(strip.text.x = element_text(size = 14)) +
+  theme(axis.text.x =  element_text(size = 9, angle = 70, hjust = 1)) +
+  theme(axis.text.y = element_text(size = 9)) + 
+  theme(axis.title.x = element_text(size = 16, face = "bold")) +
+  theme(axis.title.y = element_text(size = 16, face = "bold")) 
+dev.off()
 
-#dev.off()
+## V2: Four separate graphs brought together using patchwork ##
+# Citizens #
+citizen <- ggplot(subset(all_qs_viz, Whos_asking == "Leader"), aes(Issue, Percentage/100)) +
+  geom_col(fill = "#123A7A") +
+  scale_y_continuous(labels = scales::percent) +
+  labs(title = "Leader", y = "Percentage of questions asked") +
+  theme_ipsum() +
+  theme(axis.text.x =  element_text(size = 9, angle = 70, hjust = 1)) +
+  theme(axis.text.y = element_text(size = 9)) + 
+  theme(axis.title.x = element_text(size = 16, face = "bold")) +
+  theme(axis.title.y = element_text(size = 16, face = "bold")) 
+
+# Journalists #
+journalist <- ggplot(subset(all_qs_viz, Whos_asking == "Journalist"), aes(Issue, Percentage/100)) +
+  geom_col(fill = "#123A7A") +
+  scale_y_continuous(labels = scales::percent) + # to be fix
+  labs(title = "Journalist", y = "Percentage of questions asked") +
+  theme_ipsum() +
+  theme(axis.text.x =  element_text(size = 9, angle = 70, hjust = 1)) +
+  theme(axis.text.y = element_text(size = 9)) + 
+  theme(axis.title.x = element_text(size = 16, face = "bold")) +
+  theme(axis.title.y = element_text(size = 16, face = "bold")) 
+
+# Leaders #
+leader <- ggplot(subset(all_qs_viz, Whos_asking == "Leader"), aes(Issue, Percentage/100)) +
+  geom_col(fill = "#123A7A") +
+  scale_y_continuous(labels = scales::percent) + # to be fix
+  labs(title = "Leader", y = "Percentage of questions asked") +
+  theme_ipsum() +
+  theme(axis.text.x =  element_text(size = 9, angle = 70, hjust = 1)) +
+  theme(axis.text.y = element_text(size = 9)) + 
+  theme(axis.title.x = element_text(size = 16, face = "bold")) +
+  theme(axis.title.y = element_text(size = 16, face = "bold")) 
+
+# Moderator #
+moderator <- ggplot(subset(all_qs_viz, Whos_asking == "Moderator"), aes(Issue, Percentage/100)) +
+  geom_col(fill = "#123A7A") +
+  scale_y_continuous(labels = scales::percent) + # to be fix
+  labs(title = "Moderator", y = "Percentage of questions asked") +
+  theme_ipsum() +
+  theme(axis.text.x =  element_text(size = 9, angle = 70, hjust = 1)) +
+  theme(axis.text.y = element_text(size = 9)) + 
+  theme(axis.title.x = element_text(size = 16, face = "bold")) +
+  theme(axis.title.y = element_text(size = 16, face = "bold")) 
+
+# Bring all together #
+jpeg("Ch3_whos_asking_v2.jpeg", units="in", width=8, height=7, res=300) 
+citizen + journalist + leader + moderator
+dev.off()

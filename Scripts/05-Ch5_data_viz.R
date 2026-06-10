@@ -13,14 +13,14 @@ library(ggpmisc)
 library(ggpubr)
 library(ggpp)
 library(ggrepel)
+library(hrbrthemes)
 
 #### Read in dataset ####
 by_debates_final <- read_csv(file = "Outputs/Data/by_debates_final.csv")
 
 #### Figure 5 (Share of articles using strategic frames over time) ####
 ## Create analysis dataset ##
-by_debates_strategic_frame =
-  by_debates_final |>
+by_debates_strategic_frame <- by_debates_final |>
   mutate("Debate_number" = case_when(
     Debate_number == "2008FrConsortium" ~ "2008 Consortium (FR)",
     Debate_number == "2008EnConsortium" ~ "2008 Consortium (EN)",
@@ -28,7 +28,7 @@ by_debates_strategic_frame =
     Debate_number == "2011FrConsortium" ~ "2011 Consortium (FR)",
     Debate_number == "2015Macleans" ~ "2015 Macleans",
     Debate_number == "2015Globe&Mail" ~ "2015 Globe & Mail",
-    Debate_number == "2015Radio-Canada" ~ "2015 Consortium (FR)",
+    Debate_number == "2015FrConsortium" ~ "2015 Consortium (FR)",
     Debate_number == "2015Munk" ~ "2015 Munk",
     Debate_number == "2015TVA" ~ "2015 TVA",
     Debate_number == "2019Macleans" ~ "2019 Macleans",
@@ -37,45 +37,41 @@ by_debates_strategic_frame =
     Debate_number == "2019FrLDC" ~ "2019 FR LDC",
     Debate_number == "2021TVA" ~ "2021 TVA",
     Debate_number == "2021FrLDC" ~ "2021 FR LDC",
-    Debate_number == "2021EnLDC" ~ "2021 EN LDC"
-  )) |>
+    Debate_number == "2021EnLDC" ~ "2021 EN LDC")) |>
   select(Election_year, Debate_number, news_strategic_frame)
-by_debates_strategic_frame
 
 ## Data Visualization ##
 # Code referenced from: https://stackoverflow.com/questions/73995249/how-to-fill-the-background-of-a-stat-poly-eq-equation-ggpmisc-using-ggplot2
 # Code for label repelling referenced from: https://www.r4photobiology.info/galleries/nudge-and-repel.html
 
-#jpeg("Ch5_figure5.jpeg", units="in", width=11, height=7, res=500) 
+jpeg("Ch5_figure5.jpeg", units="in", width=11, height=7, res=500) 
 p <- ggplot(by_debates_strategic_frame, aes(Election_year, news_strategic_frame/100)) + 
   geom_point() +
   ggrepel::geom_text_repel(
     data = by_debates_strategic_frame,
     (aes(label = Debate_number)),
     size = 3.5,
+    family = "Arial Narrow",
     alpha = 0.8,
     segment.size = 1,
     segment.alpha = 0.5,
     force = 1,
-    position = position_nudge_center(x = 0.10)
-  ) +
-  labs(x = "Election year", y = "Strategic Frame") +
+    position = position_nudge_center(x = 0.10)) +
+  labs(x = "Year", y = "Strategic Frame") +
   scale_x_continuous(breaks = scales::pretty_breaks(n = 13)) +
   scale_y_continuous(labels = scales::percent) +
-  theme_linedraw() +
-  theme(axis.text.x = element_text(size = 11)) +
-  theme(axis.title.x = element_text(size = 13)) +
-  theme(axis.text.y = element_text(size = 11)) +
-  theme(axis.title.y.left = element_text(size = 13))
+  theme_ipsum() +
+  theme(axis.text.x = element_text(size = 10)) +
+  theme(axis.title.x = element_text(size = 14, face = "bold")) +
+  theme(axis.text.y.left = element_text(size = 10)) +
+  theme(axis.title.y.left = element_text(size = 13, face = "bold"))
 
-p + geom_smooth(method = "lm", se = FALSE, linewidth = 0.8, color = "black") +
+p + geom_smooth(method = "lm", se = FALSE, linewidth = 0.9, color = "#123A7A") +
   stat_poly_eq(rr.digits = 2, parse = TRUE, size = 3, label.x = 0.98, label.y = 0.98, geom = "label_npc", label.size = 0.2)
-#dev.off()
 
 #### Figure 6 (Share of articles using strategic frames and addressing substance over time) ####
 ## Create analysis dataset ##
-by_debates_substance =
-  by_debates_final |>
+by_debates_substance <- by_debates_final |>
   mutate("Debate_number" = case_when(
     Debate_number == "2008FrConsortium" ~ "2008 Consortium (FR)",
     Debate_number == "2008EnConsortium" ~ "2008 Consortium (EN)",
@@ -83,7 +79,7 @@ by_debates_substance =
     Debate_number == "2011FrConsortium" ~ "2011 Consortium (FR)",
     Debate_number == "2015Macleans" ~ "2015 Macleans",
     Debate_number == "2015Globe&Mail" ~ "2015 Globe & Mail",
-    Debate_number == "2015Radio-Canada" ~ "2015 Consortium (FR)",
+    Debate_number == "2015FrConsortium" ~ "2015 Consortium (FR)",
     Debate_number == "2015Munk" ~ "2015 Munk",
     Debate_number == "2015TVA" ~ "2015 TVA",
     Debate_number == "2019Macleans" ~ "2019 Macleans",
@@ -94,47 +90,46 @@ by_debates_substance =
     Debate_number == "2021FrLDC" ~ "2021 FR LDC",
     Debate_number == "2021EnLDC" ~ "2021 EN LDC")) |>
   select(Election_year, Debate_number, news_substance)
-by_debates_substance
 
 ## Data Visualization ##
-#jpeg("Ch5_figure6.jpeg", units="in", width=13, height=8, res=500) 
+jpeg("Ch5_figure6.jpeg", units="in", width=13, height=8, res=500) 
 p <- ggplot(by_debates_substance, aes(Election_year, news_substance/100)) + 
   geom_point() +
   ggrepel::geom_text_repel(
     data = by_debates_substance,
     aes(label = Debate_number),
     size = 4,
+    family = "Arial Narrow",
     alpha = 0.9,
     segment.size = .25,
     segment.alpha = .8,
     force = 1,
     position = position_nudge_center(0.2, 0.1, 0, 0)) +
-  labs(x = "Election year", y = "Substance") +
+  labs(x = "Year", y = "Substance") +
   scale_x_continuous(breaks = scales::pretty_breaks(n = 13)) +
   scale_y_continuous(labels = scales::percent) +
-  theme_linedraw() +
-  theme(axis.text.x = element_text(size = 11)) +
-  theme(axis.title.x = element_text(size = 13)) +
-  theme(axis.text.y = element_text(size = 11)) +
-  theme(axis.title.y.left = element_text(size = 13))
+  theme_ipsum() +
+  theme(axis.text.x = element_text(size = 10)) +
+  theme(axis.title.x = element_text(size = 14, face = "bold")) +
+  theme(axis.text.y.left = element_text(size = 10)) +
+  theme(axis.title.y.left = element_text(size = 13, face = "bold"))
 
-p + geom_smooth(method = "lm", se = FALSE, linewidth = 0.8, color = "black") +
+p + geom_smooth(method = "lm", se = FALSE, linewidth = 0.9, color = "#123A7A") +
 stat_poly_eq(rr.digits = 2, parse = TRUE, size = 4, geom = "label_npc", label.size = 0.25)
-#dev.off()
+dev.off()
 
 #### Figure 7 (Share of articles using strategic frames and addressing substance over time) ####
 ## Create analysis dataset ##
 # Add in data from table #
 strategic_substance_data <- 
-  data.frame(
-  Debate_number = c(
+  data.frame(Debate_number = c(
     "2008FrConsortium",
     "2008EnConsortium",
     "2011EnConsortium",
     "2011FrConsortium",
     "2015Macleans",
     "2015Globe&Mail",
-    "2015Radio-Canada",
+    "2015FrConsortium",
     "2015Munk",
     "2015TVA",
     "2019Macleans",
@@ -160,14 +155,11 @@ strategic_substance_data <-
     17.1,
     40.0,
     20.9,
-    15.9
-  ))
-strategic_substance_data
+    15.9))
 
 # Add with existing columns from dataset #
 strategic_sub <- by_debates_final |>
   select(Election_year, Debate_number)
-strategic_sub
 
 by_debates_strategic_sub =
   merge(
@@ -181,7 +173,7 @@ by_debates_strategic_sub =
     Debate_number == "2011FrConsortium" ~ "2011 Consortium (FR)",
     Debate_number == "2015Macleans" ~ "2015 Macleans",
     Debate_number == "2015Globe&Mail" ~ "2015 Globe & Mail",
-    Debate_number == "2015Radio-Canada" ~ "2015 Consortium (FR)",
+    Debate_number == "2015FrConsortium" ~ "2015 Consortium (FR)",
     Debate_number == "2015Munk" ~ "2015 Munk",
     Debate_number == "2015TVA" ~ "2015 TVA",
     Debate_number == "2019Macleans" ~ "2019 Macleans",
@@ -190,44 +182,42 @@ by_debates_strategic_sub =
     Debate_number == "2019FrLDC" ~ "2019 FR LDC",
     Debate_number == "2021TVA" ~ "2021 TVA",
     Debate_number == "2021FrLDC" ~ "2021 FR LDC",
-    Debate_number == "2021EnLDC" ~ "2021 EN LDC"
-  )) 
-by_debates_strategic_sub 
+    Debate_number == "2021EnLDC" ~ "2021 EN LDC")) 
 
 ## Data Visualization ##
 # Code referenced from: https://stackoverflow.com/questions/77609363/stat-poly-eq-erroring-when-using-grouped-data-in-a-ggplot
 # &: https://stackoverflow.com/questions/7549694/add-regression-line-equation-and-r2-on-graph
 
-#jpeg("Ch5_figure7.jpeg", units="in", width=9, height=5, res=500) 
+jpeg("Ch5_figure7.jpeg", units="in", width=9, height=5, res=500) 
 p <- ggplot(by_debates_strategic_sub, aes(Election_year, strategic_and_substantive/100)) + 
   geom_point() + 
   ggrepel::geom_text_repel(
     data = by_debates_strategic_sub,
     aes(label = Debate_number),
     size = 3.25,
+    family = "Arial Narrow",
     alpha = 0.9,
     segment.size = .5,
     segment.alpha = .8,
     force = 1,
     position = position_nudge_center(x = 0.05))+
-  labs(x = "Election year", y = "Strategic and Substantive") +
+  labs(x = "Year", y = "Strategic and Substantive") +
   scale_x_continuous(breaks = scales::pretty_breaks(n = 13)) +
   scale_y_continuous(labels = scales::percent) +
-  theme_linedraw() +
-  theme(axis.text.x = element_text(size = 11)) +
-  theme(axis.title.x = element_text(size = 13)) +
-  theme(axis.text.y = element_text(size = 11)) +
-  theme(axis.title.y.left = element_text(size = 13)) 
+  theme_ipsum() +
+  theme(axis.text.x = element_text(size = 10)) +
+  theme(axis.title.x = element_text(size = 14, face = "bold")) +
+  theme(axis.text.y.left = element_text(size = 10)) +
+  theme(axis.title.y.left = element_text(size = 13, face = "bold"))
 
-p + geom_smooth(method = "lm", se = FALSE, linewidth = 0.8, color = "black") 
-#dev.off()
+p + geom_smooth(method = "lm", se = FALSE, linewidth = 0.9, color = "#123A7A") 
+dev.off()
 
 #stat_poly_eq(rr.digits = 2, parse = FALSE, size = 4, geom = "label_npc", label.size = 0.25)
 
 #### Figure 8 (Share of articles focusing on news format) ####
 ## Create analysis dataset ##
-by_debates_format =
-  by_debates_final |>
+by_debates_format <- by_debates_final |>
   filter(!grepl('2008FrConsortium', Debate_number)) |>
   filter(!grepl('2011FrConsortium', Debate_number)) |>
   mutate("Debate_number" = case_when(
@@ -235,7 +225,7 @@ by_debates_format =
     Debate_number == "2011EnConsortium" ~ "2011 Consortium (EN)",
     Debate_number == "2015Macleans" ~ "2015 Macleans",
     Debate_number == "2015Globe&Mail" ~ "2015 Globe & Mail",
-    Debate_number == "2015Radio-Canada" ~ "2015 Consortium (FR)",
+    Debate_number == "2015FrConsortium" ~ "2015 Consortium (FR)",
     Debate_number == "2015Munk" ~ "2015 Munk",
     Debate_number == "2015TVA" ~ "2015 TVA",
     Debate_number == "2019Macleans" ~ "2019 Macleans",
@@ -244,25 +234,23 @@ by_debates_format =
     Debate_number == "2019FrLDC" ~ "2019 FR LDC",
     Debate_number == "2021TVA" ~ "2021 TVA",
     Debate_number == "2021FrLDC" ~ "2021 FR LDC",
-    Debate_number == "2021EnLDC" ~ "2021 EN LDC"
-  )) |>
+    Debate_number == "2021EnLDC" ~ "2021 EN LDC")) |>
   select(Election_year, Debate_number, news_format)
-by_debates_format
 
 ## Data Visualization ##
-#jpeg("Ch5_figure8.jpeg", units="in", width=9, height=5, res=500) 
+jpeg("Ch5_figure8.jpeg", units="in", width=9, height=5, res=500) 
 p <- ggplot(by_debates_format, aes(Election_year, news_format/100)) + 
   geom_point() + 
-  ggrepel::geom_text_repel(data = by_debates_format, aes(label = Debate_number), size = 3.5) +
-  labs(x = "Election year", y = "News format") +
+  ggrepel::geom_text_repel(data = by_debates_format, aes(label = Debate_number), size = 3.5, family = "Arial Narrow") +
+  labs(x = "Year", y = "News format") +
   scale_x_continuous(breaks = scales::pretty_breaks(n = 13)) +
   scale_y_continuous(labels = scales::percent) +
-  theme_linedraw() +
-  theme(axis.text.x = element_text(size = 11)) +
-  theme(axis.title.x = element_text(size = 13)) +
-  theme(axis.text.y = element_text(size = 11)) +
-  theme(axis.title.y.left = element_text(size = 13)) 
+  theme_ipsum() +
+  theme(axis.text.x = element_text(size = 10)) +
+  theme(axis.title.x = element_text(size = 14, face = "bold")) +
+  theme(axis.text.y.left = element_text(size = 10)) +
+  theme(axis.title.y.left = element_text(size = 13, face = "bold"))
 
-p + geom_smooth(method = "lm", se = FALSE, linewidth = 0.8, color = "black") +
+p + geom_smooth(method = "lm", se = FALSE, linewidth = 0.9, color = "#123A7A") +
 stat_poly_eq(rr.digits = 2, parse = TRUE, size = 3.5, geom = "label_npc", label.size = 0.2)
-#dev.off()
+dev.off()
