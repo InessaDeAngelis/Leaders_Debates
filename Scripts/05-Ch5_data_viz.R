@@ -12,7 +12,6 @@ library(scales)
 library(ggpmisc)
 library(ggpubr)
 library(ggpp)
-library(ggrepel)
 library(hrbrthemes)
 
 #### Read in dataset ####
@@ -44,30 +43,31 @@ by_debates_strategic_frame <- by_debates_final |>
 # Code referenced from: https://stackoverflow.com/questions/73995249/how-to-fill-the-background-of-a-stat-poly-eq-equation-ggpmisc-using-ggplot2
 # Code for label repelling referenced from: https://www.r4photobiology.info/galleries/nudge-and-repel.html
 
-jpeg("Ch5_figure5.jpeg", units="in", width=11, height=7, res=500) 
+jpeg("Ch5_strategic_frame.jpeg", units="in", width=10, height=7, res=300) 
 p <- ggplot(by_debates_strategic_frame, aes(Election_year, news_strategic_frame/100)) + 
   geom_point() +
   ggrepel::geom_text_repel(
-    data = by_debates_strategic_frame,
-    (aes(label = Debate_number)),
-    size = 3.5,
-    family = "Arial Narrow",
-    alpha = 0.8,
-    segment.size = 1,
-    segment.alpha = 0.5,
-    force = 1,
-    position = position_nudge_center(x = 0.10)) +
-  labs(x = "Year", y = "Strategic Frame") +
-  scale_x_continuous(breaks = scales::pretty_breaks(n = 13)) +
-  scale_y_continuous(labels = scales::percent) +
+    aes(label = Debate_number),
+    size = 3.5, family = "Arial narrow",
+    box.padding = 0.5, point.padding = 0.5,
+    segment.color = "grey70", segment.size = 0.3, force = 1.5) +
+  labs(x = "Year", y = "Percentage of news articles using a strategic frame") + 
+  scale_x_continuous(breaks = scales::pretty_breaks(n = 6)) +
+  scale_y_continuous(breaks = seq(0.30, 0.80, by = 0.10), limits = c(0.30, NA), labels = scales::percent) +
   theme_ipsum() +
-  theme(axis.text.x = element_text(size = 10)) +
-  theme(axis.title.x = element_text(size = 14, face = "bold")) +
-  theme(axis.text.y.left = element_text(size = 10)) +
-  theme(axis.title.y.left = element_text(size = 13, face = "bold"))
+  theme(
+    panel.grid.major.y = element_line(color = "grey92", linewidth = 0.3),
+    panel.grid.major.x = element_line(color = "grey94", linewidth = 0.25),
+    axis.line.x = element_line(color = "grey35", linewidth = 0.25),
+    axis.line.y = element_line(color = "grey35", linewidth = 0.25),
+    axis.text.x = element_text(size = 10, face = "bold"),
+    axis.title.x = element_text(size = 14, face = "bold"),
+    axis.text.y.left = element_text(size = 10, face = "bold"),
+    axis.title.y.left = element_text(size = 13, face = "bold"))   
 
 p + geom_smooth(method = "lm", se = FALSE, linewidth = 0.9, color = "#123A7A") +
   stat_poly_eq(rr.digits = 2, parse = TRUE, size = 3, label.x = 0.98, label.y = 0.98, geom = "label_npc", label.size = 0.2)
+dev.off()
 
 #### Figure 6 (Share of articles using strategic frames and addressing substance over time) ####
 ## Create analysis dataset ##
@@ -92,80 +92,48 @@ by_debates_substance <- by_debates_final |>
   select(Election_year, Debate_number, news_substance)
 
 ## Data Visualization ##
-jpeg("Ch5_figure6.jpeg", units="in", width=13, height=8, res=500) 
+jpeg("Ch5_news_substance.jpeg", units="in", width=11, height=7, res=300) 
 p <- ggplot(by_debates_substance, aes(Election_year, news_substance/100)) + 
   geom_point() +
   ggrepel::geom_text_repel(
     data = by_debates_substance,
     aes(label = Debate_number),
-    size = 4,
-    family = "Arial Narrow",
-    alpha = 0.9,
-    segment.size = .25,
-    segment.alpha = .8,
-    force = 1,
+    size = 4, family = "Arial Narrow", alpha = 0.9,
+    segment.size = .25, segment.alpha = .8, force = 1,
     position = position_nudge_center(0.2, 0.1, 0, 0)) +
-  labs(x = "Year", y = "Substance") +
-  scale_x_continuous(breaks = scales::pretty_breaks(n = 13)) +
+  labs(x = "Year", y = "Percentage of news articles addressing debate substance") +
+  scale_x_continuous(breaks = scales::pretty_breaks(n = 6)) +
   scale_y_continuous(labels = scales::percent) +
   theme_ipsum() +
-  theme(axis.text.x = element_text(size = 10)) +
-  theme(axis.title.x = element_text(size = 14, face = "bold")) +
-  theme(axis.text.y.left = element_text(size = 10)) +
-  theme(axis.title.y.left = element_text(size = 13, face = "bold"))
+  theme(
+    panel.grid.major.y = element_line(color = "grey92", linewidth = 0.3),
+    panel.grid.major.x = element_line(color = "grey94", linewidth = 0.25),
+    axis.line.x = element_line(color = "grey35", linewidth = 0.25),
+    axis.line.y = element_line(color = "grey35", linewidth = 0.25),
+    axis.text.x = element_text(size = 11, face = "bold"),
+    axis.title.x = element_text(size = 14, face = "bold"),
+    axis.text.y.left = element_text(size = 11, face = "bold"),
+    axis.title.y.left = element_text(size = 13, face = "bold"))  
 
 p + geom_smooth(method = "lm", se = FALSE, linewidth = 0.9, color = "#123A7A") +
-stat_poly_eq(rr.digits = 2, parse = TRUE, size = 4, geom = "label_npc", label.size = 0.25)
+stat_poly_eq(rr.digits = 2, parse = TRUE, size = 3, geom = "label_npc", label.size = 0.2)
 dev.off()
 
 #### Figure 7 (Share of articles using strategic frames and addressing substance over time) ####
 ## Create analysis dataset ##
 # Add in data from table #
 strategic_substance_data <- 
-  data.frame(Debate_number = c(
-    "2008FrConsortium",
-    "2008EnConsortium",
-    "2011EnConsortium",
-    "2011FrConsortium",
-    "2015Macleans",
-    "2015Globe&Mail",
-    "2015FrConsortium",
-    "2015Munk",
-    "2015TVA",
-    "2019Macleans",
-    "2019TVA",
-    "2019EnLDC",
-    "2019FrLDC",
-    "2021TVA",
-    "2021FrLDC",
-    "2021EnLDC") ,
-  strategic_and_substantive = c(
-    24.4,
-    25.6,
-    20.5,
-    25.6,
-    17.5,
-    33.3,
-    22.6,
-    15.9,
-    38.7,
-    25.0,
-    31.7,
-    17.3,
-    17.1,
-    40.0,
-    20.9,
-    15.9))
+  data.frame(Debate_number = c("2008FrConsortium", "2008EnConsortium", "2011EnConsortium", "2011FrConsortium",
+    "2015Macleans", "2015Globe&Mail", "2015FrConsortium", "2015Munk", "2015TVA", "2019Macleans", "2019TVA",
+    "2019EnLDC", "2019FrLDC", "2021TVA", "2021FrLDC", "2021EnLDC") ,
+  strategic_and_substantive = c(24.4, 25.6, 20.5, 25.6, 17.5, 33.3, 22.6, 15.9, 38.7, 25.0, 31.7, 17.3, 17.1,
+                                40.0, 20.9, 15.9))
 
 # Add with existing columns from dataset #
 strategic_sub <- by_debates_final |>
   select(Election_year, Debate_number)
 
-by_debates_strategic_sub =
-  merge(
-    strategic_sub,
-    strategic_substance_data,
-    by = "Debate_number") |>
+by_debates_strategic_sub <- merge(strategic_sub, strategic_substance_data, by = "Debate_number") |>
   mutate("Debate_number" = case_when(
     Debate_number == "2008FrConsortium" ~ "2008 Consortium (FR)",
     Debate_number == "2008EnConsortium" ~ "2008 Consortium (EN)",
@@ -188,7 +156,7 @@ by_debates_strategic_sub =
 # Code referenced from: https://stackoverflow.com/questions/77609363/stat-poly-eq-erroring-when-using-grouped-data-in-a-ggplot
 # &: https://stackoverflow.com/questions/7549694/add-regression-line-equation-and-r2-on-graph
 
-jpeg("Ch5_figure7.jpeg", units="in", width=9, height=5, res=500) 
+jpeg("Ch5_strategic_substance.jpeg", units="in", width=9, height=6, res=300) 
 p <- ggplot(by_debates_strategic_sub, aes(Election_year, strategic_and_substantive/100)) + 
   geom_point() + 
   ggrepel::geom_text_repel(
@@ -201,19 +169,22 @@ p <- ggplot(by_debates_strategic_sub, aes(Election_year, strategic_and_substanti
     segment.alpha = .8,
     force = 1,
     position = position_nudge_center(x = 0.05))+
-  labs(x = "Year", y = "Strategic and Substantive") +
-  scale_x_continuous(breaks = scales::pretty_breaks(n = 13)) +
+  labs(x = "Year", y = "Percentage of articles using a strategic frame and addressing substance") +
+  scale_x_continuous(breaks = scales::pretty_breaks(n = 6)) +
   scale_y_continuous(labels = scales::percent) +
   theme_ipsum() +
-  theme(axis.text.x = element_text(size = 10)) +
-  theme(axis.title.x = element_text(size = 14, face = "bold")) +
-  theme(axis.text.y.left = element_text(size = 10)) +
-  theme(axis.title.y.left = element_text(size = 13, face = "bold"))
+  theme(
+    panel.grid.major.y = element_line(color = "grey92", linewidth = 0.3),
+    panel.grid.major.x = element_line(color = "grey94", linewidth = 0.25),
+    axis.line.x = element_line(color = "grey35", linewidth = 0.25),
+    axis.line.y = element_line(color = "grey35", linewidth = 0.25),
+    axis.text.x = element_text(size = 10, face = "bold"),
+    axis.title.x = element_text(size = 13, face = "bold"),
+    axis.text.y.left = element_text(size = 10, face = "bold"),
+    axis.title.y.left = element_text(size = 12, face = "bold"))  
 
 p + geom_smooth(method = "lm", se = FALSE, linewidth = 0.9, color = "#123A7A") 
 dev.off()
-
-#stat_poly_eq(rr.digits = 2, parse = FALSE, size = 4, geom = "label_npc", label.size = 0.25)
 
 #### Figure 8 (Share of articles focusing on news format) ####
 ## Create analysis dataset ##
@@ -238,19 +209,24 @@ by_debates_format <- by_debates_final |>
   select(Election_year, Debate_number, news_format)
 
 ## Data Visualization ##
-jpeg("Ch5_figure8.jpeg", units="in", width=9, height=5, res=500) 
+jpeg("Ch5_news_format.jpeg", units="in", width=9, height=6, res=300) 
 p <- ggplot(by_debates_format, aes(Election_year, news_format/100)) + 
   geom_point() + 
   ggrepel::geom_text_repel(data = by_debates_format, aes(label = Debate_number), size = 3.5, family = "Arial Narrow") +
-  labs(x = "Year", y = "News format") +
-  scale_x_continuous(breaks = scales::pretty_breaks(n = 13)) +
-  scale_y_continuous(labels = scales::percent) +
+  labs(x = "Year", y = "Percentage of news articles discussing debate format") +
+  scale_x_continuous(breaks = scales::pretty_breaks(n = 6)) +
+  scale_y_continuous(breaks = seq(0.30, 0.80, by = 0.10), limits = c(0.30, NA), labels = scales::percent) +
   theme_ipsum() +
-  theme(axis.text.x = element_text(size = 10)) +
-  theme(axis.title.x = element_text(size = 14, face = "bold")) +
-  theme(axis.text.y.left = element_text(size = 10)) +
-  theme(axis.title.y.left = element_text(size = 13, face = "bold"))
+  theme(
+    panel.grid.major.y = element_line(color = "grey92", linewidth = 0.3),
+    panel.grid.major.x = element_line(color = "grey94", linewidth = 0.25),
+    axis.line.x = element_line(color = "grey35", linewidth = 0.25),
+    axis.line.y = element_line(color = "grey35", linewidth = 0.25),
+    axis.text.x = element_text(size = 10, face = "bold"),
+    axis.title.x = element_text(size = 13, face = "bold"),
+    axis.text.y.left = element_text(size = 10, face = "bold"),
+    axis.title.y.left = element_text(size = 12, face = "bold"))  
 
 p + geom_smooth(method = "lm", se = FALSE, linewidth = 0.9, color = "#123A7A") +
-stat_poly_eq(rr.digits = 2, parse = TRUE, size = 3.5, geom = "label_npc", label.size = 0.2)
+stat_poly_eq(rr.digits = 2, parse = TRUE, size = 3, geom = "label_npc", label.size = 0.2)
 dev.off()

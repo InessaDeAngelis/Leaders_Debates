@@ -40,7 +40,7 @@ by_debates_demands <- by_debates_final |>
 fit <- lm(demands_in_words ~ Election_year, data = by_debates_demands)
 
 ## Create new df for the regression line
-new_df <- data.frame(Election_year = seq(min(by_debates_demands$Election_year), 2020.8, length.out = 100))
+new_df <- data.frame(Election_year = seq(2009, 2021, length.out = 100))
 
 ## Predict raw values ##
 new_df$demands_in_words <- predict(fit, newdata = new_df)
@@ -50,20 +50,40 @@ new_df$demands_in_words <- predict(fit, newdata = new_df)
 # & https://ggplot2-book.org/annotations 
 # & https://stackoverflow.com/questions/48692705/text-repel-with-a-position-argument-in-ggplot-r
 
-jpeg("Ch4_figure1.jpeg", units = "in", width = 9, height = 6, res = 300)
+# Update labels #
+by_debates_demands$label <- by_debates_demands$Debate_number
+
+by_debates_demands$label[
+  by_debates_demands$Debate_number == "2008 Consortium (EN)"
+] <- "2008 \nConsortium (EN)"
+
+by_debates_demands$label[
+  by_debates_demands$Debate_number == "2008 Consortium (FR)"
+] <- "2008 \nConsortium (FR)"
+
+by_debates_demands$label[
+  by_debates_demands$Debate_number == "2015 Munk"
+] <- "2015 \nMunk"
+
+by_debates_demands$label[
+  by_debates_demands$Debate_number == "2015 Macleans"
+] <- "2015 \nMacleans"
+
+# Finally plot #
+jpeg("Ch4_demands_in_words.jpeg", units = "in", width = 10, height = 6, res = 300)
 ggplot(by_debates_demands, aes(Election_year, demands_in_words)) +
   geom_line(data = new_df,
     aes(x = Election_year, y = demands_in_words),
     color = "#123A7A", linewidth = 0.8) +
   geom_point(color = "black", size = 1) +
   ggrepel::geom_text_repel(
-    aes(label = Debate_number),
-    size = 3.5, family = "Arial narrow",
+    aes(label = label),
+    size = 3.5, family = "Arial narrow", lineheight = 0.8,
     box.padding = 0.5, point.padding = 0.2,
     segment.color = "grey70", segment.size = 0.3, force = 1.5) +
-  labs(x = "Year", y = "Demands in words") +
+  labs(x = "Year", y = "Percentage of demands in words") +
   scale_x_continuous(breaks = scales::pretty_breaks(n = 6)) +
-  scale_y_continuous(breaks = scales::pretty_breaks(n = 10)) +
+  scale_y_continuous(breaks = scales::pretty_breaks(n = 10), labels = scales::percent_format(scale = 1)) +
   theme_ipsum() +
   theme(
     panel.grid.major.y = element_line(color = "grey92", linewidth = 0.3),
@@ -98,26 +118,46 @@ by_debates_justification <- by_debates_final |>
     Debate_number == "2021EnLDC" ~ "2021 EN LDC")) |>
   select(Election_year, Debate_number, dqi_justification)
 
+## Prep for plotting: fit regression model ##
+fit <- lm(dqi_justification ~ Election_year, data = by_debates_justification)
+
+## Create new df for the regression line
+new_df <- data.frame(Election_year = seq(min(by_debates_justification$Election_year), 2020.8, length.out = 100))
+
+## Predict raw values ##
+new_df$dqi_justification <- predict(fit, newdata = new_df)
+
 ## Data Visualization ##
-jpeg("Ch4_figure2.jpeg", units="in", width=9, height=5, res=500) 
-p <- ggplot(by_debates_justification, aes(Election_year, dqi_justification)) + 
-  geom_point() + 
-  ggrepel::geom_text_repel(data = by_debates_justification, aes(label = Debate_number), size = 3.5) +
-  labs(x = "Year", y = "Level of justification") +
-  scale_x_continuous(breaks = scales::pretty_breaks(n = 13)) +
+jpeg("Ch4_dqi_justification.jpeg", units="in", width=9, height=6, res=300) 
+ggplot(by_debates_justification, aes(Election_year, dqi_justification)) + 
+  geom_line(data = new_df,
+            aes(x = Election_year, y = dqi_justification),
+            color = "#123A7A", linewidth = 0.8) +
+  geom_point(color = "black", size = 1) +
+  ggrepel::geom_text_repel(
+    aes(label = Debate_number),
+    size = 3.5, family = "Arial Narrow",
+    box.padding = 0.5, point.padding = 0.2,
+    segment.color = "grey70", segment.size = 0.3, force = 1.5) +
+  labs(x = "Year", y = "Level of justification over time") +
+  scale_x_continuous(breaks = scales::pretty_breaks(n = 6)) +
   scale_y_continuous(breaks = scales::pretty_breaks(n = 10)) +
   theme_ipsum() +
-  theme(axis.text.x = element_text(size = 10)) +
-  theme(axis.title.x = element_text(size = 14, face = "bold")) +
-  theme(axis.text.y.left = element_text(size = 10)) +
-  theme(axis.title.y.left = element_text(size = 13, face = "bold"))
-
-p + geom_smooth(method = "lm", se = FALSE, linewidth = 0.9, color = "#123A7A") 
+  theme(
+    panel.grid.major.y = element_line(color = "grey92", linewidth = 0.3),
+    panel.grid.major.x = element_line(color = "grey94", linewidth = 0.25),
+    axis.line.x = element_line(color = "grey35", linewidth = 0.25),
+    axis.line.y = element_line(color = "grey35", linewidth = 0.25),
+    axis.text.x = element_text(size = 10, face = "bold"),
+    axis.title.x = element_text(size = 14, face = "bold"),
+    axis.text.y.left = element_text(size = 10, face = "bold"),
+    axis.title.y.left = element_text(size = 13, face = "bold"))
 dev.off()
 
 #### Figure 3 (share of interrupted participation over time) ####
 ## Create analysis dataset ##
 # Code referenced from: https://www.reddit.com/r/Rlanguage/comments/aw3nkb/subtracting_data_in_column_from_data_in_another/
+
 by_debates_interrupted <- by_debates_final |>
   select(Election_year, Debate_number, dqi_normal_participation) |>
   mutate(all_participation = c("100"), .after = Debate_number) |>
@@ -141,27 +181,43 @@ by_debates_interrupted <- by_debates_final |>
     Debate_number == "2021EnLDC" ~ "2021 EN LDC")) |>
 select(Election_year, Debate_number, all_participation, dqi_normal_participation)
 
-by_debates_interrupted_final <- by_debates_interrupted |> mutate (all_participation - dqi_normal_participation) |>
+by_debates_interrupted <- by_debates_interrupted |> mutate (all_participation - dqi_normal_participation) |>
   rename(dqi_interrupted_participation = "all_participation - dqi_normal_participation") |>
   select(Election_year, Debate_number, dqi_normal_participation, dqi_interrupted_participation)
 
-## Data Visualization ##
-jpeg("Ch4_figure3.jpeg", units="in", width=9, height=5, res=500) 
-p <- ggplot(by_debates_interrupted_final, aes(Election_year, dqi_interrupted_participation/100)) + 
-  geom_point() + 
-  ggrepel::geom_text_repel(
-    data = by_debates_interrupted_final,
-    aes(label = Debate_number), size = 3, box.padding = 0.4) +
-  labs(x = "Year", y = "Interrupted Participation") +
-  scale_x_continuous(breaks = scales::pretty_breaks(n = 13)) +
-  scale_y_continuous(labels = scales::percent) +
-  theme_ipsum() +
-  theme(axis.text.x = element_text(size = 10)) +
-  theme(axis.title.x = element_text(size = 14, face = "bold")) +
-  theme(axis.text.y.left = element_text(size = 10)) +
-  theme(axis.title.y.left = element_text(size = 13, face = "bold"))
+## Prep for plotting: fit regression model ##
+fit <- lm(dqi_interrupted_participation ~ Election_year, data = by_debates_interrupted)
 
-p + geom_smooth(method = "lm", se = FALSE, linewidth = 0.9, color = "#123A7A") 
+## Create new df for the regression line
+new_df <- data.frame(Election_year = seq(min(by_debates_interrupted$Election_year), 2021, length.out = 100))
+
+## Predict raw values ##
+new_df$dqi_interrupted_participation <- predict(fit, newdata = new_df)
+
+## Data Visualization ##
+jpeg("Ch4_interruptions.jpeg", units="in", width=9, height=6, res=300) 
+ggplot(by_debates_interrupted, aes(Election_year, dqi_interrupted_participation)) + 
+  geom_line(data = new_df,
+            aes(x = Election_year, y = dqi_interrupted_participation), color = "#123A7A", linewidth = 0.8) +
+  geom_point(color = "black", size = 1) +
+  ggrepel::geom_text_repel(
+    aes(label = Debate_number),
+    size = 3.5, family = "Arial narrow",
+    box.padding = 0.5, point.padding = 0.5,
+    segment.color = "grey70", segment.size = 0.3, force = 1.5) +
+  labs(x = "Year", y = "Percentage of interrupted participation over time") +
+  scale_x_continuous(breaks = scales::pretty_breaks(n = 6)) +
+  scale_y_continuous(breaks = scales::pretty_breaks(n = 10), labels = scales::percent_format(scale = 1)) +
+  theme_ipsum() +
+  theme(
+    panel.grid.major.y = element_line(color = "grey92", linewidth = 0.3),
+    panel.grid.major.x = element_line(color = "grey94", linewidth = 0.25),
+    axis.line.x = element_line(color = "grey35", linewidth = 0.25),
+    axis.line.y = element_line(color = "grey35", linewidth = 0.25),
+    axis.text.x = element_text(size = 10, face = "bold"),
+    axis.title.x = element_text(size = 14, face = "bold"),
+    axis.text.y.left = element_text(size = 10, face = "bold"),
+    axis.title.y.left = element_text(size = 13, face = "bold"))  
 dev.off()
 
 #### Figure 4 (respect for demands over time) ####
@@ -186,21 +242,39 @@ by_debates_respect <- by_debates_final |>
     Debate_number == "2021EnLDC" ~ "2021 EN LDC")) |>
   select(Election_year, Debate_number, dqi_respect_demands)
 
-## Data Visualization ##
-jpeg("Ch4_figure4.jpeg", units="in", width=9, height=5, res=500) 
-p <- ggplot(by_debates_respect, aes(Election_year, dqi_respect_demands/100)) + 
-  geom_point() + 
-  ggrepel::geom_text_repel(data = by_debates_respect, aes(label = Debate_number), size = 3.5, box.padding = 0.4) +
-  labs(x = "Year", y = "Respect for demands") +
-  scale_x_continuous(breaks = scales::pretty_breaks(n = 13)) +
-  scale_y_continuous(labels = scales::percent) +
-  theme_ipsum() +
-  theme(axis.text.x = element_text(size = 10)) +
-  theme(axis.title.x = element_text(size = 14, face = "bold")) +
-  theme(axis.text.y.left = element_text(size = 10)) +
-  theme(axis.title.y.left = element_text(size = 13, face = "bold"))
+## Prep for plotting: fit regression model ##
+fit <- lm(dqi_respect_demands ~ Election_year, data = by_debates_respect)
 
-p + geom_smooth(method = "lm", se = FALSE, linewidth = 0.9, color = "#123A7A") 
+## Create new df for the regression line
+new_df <- data.frame(Election_year = seq(min(by_debates_respect$Election_year), 2020.8, length.out = 100))
+
+## Predict raw values ##
+new_df$dqi_respect_demands <- predict(fit, newdata = new_df)
+
+## Data Visualization ##
+jpeg("Ch4_respect_demands.jpeg", units="in", width=9, height=6, res=300) 
+ggplot(by_debates_respect, aes(Election_year, dqi_respect_demands)) + 
+  geom_line(data = new_df,
+            aes(x = Election_year, y = dqi_respect_demands), color = "#123A7A", linewidth = 0.8) +
+  geom_point(color = "black", size = 1) +
+  ggrepel::geom_text_repel(
+    aes(label = Debate_number),
+    size = 3.5, family = "Arial narrow",
+    box.padding = 0.5, point.padding = 0.5,
+    segment.color = "grey70", segment.size = 0.3, force = 1.5) +
+  labs(x = "Year", y = "Level of respect for demands") +
+  scale_x_continuous(breaks = scales::pretty_breaks(n = 6)) +
+  scale_y_continuous(breaks = scales::pretty_breaks(n = 10)) +
+  theme_ipsum() +
+  theme(
+    panel.grid.major.y = element_line(color = "grey92", linewidth = 0.3),
+    panel.grid.major.x = element_line(color = "grey94", linewidth = 0.25),
+    axis.line.x = element_line(color = "grey35", linewidth = 0.25),
+    axis.line.y = element_line(color = "grey35", linewidth = 0.25),
+    axis.text.x = element_text(size = 10, face = "bold"),
+    axis.title.x = element_text(size = 14, face = "bold"),
+    axis.text.y.left = element_text(size = 10, face = "bold"),
+    axis.title.y.left = element_text(size = 13, face = "bold"))  
 dev.off()
 
 #### Figure (change in % of crosstalk over time) ####
@@ -208,22 +282,10 @@ dev.off()
 ## Add all in data from Table 25 in Chapter 4 ##
 crosstalk_dataset <- data.frame(
   Debate_number = c(
-    "2008EnConsortium",
-    "2011EnConsortium",
-    "2015Macleans",
-    "2015Globe&Mail",
-    "2015FrConsortium",
-    "2015Munk",
-    "2015TVA",
-    "2019Macleans",
-    "2019TVA",
-    "2019EnLDC",
-    "2019FrLDC",
-    "2021TVA",
-    "2021FrLDC",
-    "2021EnLDC"),
-  Election_year = c("2008", "2011", "2015", "2015", "2015", "2015", "2015", "2019", "2019",
-                    "2019", "2019", "2021", "2021", "2021"),
+    "2008EnConsortium", "2011EnConsortium", "2015Macleans", "2015Globe&Mail", "2015FrConsortium", "2015Munk", 
+    "2015TVA", "2019Macleans", "2019TVA", "2019EnLDC", "2019FrLDC", "2021TVA", "2021FrLDC", "2021EnLDC"),
+  Election_year = c("2008", "2011", "2015", "2015", "2015", "2015", "2015", "2019", "2019", "2019", "2019", 
+                    "2021", "2021", "2021"),
   percentage_of_crosstalk = c(5.5, 5.6, 3.2, 5.2, 4.4, 1.7, 8.5, 9.3, 9.5, 12, 3.25, 7.4, 4.9, 5.1))
 
 crosstalk_dataset <- crosstalk_dataset |>
@@ -246,19 +308,38 @@ crosstalk_dataset <- crosstalk_dataset |>
 
 crosstalk_dataset$Election_year <- as.numeric(crosstalk_dataset$Election_year)
 
-## Data Visualization ##
-jpeg("Ch4_crosstalk.jpeg", units="in", width=9, height=5.5, res=500) 
-p <- ggplot(crosstalk_dataset, aes(Election_year, percentage_of_crosstalk/100)) + 
-  geom_point() + 
-  ggrepel::geom_text_repel(data = crosstalk_dataset, aes(label = Debate_number), size = 3.5, box.padding = 0.4) +
-  labs(x = "Year", y = "Change in percentage of crosstalk over time (2008-2021)") +
-  scale_x_continuous(breaks = scales::pretty_breaks(n = 13)) +
-  scale_y_continuous(labels = scales::percent) +
-  theme_ipsum() +
-  theme(axis.text.x = element_text(size = 10)) +
-  theme(axis.title.x = element_text(size = 14, face = "bold")) +
-  theme(axis.text.y.left = element_text(size = 10)) +
-  theme(axis.title.y.left = element_text(size = 13, face = "bold"))
+## Prep for plotting: fit regression model ##
+fit <- lm(percentage_of_crosstalk ~ Election_year, data = crosstalk_dataset)
 
-p + geom_smooth(method = "lm", se = FALSE, linewidth = 0.9, color = "#123A7A") 
-dev.off()
+## Create new df for the regression line
+new_df <- data.frame(Election_year = seq(min(crosstalk_dataset$Election_year), 2020.8, length.out = 100))
+
+## Predict raw values ##
+new_df$percentage_of_crosstalk <- predict(fit, newdata = new_df)
+
+## Data Visualization ##
+jpeg("Ch4_crosstalk.jpeg", units="in", width=9, height=6, res=300) 
+ggplot(crosstalk_dataset, aes(Election_year, percentage_of_crosstalk)) + 
+  geom_line(data = new_df,
+            aes(x = Election_year, y = percentage_of_crosstalk),
+            color = "#123A7A", linewidth = 0.8) +
+  geom_point(color = "black", size = 1) +
+  ggrepel::geom_text_repel(
+    aes(label = Debate_number),
+    size = 3.5, family = "Arial narrow",
+    box.padding = 0.5, point.padding = 0.5,
+    segment.color = "grey70", segment.size = 0.3, force = 1.5) +
+  labs(x = "Year", y = "Change in percentage of crosstalk over time (2008-2021)") +
+  scale_x_continuous(breaks = scales::pretty_breaks(n = 6)) +
+  scale_y_continuous(labels = scales::percent_format(scale = 1)) +
+  theme_ipsum() +
+  theme(
+    panel.grid.major.y = element_line(color = "grey92", linewidth = 0.3),
+    panel.grid.major.x = element_line(color = "grey94", linewidth = 0.25),
+    axis.line.x = element_line(color = "grey35", linewidth = 0.25),
+    axis.line.y = element_line(color = "grey35", linewidth = 0.25),
+    axis.text.x = element_text(size = 10, face = "bold"),
+    axis.title.x = element_text(size = 14, face = "bold"),
+    axis.text.y.left = element_text(size = 10, face = "bold"),
+    axis.title.y.left = element_text(size = 13, face = "bold"))   
+  dev.off() 
