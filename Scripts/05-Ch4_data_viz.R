@@ -36,26 +36,44 @@ by_debates_demands <- by_debates_final |>
     Debate_number == "2021EnLDC" ~ "2021 EN LDC")) |>
   select(Election_year, Debate_number, demands_in_words) 
 
+## Prep for plotting: fit regression model ##
+fit <- lm(demands_in_words ~ Election_year, data = by_debates_demands)
+
+## Create new df for the regression line
+new_df <- data.frame(Election_year = seq(min(by_debates_demands$Election_year), 2020.8, length.out = 100))
+
+## Predict raw values ##
+new_df$demands_in_words <- predict(fit, newdata = new_df)
+
 ## Data Visualization ##
 # Code referenced from: https://www.datanovia.com/en/blog/how-to-plot-a-smooth-line-using-ggplot2/
 # & https://ggplot2-book.org/annotations 
 # & https://stackoverflow.com/questions/48692705/text-repel-with-a-position-argument-in-ggplot-r
 
-jpeg("Ch4_figure1.jpeg", units="in", width=9, height=5, res=500) 
-p <- ggplot(by_debates_demands, aes(Election_year, demands_in_words / 100)) +
-  geom_point(color = "black", size = 1) + 
-  ggrepel::geom_text_repel(data = by_debates_demands,
-    aes(label = Debate_number), size = 3.5, family = "Arial Narrow") +
+jpeg("Ch4_figure1.jpeg", units = "in", width = 9, height = 6, res = 300)
+ggplot(by_debates_demands, aes(Election_year, demands_in_words)) +
+  geom_line(data = new_df,
+    aes(x = Election_year, y = demands_in_words),
+    color = "#123A7A", linewidth = 0.8) +
+  geom_point(color = "black", size = 1) +
+  ggrepel::geom_text_repel(
+    aes(label = Debate_number),
+    size = 3.5, family = "Arial narrow",
+    box.padding = 0.5, point.padding = 0.2,
+    segment.color = "grey70", segment.size = 0.3, force = 1.5) +
   labs(x = "Year", y = "Demands in words") +
-  scale_x_continuous(breaks = scales::pretty_breaks(n = 13)) +
-  scale_y_continuous(labels = scales::percent) +
+  scale_x_continuous(breaks = scales::pretty_breaks(n = 6)) +
+  scale_y_continuous(breaks = scales::pretty_breaks(n = 10)) +
   theme_ipsum() +
-  theme(axis.text.x = element_text(size = 10)) +
-  theme(axis.title.x = element_text(size = 14, face = "bold")) +
-  theme(axis.text.y.left = element_text(size = 10)) +
-  theme(axis.title.y.left = element_text(size = 13, face = "bold"))
-
-p + geom_smooth(method = "lm", se = FALSE, linewidth = 0.9, color = "#123A7A") 
+  theme(
+    panel.grid.major.y = element_line(color = "grey92", linewidth = 0.3),
+    panel.grid.major.x = element_line(color = "grey94", linewidth = 0.25),
+    axis.line.x = element_line(color = "grey35", linewidth = 0.25),
+    axis.line.y = element_line(color = "grey35", linewidth = 0.25),
+    axis.text.x = element_text(size = 10, face = "bold"),
+    axis.title.x = element_text(size = 14, face = "bold"),
+    axis.text.y.left = element_text(size = 10, face = "bold"),
+    axis.title.y.left = element_text(size = 13, face = "bold"))
 dev.off()
 
 #### Figure 2 (quality of justification over time) ####

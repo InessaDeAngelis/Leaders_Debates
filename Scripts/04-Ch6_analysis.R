@@ -10,8 +10,7 @@
 library(tidyverse)
 
 #### Construct dataset ####
-# 2008-2021 vote share: https://www.sfu.ca/~aheard/elections/1867-present.html
-# 2025 (preliminary) vote share: https://enr.elections.ca/National.aspx?lang=e
+# 2008-2025 vote share: https://www.sfu.ca/~aheard/elections/1867-present.html
 
 gpc_data <- data.frame(
     Election_year = c("2008", "2011", "2015", "2019", "2021", "2025"),

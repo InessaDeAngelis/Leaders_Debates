@@ -1,5 +1,5 @@
 #### Preamble ####
-# Purpose: Visualize who is asking for Ch3
+# Purpose: Visualize who is asking debate questions for Ch3
 # Author: Inessa De Angelis
 # Date: 4 December 2024
 # Contact: inessa.deangelis@mail.utoronto.ca 
@@ -10,7 +10,6 @@
 ## Read in packages ##
 library(tidyverse)
 library(hrbrthemes)
-library(patchwork)
 
 ## Read in dataset ##
 all_qs <- read_csv("Outputs/Data/all_qs.csv")
@@ -39,71 +38,21 @@ all_qs_viz <- all_qs |>
       TRUE ~ Issue))
 
 #### Visualize data ####
-## V1: Facet wrap ##
-## Helpful suggestions: https://www.datacamp.com/tutorial/facets-ggplot-r
-
-jpeg("Ch3_whos_asking.jpeg", units="in", width=8, height=7, res=300) 
+# Helpful suggestions: https://www.datacamp.com/tutorial/facets-ggplot-r
+jpeg("Ch3_whos_asking.jpeg", units="in", width=9, height=6, res=300)
 ggplot(all_qs_viz, aes(Issue, Percentage/1000)) +
   geom_bar(stat = "identity", fill = "#123A7A") +
   facet_wrap(~Whos_asking) +
-  labs(
-    x = "Issue",
-    y = "Percentage of questions asked") +
-  theme_ipsum() +
-  scale_y_continuous(labels=scales::percent) +
-  theme(strip.text.x = element_text(size = 14)) +
-  theme(axis.text.x =  element_text(size = 9, angle = 70, hjust = 1)) +
-  theme(axis.text.y = element_text(size = 9)) + 
-  theme(axis.title.x = element_text(size = 16, face = "bold")) +
-  theme(axis.title.y = element_text(size = 16, face = "bold")) 
-dev.off()
-
-## V2: Four separate graphs brought together using patchwork ##
-# Citizens #
-citizen <- ggplot(subset(all_qs_viz, Whos_asking == "Leader"), aes(Issue, Percentage/100)) +
-  geom_col(fill = "#123A7A") +
+  labs(x = "Issue", y = "Percentage of questions asked") +
   scale_y_continuous(labels = scales::percent) +
-  labs(title = "Leader", y = "Percentage of questions asked") +
   theme_ipsum() +
-  theme(axis.text.x =  element_text(size = 9, angle = 70, hjust = 1)) +
-  theme(axis.text.y = element_text(size = 9)) + 
-  theme(axis.title.x = element_text(size = 16, face = "bold")) +
-  theme(axis.title.y = element_text(size = 16, face = "bold")) 
-
-# Journalists #
-journalist <- ggplot(subset(all_qs_viz, Whos_asking == "Journalist"), aes(Issue, Percentage/100)) +
-  geom_col(fill = "#123A7A") +
-  scale_y_continuous(labels = scales::percent) + # to be fix
-  labs(title = "Journalist", y = "Percentage of questions asked") +
-  theme_ipsum() +
-  theme(axis.text.x =  element_text(size = 9, angle = 70, hjust = 1)) +
-  theme(axis.text.y = element_text(size = 9)) + 
-  theme(axis.title.x = element_text(size = 16, face = "bold")) +
-  theme(axis.title.y = element_text(size = 16, face = "bold")) 
-
-# Leaders #
-leader <- ggplot(subset(all_qs_viz, Whos_asking == "Leader"), aes(Issue, Percentage/100)) +
-  geom_col(fill = "#123A7A") +
-  scale_y_continuous(labels = scales::percent) + # to be fix
-  labs(title = "Leader", y = "Percentage of questions asked") +
-  theme_ipsum() +
-  theme(axis.text.x =  element_text(size = 9, angle = 70, hjust = 1)) +
-  theme(axis.text.y = element_text(size = 9)) + 
-  theme(axis.title.x = element_text(size = 16, face = "bold")) +
-  theme(axis.title.y = element_text(size = 16, face = "bold")) 
-
-# Moderator #
-moderator <- ggplot(subset(all_qs_viz, Whos_asking == "Moderator"), aes(Issue, Percentage/100)) +
-  geom_col(fill = "#123A7A") +
-  scale_y_continuous(labels = scales::percent) + # to be fix
-  labs(title = "Moderator", y = "Percentage of questions asked") +
-  theme_ipsum() +
-  theme(axis.text.x =  element_text(size = 9, angle = 70, hjust = 1)) +
-  theme(axis.text.y = element_text(size = 9)) + 
-  theme(axis.title.x = element_text(size = 16, face = "bold")) +
-  theme(axis.title.y = element_text(size = 16, face = "bold")) 
-
-# Bring all together #
-jpeg("Ch3_whos_asking_v2.jpeg", units="in", width=8, height=7, res=300) 
-citizen + journalist + leader + moderator
+  theme(
+    panel.grid.major.y = element_line(color = "grey92", linewidth = 0.3),
+    panel.grid.major.x = element_line(color = "grey94", linewidth = 0.25),
+    axis.line = element_blank(),
+    strip.text.x = element_text(size = 14),
+    axis.text.x = element_text(size = 8, angle = 60, hjust = 1, vjust = 1),
+    axis.text.y = element_text(size = 9),
+    axis.title.x = element_text(size = 16, face = "bold"),
+    axis.title.y = element_text(size = 16, face = "bold"))
 dev.off()
