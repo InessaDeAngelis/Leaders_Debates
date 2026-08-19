@@ -209,7 +209,7 @@ debate_questions_2015_Con =
   group_by(value) |>
   summarise(n = n_distinct(rowid)) |>
   mutate(proportion = n / (sum(17))* 100) 
-debate_questions_2015_RC
+debate_questions_2015_Con
 
 # Munk #
 debate_questions_2015_Munk =
@@ -325,7 +325,7 @@ debate_questions_2019_all =
   group_by(value) |>
   summarise(n = n_distinct(rowid)) |>
   mutate(proportion = n / (sum(108))* 100) 
-debate_questions_2019_all |> print(n=23)
+debate_questions_2019_all |> print(n=21)
 
 ## 2021 ##
 # LDC EN #
@@ -483,7 +483,7 @@ debate_qs_2015_Con_territory =
   group_by(value) |>
   summarise(n = n_distinct(rowid)) |>
   mutate(proportion = n / (sum(17))* 100) 
-debate_qs_2015_RC_territory 
+debate_qs_2015_Con_territory 
 
 # Munk #
 debate_qs_2015_Munk_territory =
@@ -686,3 +686,32 @@ qc_qs_lead |>
 qc_qs_followup |>
   group_by(Language_of_question) |>
   count()
+
+#### Generate debate language and issue summary stats ####
+## Create base dataset ##
+lang_issues <- debate_questions_final |>
+  filter(! Debate_number == "2015Munk") |>
+
+## English ##  
+lang_issues_EN <- lang_issues |>
+  filter(Language_of_question == "English") |>
+  select(Primary_issue, Secondary_issue) |>
+  mutate(across(everything(), trimws)) |>
+  rowid_to_column() |>
+  pivot_longer(-rowid) |>
+  group_by(value) |>
+  summarise(n = n_distinct(rowid)) |>
+  mutate(proportion = n / (sum(222))* 100) 
+lang_issues_EN |> print(n=23)
+
+## French ##
+lang_issues_FR <- lang_issues |>
+  filter(Language_of_question == "French") |>
+  select(Primary_issue, Secondary_issue) |>
+  mutate(across(everything(), trimws)) |>
+  rowid_to_column() |>
+  pivot_longer(-rowid) |>
+  group_by(value) |>
+  summarise(n = n_distinct(rowid)) |>
+  mutate(proportion = n / (sum(354))* 100) 
+lang_issues_FR |> print(n=23)
